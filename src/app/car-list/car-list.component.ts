@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Optional, ViewChild} from '@angular/core';
 import {NotificationService} from '../services/notification.service';
 import {Car} from '../models/car';
 import {CarBackendApi, CarService} from '../services/car.service';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
+import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-car-list',
@@ -16,7 +16,7 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class CarListComponent implements AfterViewInit {
 
-  data = new MatTableDataSource<CarBackendApi>();//CarBackendApi[] = [];
+  data = new MatTableDataSource<CarBackendApi>();
   displayedColumns: string[] = ['id', 'name', 'carNumber', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
@@ -56,8 +56,9 @@ export class CarListComponent implements AfterViewInit {
   }
 
   save(obj: Car): void {
-    this.service.create(obj).subscribe(data => {
+    this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      window.location.reload();
     }, error => {
       this.notifyService.showError(error.error.includes('მითითებული') ? error.error : '', 'ჩანაწერის დამატება');
       console.log(error);
@@ -65,7 +66,7 @@ export class CarListComponent implements AfterViewInit {
   }
 
   update(obj: Car): void {
-    this.service.update(obj).subscribe(data => {
+    this.service.update(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
@@ -75,8 +76,9 @@ export class CarListComponent implements AfterViewInit {
   }
 
   delete(obj: Car): void {
-    this.service.delete(obj.id).subscribe(data => {
+    this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      window.location.reload();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
@@ -85,10 +87,10 @@ export class CarListComponent implements AfterViewInit {
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(AddDialogContent, {
+    const dialogRef = this.dialog.open(CarAddDialogContent, {
       data: obj
     });
-
+    // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (result.event === 'Add') {
         this.save(result.data);
@@ -110,16 +112,14 @@ export class CarListComponent implements AfterViewInit {
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'dialog-content',
-  templateUrl: 'add-dialog-content.html',
+  templateUrl: 'car-dialog-content.html',
 })
 // tslint:disable-next-line: component-class-suffix
-export class AddDialogContent {
+export class CarAddDialogContent {
   action: string;
   selectedObject: any;
-  selectedImage: any = '';
-  joiningDate: any = '';
 
-  constructor(public dialogRef: MatDialogRef<AddDialogContent>,
+  constructor(public dialogRef: MatDialogRef<CarAddDialogContent>,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: Car) {
     this.selectedObject = {...data};

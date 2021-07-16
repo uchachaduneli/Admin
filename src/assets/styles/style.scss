@@ -121,3 +121,8 @@ $custom-typography: mat-typography-config(
 .mat-column-created {
   max-width: 124px;
 }
+
+.mat-table tbody tr:hover{
+  cursor: pointer;
+  background: #b4b4b433;
+}

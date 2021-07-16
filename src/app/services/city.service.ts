@@ -1,8 +1,13 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {City} from "../models/city";
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {City} from '../models/city';
+
+export interface CityBackendApi {
+  items: City[];
+  total_count: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +19,8 @@ export class CityService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<City[]> {
-    return this.httpClient.get<City[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number): Observable<CityBackendApi[]> {
+    return this.httpClient.get<CityBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
   }
 
   create(obj: City): Observable<Object> {

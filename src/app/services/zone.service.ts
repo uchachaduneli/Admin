@@ -1,8 +1,14 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Zone} from "../models/zone";
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Zone} from '../models/zone';
+import {CarBackendApi} from './car.service';
+
+export interface ZoneBackendApi {
+  items: Zone[];
+  total_count: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +20,8 @@ export class ZoneService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<Zone[]> {
-    return this.httpClient.get<Zone[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number): Observable<ZoneBackendApi[]> {
+    return this.httpClient.get<ZoneBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
   }
 
   create(obj: Zone): Observable<Object> {

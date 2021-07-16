@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {DatePipe} from '@angular/common';
 import {AppRoutes} from './app.routing';
@@ -312,7 +312,7 @@ import {
   ZoomIn,
   ZoomOut
 } from 'angular-feather/icons';
-import {AddDialogContent, CarListComponent} from './car-list/car-list.component';
+import {CarAddDialogContent,  CarListComponent} from './car-list/car-list.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ZoneListComponent} from './zone-list/zone-list.component';
 import {UserListComponent} from './user-list/user-list.component';
@@ -321,9 +321,10 @@ import {TranzitListComponent} from './tranzit-list/tranzit-list.component';
 import {ServiceListComponent} from './service-list/service-list.component';
 import {RouteListComponent} from './route-list/route-list.component';
 import {ContactListComponent} from './contact-list/contact-list.component';
-import {CityListComponent} from './city-list/city-list.component';
+import {CityDialogContent, CityListComponent} from './city-list/city-list.component';
 
 
+// tslint:disable-next-line:typedef
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -631,7 +632,8 @@ const icons = {
     VerticalAppSidebarComponent,
     CityListComponent,
     CarListComponent,
-    AddDialogContent,
+    CarAddDialogContent,
+    CityDialogContent,
     ContactListComponent,
     RouteListComponent,
     ServiceListComponent,
@@ -661,7 +663,8 @@ const icons = {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    ReactiveFormsModule
   ],
   providers: [
     {
