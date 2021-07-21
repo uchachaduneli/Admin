@@ -4,7 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
 import {merge, Observable, of as observableOf, pipe} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap} from 'rxjs/operators';
 import {CityBackendApi, CityService} from '../services/city.service';
 import {City} from '../models/city';
 import {Zone} from '../models/zone';
@@ -63,8 +63,8 @@ export class CityListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(error.error.includes('მითითებული') ? error.error : '', 'ჩანაწერის დამატება');
-      console.log(error);
+      console.log(error.error);
+      this.notifyService.showError(error.error ? error.error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
     });
   }
 
@@ -91,16 +91,19 @@ export class CityListComponent implements AfterViewInit {
   openDialog(action: string, obj: any): void {
     obj.action = action;
     const dialogRef = this.dialog.open(CityDialogContent, {
-      data: obj
+      data: obj,
     });
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event === 'Add') {
-        this.save(result.data);
-      } else if (result.event === 'Update') {
-        this.update(result.data);
-      } else if (result.event === 'Delete') {
-        this.delete(result.data);
+      if (!!result) {
+        if (result.event === 'Add') {
+          console.log(result);
+          this.save(result.data);
+        } else if (result.event === 'Update') {
+          this.update(result.data);
+        } else if (result.event === 'Delete') {
+          this.delete(result.data);
+        }
       }
     });
   }
@@ -113,17 +116,25 @@ export class CityListComponent implements AfterViewInit {
 })
 
 // tslint:disable-next-line:component-class-suffix
-export class CityDialogContent implements AfterViewInit {
+export class CityDialogContent implements OnInit {
   action: string;
   selectedObject: any;
-  myControl = new FormControl();
-  filteredOptions: Observable<Zone[]> = Object.create(null);
+  zones: Zone[] = [];
+
 
   constructor(public dialogRef: MatDialogRef<CityDialogContent>, private service: ZoneService,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: City) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
+    if (!this.selectedObject.zone) {
+      this.selectedObject.zone = {};
+    }
+  }
+
+  zoneFilterStates(name: string): Zone[] {
+    return this.zones.filter(zone =>
+      zone.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   doAction(): void {
@@ -134,15 +145,24 @@ export class CityDialogContent implements AfterViewInit {
     this.dialogRef.close({event: 'Cancel'});
   }
 
-  displayFn(obj?: Zone): string | undefined {
-    return obj ? obj.name : undefined;
+  ngOnInit(): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.service.getList(10000, 0);
+      }),
+      map(data => {
+        // @ts-ignore
+        this.zones = data.items;
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.zones = data;
+    });
   }
 
-  ngAfterViewInit(): void {
-    this.service.getList(1000, 0).subscribe(data => {
-      console.log(data);
-      // this.filteredOptions = data.items;
-    });
-    console.log(this.filteredOptions);
-  }
 }
