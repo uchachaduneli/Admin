@@ -23,11 +23,13 @@
         </div>
       </div>
     </div>
-    <button mat-button (click)="doAction()" mat-flat-button color="warn"
-            [disabled]="!userForm.valid"> შენახვა
-    </button>
-    <button mat-button (click)="closeDialog()">დახურვა
-    </button>
+    <div align="end">
+      <button mat-button (click)="doAction()" mat-flat-button color="warn"
+              [disabled]="!userForm.valid"> შენახვა
+      </button>
+      <button mat-button (click)="closeDialog()">დახურვა
+      </button>
+    </div>
   </form>
   <!--  Details Dialog Content -->
   <form #detailsForm="ngForm" *ngIf="action == 'Details'">
@@ -78,8 +80,9 @@
         </div>
       </div>
     </div>
-    <button mat-button (click)="closeDialog()">დახურვა
-    </button>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
   </form>
 </mat-dialog-content>
 <ng-template #elseTemplate>

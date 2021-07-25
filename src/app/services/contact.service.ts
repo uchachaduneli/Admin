@@ -1,8 +1,13 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Contact} from "../models/contact";
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Contact} from '../models/contact';
+
+export interface ContactBackendApi {
+  items: Contact[];
+  total_count: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +19,8 @@ export class ContactService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<Contact[]> {
-    return this.httpClient.get<Contact[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number): Observable<ContactBackendApi[]> {
+    return this.httpClient.get<ContactBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
   }
 
   create(obj: Contact): Observable<Object> {

@@ -4,6 +4,11 @@ import {Observable} from "rxjs";
 import {User} from "../models/user";
 import {environment} from "../../environments/environment";
 
+export interface UserBackendApi {
+  items: User[];
+  total_count: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +19,8 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<User[]> {
-    return this.httpClient.get<User[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<UserBackendApi[]> {
+    return this.httpClient.get<UserBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}${srchParams}`);
   }
 
   create(user: User): Observable<Object> {

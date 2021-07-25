@@ -1,0 +1,187 @@
+<h2 class="font-medium" mat-dialog-title>
+  <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : ''}}</strong></h2>
+<mat-dialog-content class="pb-3" *ngIf="action != 'Delete'; else elseTemplate">
+<!--  Add/Edit Dialog Content-->
+  <form #userForm="ngForm" *ngIf="action != 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.city.id" name="city" id="city" placeholder="ქალაქი"
+                        aria-placeholder="ქალაქი" required>
+              <mat-option *ngFor="let z of cities" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="street" name="street"
+                   [(ngModel)]="selectedObject.street"
+                   placeholder="ქუჩა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="postCode" name="postCode"
+                   [(ngModel)]="selectedObject.postCode"
+                   placeholder="საფოსტო ინდექსი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="contactPerson" name="contactPerson"
+                   [(ngModel)]="selectedObject.contactPerson"
+                   placeholder="საკონტაქტო პირი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="contactPersonPhone" name="contactPersonPhone"
+                   [(ngModel)]="selectedObject.contactPersonPhone"
+                   placeholder="საკონტაქტო პირის ტელეფონი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="contactPersonEmail" name="contactPersonEmail"
+                   [(ngModel)]="selectedObject.contactPersonEmail"
+                   placeholder="საკონტაქტო პირის ელ. ფოსტა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="appartmentDetails" name="appartmentDetails"
+                   [(ngModel)]="selectedObject.appartmentDetails"
+                   placeholder="დამატებითი დეტალები">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
+              [disabled]="!userForm.valid"> შენახვა
+      </button>
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+  <!--  Details Dialog Content -->
+  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="15">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="id"
+                   [(ngModel)]="selectedObject.id"
+                   placeholder="#">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="name"
+                   [(ngModel)]="selectedObject.city.name"
+                   placeholder="ქალაქი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="street"
+                   [(ngModel)]="selectedObject.street"
+                   placeholder="ქუჩა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="postCode"
+                   [(ngModel)]="selectedObject.postCode"
+                   placeholder="საფოსტო ინდექსი">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="contactPerson"
+                   [(ngModel)]="selectedObject.contactPerson"
+                   placeholder="საკონტაქტო პირი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="contactPersonPhone"
+                   [(ngModel)]="selectedObject.contactPersonPhone"
+                   placeholder="საკონტაქტო პირის ტელეფონი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="contactPersonEmail"
+                   [(ngModel)]="selectedObject.contactPersonEmail"
+                   placeholder="საკონტაქტო პირის ელ. ფოსტა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="appartmentDetails"
+                   [(ngModel)]="selectedObject.appartmentDetails"
+                   placeholder="დამატებითი დეტალები">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="createdTime"
+                     value="{{selectedObject.createdTime | date: 'short'}}"
+                     placeholder="ჩანაწერის დრო">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="updatedTime"
+                     value="{{selectedObject.updatedTime | date: 'short'}}"
+                     placeholder="განახლების დრო">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <p>დაადასტურეთ წაშლა <b>{{selectedObject.name}}</b> ?</p>
+  <div mat-dialog-actions align="end" class="pt-3">
+    <button mat-button (click)="doAction()" mat-flat-button color="warn">წაშლა</button>
+    <button mat-button (click)="closeDialog()">გაუქმება</button>
+  </div>
+</ng-template>

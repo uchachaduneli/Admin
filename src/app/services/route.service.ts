@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Route} from "../models/route";
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Route} from '../models/route';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +32,9 @@ export class RouteService {
 
   getById(id: number): Observable<Route> {
     return this.httpClient.get<Route>(`${this.BaseUrl}/${id}`);
+  }
+
+  getByCityId(id: number): Observable<Route[]> {
+    return this.httpClient.get<Route[]>(`${this.BaseUrl}/byCityId/${id}`);
   }
 }

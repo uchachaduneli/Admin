@@ -315,13 +315,14 @@ import {
 import {CarAddDialogContent,  CarListComponent} from './car-list/car-list.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ZoneListComponent} from './zone-list/zone-list.component';
-import {UserListComponent} from './user-list/user-list.component';
+import {UserDialogContent, UserListComponent} from './user-list/user-list.component';
 import {WarehouseListComponent} from './warehouse-list/warehouse-list.component';
 import {TranzitListComponent} from './tranzit-list/tranzit-list.component';
 import {ServiceListComponent} from './service-list/service-list.component';
 import {RouteListComponent} from './route-list/route-list.component';
-import {ContactListComponent} from './contact-list/contact-list.component';
+import {ContactDialogContent, ContactListComponent} from './contact-list/contact-list.component';
 import {CityDialogContent, CityListComponent} from './city-list/city-list.component';
+import {ContactAddressComponent, ContactAddressDialogContent} from './contact-address/contact-address.component';
 
 
 // tslint:disable-next-line:typedef
@@ -634,13 +635,17 @@ const icons = {
     CarListComponent,
     CarAddDialogContent,
     CityDialogContent,
+    ContactDialogContent,
+    ContactAddressDialogContent,
+    UserDialogContent,
     ContactListComponent,
     RouteListComponent,
     ServiceListComponent,
     TranzitListComponent,
     WarehouseListComponent,
     UserListComponent,
-    ZoneListComponent
+    ZoneListComponent,
+    ContactAddressComponent
   ],
   imports: [
     BrowserModule,

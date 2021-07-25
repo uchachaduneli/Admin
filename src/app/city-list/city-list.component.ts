@@ -3,12 +3,11 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
-import {merge, Observable, of as observableOf, pipe} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap} from 'rxjs/operators';
+import {merge, of as observableOf, pipe} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {CityBackendApi, CityService} from '../services/city.service';
 import {City} from '../models/city';
 import {Zone} from '../models/zone';
-import {FormControl} from '@angular/forms';
 import {ZoneService} from '../services/zone.service';
 
 @Component({
@@ -73,7 +72,7 @@ export class CityListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(error.error.includes('მითითებული') ? error.error : '', 'ჩანაწერის განახლება');
+      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }
@@ -130,11 +129,6 @@ export class CityDialogContent implements OnInit {
     if (!this.selectedObject.zone) {
       this.selectedObject.zone = {};
     }
-  }
-
-  zoneFilterStates(name: string): Zone[] {
-    return this.zones.filter(zone =>
-      zone.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   doAction(): void {

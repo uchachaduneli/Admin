@@ -1,3 +1,3 @@
 export class Role {
-  name: string;
+  name!: string;
 }
