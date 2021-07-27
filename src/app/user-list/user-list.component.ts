@@ -124,6 +124,7 @@ export class UserDialogContent implements OnInit {
   roles: Role [] = [];
   cities: City [] = [];
   routes: Route [] = [];
+  selectedRoles: string [] = [];
 
   constructor(public dialogRef: MatDialogRef<UserDialogContent>,
               private roleSrvice: RoleService,
@@ -138,6 +139,11 @@ export class UserDialogContent implements OnInit {
     }
     if (!this.selectedObject.role) {
       this.selectedObject.role = [];
+    } else {
+      // @ts-ignore
+      this.selectedObject.role.forEach((r) => {
+        this.selectedRoles.push(r.name);
+      });
     }
     if (!this.selectedObject.city) {
       this.selectedObject.city = {};
@@ -148,6 +154,10 @@ export class UserDialogContent implements OnInit {
   }
 
   doAction(): void {
+    // @ts-ignore
+    this.selectedRoles.forEach((r) => {
+      this.selectedObject.role.push({name: r});
+    });
     this.dialogRef.close({event: this.action, data: this.selectedObject});
   }
 

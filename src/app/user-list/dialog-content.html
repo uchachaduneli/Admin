@@ -7,9 +7,9 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.role" multiple name="role" id="role" placeholder="დაშვების დონე"
+            <mat-select [(ngModel)]="selectedRoles" multiple name="role" id="role" placeholder="დაშვების დონე"
                         aria-placeholder="დაშვების დონე" required>
-              <mat-option *ngFor="let z of roles" [value]="z">{{z.name}}</mat-option>
+              <mat-option *ngFor="let z of roles" [value]="z.name">{{z.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
