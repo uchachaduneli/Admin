@@ -9,7 +9,7 @@ export class UtilService {
   constructor() {
   }
 
-  encode(queryObj: ContactAddress, nesting = ''): string {
+  encode(queryObj: Object, nesting = ''): string {
     const pairs = Object.entries(queryObj).map(([key, val]) => {
       if (typeof val === 'object') {
         return this.encode(val, nesting + `${key}.`);

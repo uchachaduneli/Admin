@@ -18,9 +18,8 @@ export class ContactService {
 
   constructor(private httpClient: HttpClient) {
   }
-
-  getList(rowcount: number, page: number): Observable<ContactBackendApi[]> {
-    return this.httpClient.get<ContactBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<ContactBackendApi[]> {
+    return this.httpClient.get<ContactBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Contact): Observable<Object> {

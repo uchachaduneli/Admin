@@ -159,11 +159,9 @@ export class ContactAddressDialogContent implements OnInit {
     merge().pipe(
       startWith({}),
       switchMap(() => {
-        return this.cityService.getList(10000, 0);
+        return this.cityService.getList(10000, 0, '');
       }),
       map(data => {
-        // @ts-ignore
-        this.cities = data.items;
         // @ts-ignore
         return data.items;
       }),

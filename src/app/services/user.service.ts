@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {User} from "../models/user";
-import {environment} from "../../environments/environment";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {User} from '../models/user';
+import {environment} from '../../environments/environment';
 
 export interface UserBackendApi {
   items: User[];
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   getList(rowcount: number, page: number, srchParams: string): Observable<UserBackendApi[]> {
-    return this.httpClient.get<UserBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}${srchParams}`);
+    return this.httpClient.get<UserBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(user: User): Observable<Object> {

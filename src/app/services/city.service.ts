@@ -19,8 +19,8 @@ export class CityService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(rowcount: number, page: number): Observable<CityBackendApi[]> {
-    return this.httpClient.get<CityBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<CityBackendApi[]> {
+    return this.httpClient.get<CityBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: City): Observable<Object> {

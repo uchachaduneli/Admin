@@ -46,7 +46,7 @@ export class UserListComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           // @ts-ignore
-          return this.service.getList(this.utilService.encode(this.srchObj, ''));
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -68,7 +68,7 @@ export class UserListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის დამატება');
       window.location.reload();
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
+      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
       console.log(error);
     });
   }
@@ -78,7 +78,7 @@ export class UserListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის განახლება');
       window.location.reload();
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }
@@ -207,7 +207,7 @@ export class UserDialogContent implements OnInit {
     merge().pipe(
       startWith({}),
       switchMap(() => {
-        return this.cityService.getList(1000, 0);
+        return this.cityService.getList(1000, 0, '');
       }),
       map(data => {
         // @ts-ignore

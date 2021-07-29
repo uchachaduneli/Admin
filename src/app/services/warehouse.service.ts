@@ -1,8 +1,14 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Warehouse} from "../models/warehouse";
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Warehouse} from '../models/warehouse';
+import {Route} from '../models/route';
+
+export interface WarehouseBackendApi {
+  items: Warehouse[];
+  total_count: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +20,8 @@ export class WarehouseService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<Warehouse[]> {
-    return this.httpClient.get<Warehouse[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<WarehouseBackendApi[]> {
+    return this.httpClient.get<WarehouseBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Warehouse): Observable<Object> {
@@ -32,5 +38,9 @@ export class WarehouseService {
 
   getById(id: number): Observable<Warehouse> {
     return this.httpClient.get<Warehouse>(`${this.BaseUrl}/${id}`);
+  }
+
+  getByCityId(id: number): Observable<Route[]> {
+    return this.httpClient.get<Route[]>(`${this.BaseUrl}/byCityId/${id}`);
   }
 }

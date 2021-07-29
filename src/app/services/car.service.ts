@@ -19,8 +19,8 @@ export class CarService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(rowcount: number, page: number): Observable<CarBackendApi[]> {
-    return this.httpClient.get<CarBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<CarBackendApi[]> {
+    return this.httpClient.get<CarBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Car): Observable<Object> {

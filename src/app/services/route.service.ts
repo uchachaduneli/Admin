@@ -4,6 +4,11 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Route} from '../models/route';
 
+export interface RouteBackendApi {
+  items: Route[];
+  total_count: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +19,8 @@ export class RouteService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<Route[]> {
-    return this.httpClient.get<Route[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<RouteBackendApi[]> {
+    return this.httpClient.get<RouteBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Route): Observable<Object> {

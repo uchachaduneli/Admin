@@ -38,7 +38,7 @@ export class CarListComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex);
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, '');
         }),
         map(data => {
           // Flip flag to show that loading has finished.

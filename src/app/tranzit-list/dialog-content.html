@@ -1,0 +1,194 @@
+<h2 class="font-medium" mat-dialog-title>
+  <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : ''}}</strong></h2>
+<mat-dialog-content class="pb-3" *ngIf="action != 'Delete'; else elseTemplate">
+  <!--  Add/Edit Dialog Content-->
+  <form #userForm="ngForm" *ngIf="action != 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.routeFrom.id" name="routeFrom" id="routeFrom"
+                        placeholder="ქალაქიდან" (selectionChange)="onFromCitySelect($event.value)"
+                        aria-placeholder="ქალაქიდან" required>
+              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.routeTo.id" name="routeTo" id="routeTo" placeholder="ქალაქისკენ"
+                        aria-placeholder="ქალაქისკენ" required (selectionChange)="onToCitySelect($event.value)">
+              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.senderWarehouse.id" name="senderWarehouse" id="senderWarehouse"
+                        placeholder="საწყობიდან"
+                        aria-placeholder="საწყობიდან" required>
+              <mat-option *ngFor="let z of senderWarehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.destWarehouse.id" name="destWarehouse" id="destWarehouse"
+                        placeholder="საწყობისკენ"
+                        aria-placeholder="საწყობისკენ" required>
+              <mat-option *ngFor="let z of destWarehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.driver.id" name="driver" id="driver" placeholder="მძღოლი"
+                        aria-placeholder="მძღოლი" required>
+              <mat-option *ngFor="let z of driversList" [value]="z.id">{{z.name}}&nbsp;{{z.lastName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.car.id" name="car" id="car" placeholder="ტრანსპორტი"
+                        aria-placeholder="ტრანსპორტი" required>
+              <mat-option *ngFor="let z of carsList" [value]="z.id">{{z.name}} &nbsp;({{z.carNumber}})</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="picker" placeholder="მიუთითეთ თარიღი" required name="tranzitDate" id="tranzitDate" [(ngModel)]="selectedObject.tranzitDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
+              [disabled]="!userForm.valid"> შენახვა
+      </button>
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+  <!--  Details Dialog Content -->
+  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.routeFrom.id" name="routeFrom"
+                        placeholder="ქალაქიდან"
+                        aria-placeholder="ქალაქიდან" disabled>
+              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.routeTo.id" name="routeTo" placeholder="ქალაქისკენ"
+                        aria-placeholder="ქალაქისკენ" disabled>
+              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.senderWarehouse.id" name="senderWarehouse"
+                        placeholder="საწყობიდან"
+                        aria-placeholder="საწყობიდან" disabled>
+              <mat-option *ngFor="let z of senderWarehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.destWarehouse.id" name="destWarehouse"
+                        placeholder="საწყობისკენ"
+                        aria-placeholder="საწყობისკენ" disabled>
+              <mat-option *ngFor="let z of destWarehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.driver.id" name="driver" placeholder="მძღოლი"
+                        aria-placeholder="მძღოლი" disabled>
+              <mat-option *ngFor="let z of driversList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.car.id" name="car" placeholder="ტრანსპორტი"
+                        aria-placeholder="ტრანსპორტი" disabled>
+              <mat-option *ngFor="let z of carsList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="tranzitDate"
+                   value="{{selectedObject.tranzitDate | date: 'short'}}"
+                   placeholder="რეისის თარიღი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="createdTime"
+                     value="{{selectedObject.createdTime | date: 'short'}}"
+                     placeholder="ჩანაწერის დრო">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="updatedTime"
+                     value="{{selectedObject.updatedTime | date: 'short'}}"
+                     placeholder="განახლების დრო">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <p>დაადასტურეთ წაშლა <b>{{selectedObject.name}}</b> ?</p>
+  <div mat-dialog-actions align="end" class="pt-3">
+    <button mat-button (click)="doAction()" mat-flat-button color="warn">წაშლა</button>
+    <button mat-button (click)="closeDialog()">გაუქმება</button>
+  </div>
+</ng-template>

@@ -1,8 +1,13 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Tranzit} from "../models/tranzit";
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Tranzit} from '../models/tranzit';
+
+export interface TranzitBackendApi {
+  items: Tranzit[];
+  total_count: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +19,8 @@ export class TranzitService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<Tranzit[]> {
-    return this.httpClient.get<Tranzit[]>(`${this.BaseUrl}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<TranzitBackendApi[]> {
+    return this.httpClient.get<TranzitBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Tranzit): Observable<Object> {

@@ -40,7 +40,7 @@ export class CityListComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex);
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, '');
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -143,11 +143,9 @@ export class CityDialogContent implements OnInit {
     merge().pipe(
       startWith({}),
       switchMap(() => {
-        return this.service.getList(10000, 0);
+        return this.service.getList(10000, 0, '');
       }),
       map(data => {
-        // @ts-ignore
-        this.zones = data.items;
         // @ts-ignore
         return data.items;
       }),

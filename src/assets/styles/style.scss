@@ -126,3 +126,7 @@ $custom-typography: mat-typography-config(
   cursor: pointer;
   background: #b4b4b433;
 }
+
+.mat-select-disabled .mat-select-value {
+  color: black !important;
+}

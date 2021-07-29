@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Zone} from '../models/zone';
 import {CarBackendApi} from './car.service';
+import {ServiceBackendApi} from './company-services.service';
 
 export interface ZoneBackendApi {
   items: Zone[];
@@ -20,8 +21,8 @@ export class ZoneService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(rowcount: number, page: number): Observable<ZoneBackendApi[]> {
-    return this.httpClient.get<ZoneBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<ZoneBackendApi[]> {
+    return this.httpClient.get<ZoneBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   create(obj: Zone): Observable<Object> {

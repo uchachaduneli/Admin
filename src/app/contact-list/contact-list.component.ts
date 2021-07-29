@@ -9,6 +9,8 @@ import {ContactBackendApi, ContactService} from '../services/contact.service';
 import {Contact} from '../models/contact';
 import {ContactAddress} from '../models/contact-address';
 import {ContactAddressService} from '../services/contact-address.service';
+import {User} from '../models/user';
+import {UtilService} from '../services/util.service';
 
 
 @Component({
@@ -17,7 +19,8 @@ import {ContactAddressService} from '../services/contact-address.service';
   styleUrls: ['./contact-list.component.scss']
 })
 export class ContactListComponent implements AfterViewInit {
-
+  // @ts-ignore
+  srchObj: Contact = {};
   data = new MatTableDataSource<ContactBackendApi>();
   displayedColumns: string[] = ['id', 'name', 'identNumber', 'email', 'type', 'user', 'deReGe', 'action'];
 
@@ -25,7 +28,7 @@ export class ContactListComponent implements AfterViewInit {
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, private service: ContactService,
+  constructor(public dialog: MatDialog, private service: ContactService, private utilService: UtilService,
               private addressService: ContactAddressService, private notifyService: NotificationService) {
   }
 
@@ -41,7 +44,7 @@ export class ContactListComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex);
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
         }),
         map(data => {
           // Flip flag to show that loading has finished.
