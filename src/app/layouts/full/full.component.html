@@ -58,14 +58,16 @@
       <!-- ============================================================== -->
       <!-- app header component - style you can find in header.scss / header.component.ts-->
       <!-- ============================================================== -->
-<!--      <div *ngIf="!horizontal else horizontalheader">-->
-<!--        <app-vertical-header></app-vertical-header>-->
-<!--      </div>-->
+      <!--      <div *ngIf="!horizontal else horizontalheader">-->
+      <!--        <app-vertical-header></app-vertical-header>-->
+      <!--      </div>-->
 
-<!--      <ng-template #horizontalheader>-->
-<!--        <app-horizontal-header></app-horizontal-header>-->
-<!--      </ng-template>-->
-
+      <!--      <ng-template #horizontalheader>-->
+      <!--        <app-horizontal-header></app-horizontal-header>-->
+      <!--      </ng-template>-->
+      <button (click)="logout()" class="ml-xs overflow-visible" mat-icon-button>
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
       <!-- ============================================================== -->
       <!-- Right sidebar toggle - style you can find in rightsidebar.component.scss -->
       <!-- ============================================================== -->
@@ -104,7 +106,7 @@
         <mat-nav-list>
 
           <h3 mat-subheader class="text-uppercase font-weight-bold">პარამეტრები</h3>
-          <mat-list-item >
+          <mat-list-item>
             <mat-slide-toggle [(ngModel)]="minisidebar">მენიუს შემცირება</mat-slide-toggle>
           </mat-list-item>
           <mat-divider></mat-divider>

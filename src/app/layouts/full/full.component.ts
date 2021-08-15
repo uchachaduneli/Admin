@@ -1,17 +1,11 @@
-
-import { MediaMatcher } from '@angular/cdk/layout';
-import { Router } from '@angular/router';
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy
+import {MediaMatcher} from '@angular/cdk/layout';
+import {Router} from '@angular/router';
+import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {MenuItems} from '../../shared/menu-items/menu-items';
 
 
-} from '@angular/core';
-import { MenuItems } from '../../shared/menu-items/menu-items';
-
-
-import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {AuthenticationService} from '../../services/authentication.service';
 
 /** @title Responsive sidenav */
 @Component({
@@ -48,21 +42,23 @@ export class FullComponent implements OnDestroy {
     public router: Router,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    public menuItems: MenuItems
+    public menuItems: MenuItems,
+    private authService: AuthenticationService
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 1023px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
-    
+
   }
 
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this._mobileQueryListener);
-    
+
   }
 
-
-  // Mini sidebar
+  logout(): void {
+    this.authService.logout();
+  }
 }

@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {DatePipe} from '@angular/common';
 import {AppRoutes} from './app.routing';
 import {AppComponent} from './app.component';
@@ -323,6 +323,7 @@ import {RouteDialogContent, RouteListComponent} from './route-list/route-list.co
 import {ContactDialogContent, ContactListComponent} from './contact-list/contact-list.component';
 import {CityDialogContent, CityListComponent} from './city-list/city-list.component';
 import {ContactAddressComponent, ContactAddressDialogContent} from './contact-address/contact-address.component';
+import {JwtInterceptor} from './authentication/jwt.interceptor';
 
 
 // tslint:disable-next-line:typedef
@@ -677,6 +678,7 @@ const icons = {
     ReactiveFormsModule
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

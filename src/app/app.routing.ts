@@ -12,6 +12,7 @@ import {WarehouseListComponent} from './warehouse-list/warehouse-list.component'
 import {ZoneListComponent} from './zone-list/zone-list.component';
 import {UserListComponent} from './user-list/user-list.component';
 import {ContactAddressComponent} from './contact-address/contact-address.component';
+import {AuthGuard} from './authentication/auth.guard';
 
 export const AppRoutes: Routes = [
   {
@@ -21,57 +22,79 @@ export const AppRoutes: Routes = [
       {
         path: '',
         component: CarListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'cars',
         component: CarListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'cities',
         component: CityListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'contacts',
         component: ContactListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'contact-address/:id',
         component: ContactAddressComponent,
+        canActivate: [AuthGuard]
         // pathMatch: 'full'
       },
       {
         path: 'routes',
         component: RouteListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'services',
         component: ServiceListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'tranzits',
         component: TranzitListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'warehouse',
         component: WarehouseListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'zones',
         component: ZoneListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'users',
         component: UserListComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AppBlankComponent,
+    children: [
+      {
+        path: '',
+        loadChildren:
+          () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
       }
     ]
   },
