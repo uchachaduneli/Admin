@@ -7,6 +7,7 @@ import {map} from 'rxjs/operators';
 // import moment = require('moment');
 import * as moment from 'moment';
 import {MomentInput} from 'moment';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser') as string));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -70,6 +71,7 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     // @ts-ignore
     this.currentUserSubject.next(null);
+    this.router.navigate(['']);
   }
 
 }
