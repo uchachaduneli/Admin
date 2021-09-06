@@ -7,6 +7,9 @@ export class User {
   id!: number;
   deleted!: number;
   name!: string;
+  userName!: string;
+  password!: string;
+  changePass!: boolean;
   lastName!: string;
   phone!: string;
   personalNumber!: string;

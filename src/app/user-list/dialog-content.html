@@ -17,6 +17,31 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
+            <input type="text" matInput required id="userName" name="userName"
+                   [(ngModel)]="selectedObject.userName" title="მომხმარებლის უზერნეიმი"
+                   placeholder="მომხმარებელი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50" *ngIf="action === 'Update'">
+        <div class="m-r-15 m-l-15">
+          <mat-slide-toggle [checked]="selectedObject.changePass"
+                            (change)="passChangeEnableDisable($event)">პაროლის შეცვლა
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50" *ngIf="action === 'Add' || selectedObject.changePass">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="password" [minLength]="5" matInput required id="password" name="password"
+                   [(ngModel)]="selectedObject.password" title="მომხმარებლის პაროლი, მინ. 5 სიმბოლო"
+                   placeholder="პაროლი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
             <input type="text" matInput required id="name" name="name"
                    [(ngModel)]="selectedObject.name"
                    placeholder="სახელი">
@@ -98,6 +123,15 @@
             <mat-list-item role="listitem" *ngFor="let r of selectedObject.role; let i = index">{{i + 1}})
               {{r.name}}</mat-list-item>
           </mat-list>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="userName"
+                   [(ngModel)]="selectedObject.userName" title="მომხმარებლის უზერნეიმი"
+                   placeholder="მომხმარებელი">
+          </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">

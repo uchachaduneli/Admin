@@ -25,7 +25,7 @@ export class UserListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: User = {};
   data = new MatTableDataSource<UserBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'lastName', 'personalNumber', 'phone', 'city', 'route', 'action'];
+  displayedColumns: string[] = ['id', 'userName', 'name', 'lastName', 'personalNumber', 'phone', 'city', 'route', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -134,6 +134,7 @@ export class UserDialogContent implements OnInit {
               @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
+    this.selectedObject.changePass = false;
     if (!this.selectedObject.status) {
       this.selectedObject.status = {id: 1};
     }
@@ -151,6 +152,10 @@ export class UserDialogContent implements OnInit {
     if (!this.selectedObject.route) {
       this.selectedObject.route = {};
     }
+  }
+
+  passChangeEnableDisable(event: any): void {
+    this.selectedObject.changePass = event.checked;
   }
 
   doAction(): void {
