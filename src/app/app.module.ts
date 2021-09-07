@@ -324,6 +324,8 @@ import {ContactDialogContent, ContactListComponent} from './contact-list/contact
 import {CityDialogContent, CityListComponent} from './city-list/city-list.component';
 import {ContactAddressComponent, ContactAddressDialogContent} from './contact-address/contact-address.component';
 import {JwtInterceptor} from './authentication/jwt.interceptor';
+import {ParcelStatusDialogContent, ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
+import { ParcelStatusReasonsComponent } from './parcel-status-reasons/parcel-status-reasons.component';
 
 
 // tslint:disable-next-line:typedef
@@ -642,6 +644,7 @@ const icons = {
     RouteDialogContent,
     ServiceDialogContent,
     WarehouseDialogContent,
+    ParcelStatusDialogContent,
     ZoneDialogContent,
     TranzitDialogContent,
     ContactListComponent,
@@ -651,7 +654,9 @@ const icons = {
     WarehouseListComponent,
     UserListComponent,
     ZoneListComponent,
-    ContactAddressComponent
+    ContactAddressComponent,
+    ParcelStatusListComponent,
+    ParcelStatusReasonsComponent
   ],
   imports: [
     BrowserModule,

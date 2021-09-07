@@ -13,6 +13,8 @@ import {ZoneListComponent} from './zone-list/zone-list.component';
 import {UserListComponent} from './user-list/user-list.component';
 import {ContactAddressComponent} from './contact-address/contact-address.component';
 import {AuthGuard} from './authentication/auth.guard';
+import {ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
+import {ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -47,7 +49,17 @@ export const AppRoutes: Routes = [
         path: 'contact-address/:id',
         component: ContactAddressComponent,
         canActivate: [AuthGuard]
-        // pathMatch: 'full'
+      },
+      {
+        path: 'parcelStatus',
+        component: ParcelStatusListComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'parcelStatus-reasons/:id',
+        component: ParcelStatusReasonsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'routes',
