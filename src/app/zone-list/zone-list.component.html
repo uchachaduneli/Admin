@@ -24,16 +24,6 @@
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
               </ng-container>
 
-              <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef>წონა</th>
-                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="weightLabel">
-                <th mat-header-cell *matHeaderCellDef> წონის შენიშვნა</th>
-                <td mat-cell *matCellDef="let element"> {{element.weightLabel}} </td>
-              </ng-container>
-
               <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef> მოქმედება</th>
                 <td mat-cell *matCellDef="let element" class="action-link">

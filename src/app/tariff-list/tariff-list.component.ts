@@ -1,28 +1,29 @@
-import {AfterViewInit, Component, Inject, Optional, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {ParcelStatus} from '../models/parcel-status';
-import {ParcelStatusBackendApi, ParcelStatusService} from '../services/parcel-status.service';
+import {TariffBackendApi, TariffService} from '../services/tariff.service';
+import {Tariff} from '../models/tariff';
 
 @Component({
-  selector: 'app-parcel-status-list',
-  templateUrl: './parcel-status-list.component.html',
-  styleUrls: ['./parcel-status-list.component.scss']
+  selector: 'app-tariff-list',
+  templateUrl: './tariff-list.component.html',
+  styleUrls: ['./tariff-list.component.scss']
 })
-export class ParcelStatusListComponent implements AfterViewInit {
-
-  data = new MatTableDataSource<ParcelStatusBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'code', 'updatedTime', 'createdTime', 'action'];
+export class TariffListComponent implements AfterViewInit {
+  // @ts-ignore
+  srchObj: Tariff = {};
+  data = new MatTableDataSource<TariffBackendApi>();
+  displayedColumns: string[] = ['id', 'name', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, private service: ParcelStatusService, private notifyService: NotificationService) {
+  constructor(public dialog: MatDialog, private service: TariffService, private notifyService: NotificationService) {
   }
 
   ngAfterViewInit(): void {
@@ -54,27 +55,27 @@ export class ParcelStatusListComponent implements AfterViewInit {
       ).subscribe(data => this.data = data);
   }
 
-  save(obj: ParcelStatus): void {
+  save(obj: Tariff): void {
     this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(!!error.error ? 'ოპერაცია არ სრულდება' : '', 'ჩანაწერის განახლება');
+      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }
 
-  update(obj: ParcelStatus): void {
+  update(obj: Tariff): void {
     this.service.update(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(!!error.error ? 'ოპერაცია არ სრულდება' : '', 'ჩანაწერის განახლება');
+      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }
 
-  delete(obj: ParcelStatus): void {
+  delete(obj: Tariff): void {
     this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
@@ -86,7 +87,7 @@ export class ParcelStatusListComponent implements AfterViewInit {
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(ParcelStatusDialogContent, {data: obj, maxWidth: '50%'});
+    const dialogRef = this.dialog.open(TariffDialogContent, {data: obj, maxWidth: '50%'});
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
@@ -110,12 +111,13 @@ export class ParcelStatusListComponent implements AfterViewInit {
 })
 
 // tslint:disable-next-line:component-class-suffix
-export class ParcelStatusDialogContent {
+export class TariffDialogContent implements OnInit {
   action: string;
   selectedObject: any;
 
-  constructor(public dialogRef: MatDialogRef<ParcelStatusDialogContent>,
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: ParcelStatus) {
+  constructor(public dialogRef: MatDialogRef<TariffDialogContent>,
+              // @Optional() is used to prevent error if no data is passed
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: Tariff) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
   }
@@ -126,5 +128,8 @@ export class ParcelStatusDialogContent {
 
   closeDialog(): void {
     this.dialogRef.close({event: 'Cancel'});
+  }
+
+  ngOnInit(): void {
   }
 }

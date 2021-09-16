@@ -15,6 +15,8 @@ import {ContactAddressComponent} from './contact-address/contact-address.compone
 import {AuthGuard} from './authentication/auth.guard';
 import {ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
 import {ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
+import {TariffListComponent} from './tariff-list/tariff-list.component';
+import {TariffDetailsComponent} from './tariff-details/tariff-details.component';
 
 export const AppRoutes: Routes = [
   {
@@ -65,6 +67,17 @@ export const AppRoutes: Routes = [
         path: 'routes',
         component: RouteListComponent,
         pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'tariff',
+        component: TariffListComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'tariff-details/:id',
+        component: TariffDetailsComponent,
         canActivate: [AuthGuard]
       },
       {

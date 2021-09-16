@@ -41,7 +41,8 @@ const MENUITEMS = [
   {icon: 'airport_shuttle', state: 'tranzits', name: 'რეისები', type: 'link'},
   {icon: 'home', state: 'warehouse', name: 'საწყობები', type: 'link'},
   {icon: 'leak_add', state: 'zones', name: 'ზონები', type: 'link'},
-  {icon: 'done_all', state: 'parcelStatus', name: 'ამანათის სტატუსი', type: 'link'}
+  {icon: 'done_all', state: 'parcelStatus', name: 'ამანათის სტატუსი', type: 'link'},
+  {icon: 'local_atm', state: 'tariff', name: 'ტარიფები', type: 'link'}
     // {
     //     state: '',
     //     name: 'Personal',

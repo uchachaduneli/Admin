@@ -325,7 +325,9 @@ import {CityDialogContent, CityListComponent} from './city-list/city-list.compon
 import {ContactAddressComponent, ContactAddressDialogContent} from './contact-address/contact-address.component';
 import {JwtInterceptor} from './authentication/jwt.interceptor';
 import {ParcelStatusDialogContent, ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
-import { ParcelStatusReasonsComponent } from './parcel-status-reasons/parcel-status-reasons.component';
+import {ParcelStatusReasonDC, ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
+import {TariffDialogContent, TariffListComponent} from './tariff-list/tariff-list.component';
+import { TariffDetailsComponent } from './tariff-details/tariff-details.component';
 
 
 // tslint:disable-next-line:typedef
@@ -645,6 +647,8 @@ const icons = {
     ServiceDialogContent,
     WarehouseDialogContent,
     ParcelStatusDialogContent,
+    TariffDialogContent,
+    ParcelStatusReasonDC,
     ZoneDialogContent,
     TranzitDialogContent,
     ContactListComponent,
@@ -656,7 +660,9 @@ const icons = {
     ZoneListComponent,
     ContactAddressComponent,
     ParcelStatusListComponent,
-    ParcelStatusReasonsComponent
+    ParcelStatusReasonsComponent,
+    TariffListComponent,
+    TariffDetailsComponent
   ],
   imports: [
     BrowserModule,

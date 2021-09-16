@@ -10,6 +10,11 @@ export interface ParcelStatusBackendApi {
   total_count: number;
 }
 
+export interface ParcelStatusReasonBackApi {
+  items: ParcelStatusReason[];
+  total_count: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,8 +44,8 @@ export class ParcelStatusService {
     return this.httpClient.delete(`${this.BaseUrl}/${id}`);
   }
 
-  getByParcelStatusId(id: number): Observable<ParcelStatusReason> {
-    return this.httpClient.get<ParcelStatusReason>(`${this.BaseUrl}/statusReason/${id}`);
+  getByParcelStatusId(id: number): Observable<ParcelStatusReasonBackApi[]> {
+    return this.httpClient.get<ParcelStatusReasonBackApi[]>(`${this.BaseUrl}/statusReason/${id}`);
   }
 
   // tslint:disable-next-line:ban-types
