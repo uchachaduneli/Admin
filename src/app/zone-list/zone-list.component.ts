@@ -18,7 +18,7 @@ export class ZoneListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Zone = {};
   data = new MatTableDataSource<ZoneBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'weight', 'weightLabel', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;

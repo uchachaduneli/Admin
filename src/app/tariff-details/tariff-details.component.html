@@ -3,10 +3,7 @@
     <mat-card-title>ტარიფი "{{mainObj.name}}" - ის ფასები ზონების მიხედვით</mat-card-title>
     <form #userForm="ngForm">
       <br/> <br/>
-      <button mat-raised-button color="primary" (click)="addQuantity()">
-        <mat-icon>plus_one</mat-icon>
-        ახალი წონა
-      </button>
+
       <br/><br/>
       <div fxLayout="row wrap" class="align-items-center">
         <div fxFlex="100" fxFlex.gt-md="100" *ngFor="let row of tarifByZones; let i=index"
@@ -37,6 +34,10 @@
         </div>
       </div>
       <div align="center"><br/> <br/>
+        <button mat-raised-button color="primary" (click)="addQuantity()">
+          <mat-icon>plus_one</mat-icon>
+          ახალი წონა
+        </button>&nbsp;
         <button mat-button bg-success (click)="onSubmit()" mat-flat-button color="warn"
                 [disabled]="!userForm.valid"> შენახვა
         </button>

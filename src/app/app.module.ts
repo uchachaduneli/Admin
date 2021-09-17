@@ -328,6 +328,8 @@ import {ParcelStatusDialogContent, ParcelStatusListComponent} from './parcel-sta
 import {ParcelStatusReasonDC, ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
 import {TariffDialogContent, TariffListComponent} from './tariff-list/tariff-list.component';
 import { TariffDetailsComponent } from './tariff-details/tariff-details.component';
+import { ParcelListComponent } from './parcel-list/parcel-list.component';
+import { ParcelFormComponent } from './parcel-form/parcel-form.component';
 
 
 // tslint:disable-next-line:typedef
@@ -662,7 +664,9 @@ const icons = {
     ParcelStatusListComponent,
     ParcelStatusReasonsComponent,
     TariffListComponent,
-    TariffDetailsComponent
+    TariffDetailsComponent,
+    ParcelListComponent,
+    ParcelFormComponent
   ],
   imports: [
     BrowserModule,

@@ -22,7 +22,7 @@ export class ContactListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Contact = {};
   data = new MatTableDataSource<ContactBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'identNumber', 'email', 'type', 'user', 'deReGe', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'identNumber', 'email', 'type', 'user', 'deReGe', 'hasContract', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;

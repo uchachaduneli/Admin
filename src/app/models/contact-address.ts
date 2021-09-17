@@ -3,6 +3,7 @@ import {City} from './city';
 
 export class ContactAddress {
   id!: number;
+  isPayAddress!: number;
   contact!: Contact;
   city!: City;
   postCode!: string;

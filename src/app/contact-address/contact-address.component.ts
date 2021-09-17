@@ -23,7 +23,7 @@ export class ContactAddressComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: ContactAddress = {contact: {id: 0, name: ''}};
   data = new MatTableDataSource<ContactBackendApi>();
-  displayedColumns: string[] = ['id', 'city', 'street', 'contactPerson', 'postCode', 'contactPersonPhone', 'contactPersonEmail', 'action'];
+  displayedColumns: string[] = ['id', 'isPayAddress', 'city', 'street', 'contactPerson', 'postCode', 'contactPersonPhone', 'contactPersonEmail', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;

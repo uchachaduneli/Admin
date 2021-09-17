@@ -8,6 +8,7 @@ export class Contact {
   type!: number;
   status!: number;
   deReGe!: number;
+  hasContract!: number;
   identNumber!: string;
   user!: User;
   updatedTime!: string;

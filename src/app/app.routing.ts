@@ -17,6 +17,8 @@ import {ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-statu
 import {ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
 import {TariffListComponent} from './tariff-list/tariff-list.component';
 import {TariffDetailsComponent} from './tariff-details/tariff-details.component';
+import {ParcelListComponent} from './parcel-list/parcel-list.component';
+import {ParcelFormComponent} from './parcel-form/parcel-form.component';
 
 export const AppRoutes: Routes = [
   {
@@ -25,8 +27,19 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: '',
-        component: CarListComponent,
+        component: ParcelListComponent,
         pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'parcels',
+        component: ParcelListComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'parcel-form/:id',
+        component: ParcelFormComponent,
         canActivate: [AuthGuard]
       },
       {
