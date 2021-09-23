@@ -55,7 +55,7 @@ export class ContactAddressComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           // @ts-ignore
-          return this.service.getList(this.utilService.encode(this.srchObj, ''));
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
         }),
         map(data => {
           // Flip flag to show that loading has finished.

@@ -1,0 +1,225 @@
+<mat-dialog-content class="pb-3" *ngIf="action != 'Delete'; else elseTemplate">
+  <!--    Details Dialog Content-->
+  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="15">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="id"
+                     [(ngModel)]="selectedObject.id"
+                     placeholder="#">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="status"
+                   [(ngModel)]="selectedObject.status.name"
+                   placeholder="სტატუსი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="sender"
+                   value="{{selectedObject.sender.name}} ({{selectedObject.sender.identNumber}})"
+                   placeholder="გამგზავნი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="receiver"
+                   value="{{selectedObject.receiver.name}} ({{selectedObject.receiver.identNumber}})"
+                   placeholder="მიმღები">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="payer"
+                   value="{{selectedObject.payer.name}} ({{selectedObject.payer.identNumber}})"
+                   placeholder="გადამხდელი">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="count"
+                   [(ngModel)]="selectedObject.count"
+                   placeholder="რაოდენობა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="weight"
+                   [(ngModel)]="selectedObject.weight"
+                   placeholder="წონა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="volumeWeight"
+                   [(ngModel)]="selectedObject.volumeWeight"
+                   placeholder="მოცულობითი წონა">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="gadafutvisPrice"
+                   [(ngModel)]="selectedObject.gadafutvisPrice"
+                   placeholder="გადაფუთვის ფასი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="totalPrice"
+                   [(ngModel)]="selectedObject.totalPrice"
+                   placeholder="ჯამური ფასი">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-radio-group aria-label="მიტანის დადასტურება" disabled name="deliveredConfirmation"
+                           [(ngModel)]="selectedObject.deliveredConfirmation">
+            <mat-label> მიტანის დადასტურება &nbsp;</mat-label>
+            <mat-radio-button [value]="1"> კი &nbsp;</mat-radio-button>
+            <mat-radio-button [value]="2"> არა</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <br/><br/>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-radio-group aria-label="მიტანის ტიპი" disabled name="deliveryType"
+                           [(ngModel)]="selectedObject.deliveryType">
+            <mat-label> მიტანის ტიპი &nbsp;</mat-label>
+            <mat-radio-button [value]="1"> მიტანა მისამართზე &nbsp;</mat-radio-button>
+            <mat-radio-button [value]="2"> მიკითხვა ფილიალში</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <br/><br/>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-radio-group aria-label="გადახდის ტიპი" disabled name="paymentType"
+                           [(ngModel)]="selectedObject.paymentType">
+            <mat-label> გადახდის ტიპი &nbsp;</mat-label>
+            <mat-radio-button [value]="1"> ინვოისი &nbsp;</mat-radio-button>
+            <mat-radio-button [value]="2"> ნაღდი &nbsp;</mat-radio-button>
+            <mat-radio-button [value]="3"> ბარათი</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <br/><br/>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-radio-group aria-label="პაკეტის ტიპი" disabled name="parcelType"
+                           [(ngModel)]="selectedObject.packageType.id">
+            <mat-label> პაკეტის ტიპი &nbsp;</mat-label>
+            <mat-radio-button [value]="1"> ამანათი &nbsp;</mat-radio-button>
+            <mat-radio-button [value]="2"> პაკეტი &nbsp;</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <br/><br/>
+
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.parcelType.id" disabled name="parcelType"
+                        placeholder="გზავნილის ტიპი"
+                        aria-placeholder="გზავნილის ტიპი" required>
+              <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.sticker.id" disabled name="sticker" placeholder="სტიკერი"
+                        aria-placeholder="სტიკერი" required>
+              <mat-option *ngFor="let c of docTypes" [value]="c.id">{{c.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="content"
+                   [(ngModel)]="selectedObject.content"
+                   placeholder="შიგთავსი">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="comment"
+                   [(ngModel)]="selectedObject.comment"
+                   placeholder="შენიშვნა">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="createdTime"
+                     value="{{selectedObject.createdTime | date: 'short'}}"
+                     placeholder="ჩანაწერის დრო">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input type="text" matInput readonly name="updatedTime"
+                     value="{{selectedObject.updatedTime | date: 'short'}}"
+                     placeholder="განახლების დრო">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <p>დაადასტურეთ წაშლა <b>{{selectedObject.id}}</b> ?</p>
+  <div mat-dialog-actions align="end" class="pt-3">
+    <button mat-button (click)="doAction()" mat-flat-button color="warn">წაშლა</button>
+    <button mat-button (click)="closeDialog()">გაუქმება</button>
+  </div>
+</ng-template>

@@ -3,38 +3,159 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
       <mat-card-content>
-        <mat-card-title class="p-b-20">Stepper variants</mat-card-title>
+        <mat-card-title class="p-b-20">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> კონფიგურაცია</mat-panel-title>
+                <mat-panel-description> კონფიგურაციის შესაცვლელად ჩამოშალეთ პანელი</mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-tab-group>
+                <!--                <mat-tab label="დოკუმენტის ტიპები">-->
+                <!--                  <mat-card-content>-->
+                <!--                    <button mat-button mat-flat-button color="primary">არსებული ტიპები</button>&nbsp;&nbsp;-->
+                <!--                    <button mat-button mat-flat-button color="warn">ტიპის დამატება</button>-->
+                <!--                  </mat-card-content>-->
+                <!--                </mat-tab>-->
+                <mat-tab label="შტრიხკოდის ბეჭდვა">
+                  <div fxLayout="row wrap" class="align-items-center">
+                    <div fxFlex="100" fxFlex.gt-md="100">
+                      <div fxFlex="100" fxFlex.gt-md="50">
+                        <mat-form-field>
+                          <input type="number" matInput placeholder="მიუთითეთ დასაბეჭდი შტრიხკოდების რაოდენობა">
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="50">
+                        <button mat-button bg-success mat-flat-button color="warn" align="start"
+                                style="margin-top: 1.5%;margin-left: 2%;">
+                          ბეჭდვა
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="მოც. წონის კოეფიციენტი">
+                  <div fxLayout="row wrap" class="align-items-center">
+                    <div fxFlex="100" fxFlex.gt-md="100">
+                      <div fxFlex="100" fxFlex.gt-md="50">
+                        <mat-form-field>
+                          <input type="number" matInput placeholder="მიუთითეთ მოცულობითი წონის კოეფიციენტი">
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="50">
+                        <button mat-button bg-success mat-flat-button color="warn" align="start"
+                                style="margin-top: 1.5%; margin-left: 2%;">
+                          შენახვა
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-title>
 
         <mat-vertical-stepper #stepper>
-          <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
-              <ng-template matStepLabel>Fill out your name</ng-template>
-              <mat-form-field>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-              </mat-form-field>
-              <div>
-                <button mat-button matStepperNext>Next</button>
+          <mat-step>
+            <form>
+              <ng-template matStepLabel>გამგზავნი</ng-template>
+              <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="100">
+                  <div fxFlex="100" fxFlex.gt-md="33">
+                    <div class="m-r-15 m-l-15">
+                      <mat-form-field>
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput type="search" placeholder="კონტაქტის სახელი" class="search-input">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxFlex="100" fxFlex.gt-md="33">
+                    <mat-form-field>
+                      <input matInput type="search" placeholder=" საიდენტიფიკაციო #" class="search-input">
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="100" fxFlex.gt-md="33">
+                    <button mat-button bg-success mat-flat-button color="accent" align="start">
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="66">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="senderContact.cityId" name="senderContactCity" placeholder="ქალაქი"
+                                  aria-placeholder="ქალაქი" required>
+                        <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="100">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input matInput type="text" name="sendercontacaddress" disabled placeholder=" მისამართი">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="100">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input matInput type="text" name="sendercontactperson" disabled placeholder=" საკონტაქტო პირი">
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
-            </form>
-          </mat-step>
-          <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
-              <ng-template matStepLabel>Fill out your address</ng-template>
-              <mat-form-field>
-                <input matInput placeholder="Address" formControlName="secondCtrl" required>
-              </mat-form-field>
               <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperNext color="primary">
+                  შემდეგი
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
               </div>
             </form>
           </mat-step>
           <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            You are now done.
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button (click)="stepper.reset()">Reset</button>
+            <form>
+              <ng-template matStepLabel>მიმღები</ng-template>
+              <mat-form-field>
+                <input matInput placeholder="Address" name="receivercontactperson" required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious color="primary">
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                  წინა
+                </button>
+                <button mat-button matStepperNext color="primary">
+                  შემდეგი
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <form>
+              <ng-template matStepLabel>გადამხდელი მხარე</ng-template>
+              <mat-form-field>
+                <input matInput placeholder="Address" name="payercontactperson" required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious color="primary">
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                  წინა
+                </button>
+                <button mat-button matStepperNext color="primary">
+                  შემდეგი
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>ამანათი</ng-template>
+            <div align="center" style="margin-top: 5%;">
+              <button mat-button bg-success mat-flat-button matStepperNext color="warn"> შენახვა
+                <mat-icon>save</mat-icon>
+              </button>
             </div>
           </mat-step>
         </mat-vertical-stepper>

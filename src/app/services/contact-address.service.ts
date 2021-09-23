@@ -19,8 +19,8 @@ export class ContactAddressService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(srchParams: string): Observable<ContactAddressBackendApi[]> {
-    return this.httpClient.get<ContactAddressBackendApi[]>(`${this.BaseUrl}?${srchParams}`);
+  getList(rowcount: number, page: number, srchParams: string): Observable<ContactAddressBackendApi[]> {
+    return this.httpClient.get<ContactAddressBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   // tslint:disable-next-line:ban-types

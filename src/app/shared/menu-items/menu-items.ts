@@ -42,7 +42,8 @@ const MENUITEMS = [
   {icon: 'home', state: 'warehouse', name: 'საწყობები', type: 'link'},
   {icon: 'leak_add', state: 'zones', name: 'ზონები', type: 'link'},
   {icon: 'linear_scale', state: 'parcelStatus', name: 'ჩექპოინტები', type: 'link'},
-  {icon: 'local_atm', state: 'tariff', name: 'ტარიფები', type: 'link'}
+  {icon: 'local_atm', state: 'tariff', name: 'ტარიფები', type: 'link'},
+  {icon: 'attach_file', state: 'doctypes', name: 'დოკუმენტის ტიპები', type: 'link'}
 ];
 
 @Injectable()
