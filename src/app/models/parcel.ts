@@ -2,6 +2,8 @@ import {Contact} from './contact';
 import {Service} from './service';
 import {DocType} from './doc-type';
 import {ParcelStatus} from './parcel-status';
+import {Packages} from './packages';
+import {City} from './city';
 
 export class Parcel {
   id!: number;
@@ -9,9 +11,24 @@ export class Parcel {
   status!: ParcelStatus;
   updatedTime!: string;
   createdTime!: string;
-  sender!: Contact;
-  receiver!: Contact;
-  payer!: Contact;
+
+  senderName!: string;
+  senderIdentNumber!: string;
+  senderContactPerson!: string;
+  senderAddress!: string;
+  senderCity!: City;
+
+  receiverName!: string;
+  receiverIdentNumber!: string;
+  receiverContactPerson!: string;
+  receiverAddress!: string;
+  receiverCity!: City;
+
+  payerName!: string;
+  payerIdentNumber!: string;
+  payerAddress!: string;
+  payerCity!: City;
+
   comment!: string;
   deliveredConfirmation!: number;
   count!: number;

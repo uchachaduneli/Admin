@@ -56,7 +56,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.city.id" disabled name="city" placeholder="ქალაქი"
-                        aria-placeholder="ქალაქი" required (selectionChange)="onCitySelect($event.value)">
+                        aria-placeholder="ქალაქი" required >
               <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>

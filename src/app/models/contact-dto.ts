@@ -1,5 +1,12 @@
+import {Contact} from './contact';
+import {ContactAddress} from './contact-address';
+import {City} from './city';
+
 export class ContactDTO {
-  name!: string;
-  identNumber!: string;
-  cityId!: number;
+  contact: Contact = new Contact();
+  contactAddress: ContactAddress = new ContactAddress();
+
+  constructor() {
+    this.contactAddress.city = new City();
+  }
 }

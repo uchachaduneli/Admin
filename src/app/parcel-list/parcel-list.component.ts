@@ -24,7 +24,7 @@ export class ParcelListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Parcel = {};
   data = new MatTableDataSource<ParcelBackendApi>();
-  displayedColumns: string[] = ['id', 'sender', 'receiver', 'payer', 'weight', 'totalPrice', 'status', 'createdTime', 'action'];
+  displayedColumns: string[] = ['id', 'senderName', 'receiverName', 'payerName', 'weight', 'totalPrice', 'status', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -49,7 +49,7 @@ export class ParcelListComponent implements AfterViewInit {
           return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
+          console.log(data);
           this.isLoadingResults = false;
           // @ts-ignore
           this.resultsLength = data.total_count;
@@ -145,6 +145,7 @@ export class ParcelDC implements OnInit {
           return this.companyServices.getList(1000, 0, '');
         }),
         map(data => {
+          console.log(data);
           // @ts-ignore
           return data.items;
         }),
