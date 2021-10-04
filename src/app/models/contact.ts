@@ -1,4 +1,5 @@
 import {User} from './user';
+import {Tariff} from './tariff';
 
 export class Contact {
   id!: number;
@@ -11,6 +12,7 @@ export class Contact {
   hasContract!: number;
   identNumber!: string;
   user!: User;
+  tariff!: Tariff;
   updatedTime!: string;
   createdTime!: string;
 

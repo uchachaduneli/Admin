@@ -1,9 +1,9 @@
-import {Contact} from './contact';
 import {Service} from './service';
 import {DocType} from './doc-type';
 import {ParcelStatus} from './parcel-status';
-import {Packages} from './packages';
 import {City} from './city';
+import {Route} from './route';
+import {User} from './user';
 
 export class Parcel {
   id!: number;
@@ -24,10 +24,12 @@ export class Parcel {
   receiverAddress!: string;
   receiverCity!: City;
 
+  payerSide!: number; // 1 sender  2 receiver  3 third person
   payerName!: string;
   payerIdentNumber!: string;
   payerAddress!: string;
   payerCity!: City;
+  payerContactPerson!: string;
 
   comment!: string;
   deliveredConfirmation!: number;
@@ -38,8 +40,10 @@ export class Parcel {
   totalPrice!: number;
   deliveryType!: number; // 1 mitana misamartze, 2 mikitxva filialshi
   paymentType!: number; // 1 invoice, 2 cash, 3 card
-  parcelType!: Service;
+  parcelType: Service = new Service();
   packageType!: number;  // 1 amanati, 2 paketi
-  sticker!: DocType;
+  sticker: DocType = new DocType();
+  route: Route = new Route();
+  courier: User = new User();
   content!: string;
 }

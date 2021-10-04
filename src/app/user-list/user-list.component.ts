@@ -148,6 +148,8 @@ export class UserDialogContent implements OnInit {
     }
     if (!this.selectedObject.city) {
       this.selectedObject.city = {};
+    } else {
+      this.onCitySelect(this.selectedObject.city.id);
     }
     if (!this.selectedObject.route) {
       this.selectedObject.route = {};
@@ -178,8 +180,6 @@ export class UserDialogContent implements OnInit {
       }),
       map(data => {
         // @ts-ignore
-        this.routes = data;
-        // @ts-ignore
         return data;
       }),
       catchError(() => {
@@ -188,7 +188,6 @@ export class UserDialogContent implements OnInit {
     ).subscribe(data => {
       this.routes = data;
     });
-
   }
 
   ngOnInit(): void {

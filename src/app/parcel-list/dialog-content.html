@@ -27,7 +27,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input type="text" matInput readonly name="sender"
-                   value="{{selectedObject.sender.name}} ({{selectedObject.sender.identNumber}})"
+                   value="{{selectedObject.senderName}} ({{selectedObject.senderIdentNumber}})"
                    placeholder="გამგზავნი">
           </mat-form-field>
         </div>
@@ -36,7 +36,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input type="text" matInput readonly name="receiver"
-                   value="{{selectedObject.receiver.name}} ({{selectedObject.receiver.identNumber}})"
+                   value="{{selectedObject.receiverName}} ({{selectedObject.receiverIdentNumber}})"
                    placeholder="მიმღები">
           </mat-form-field>
         </div>
@@ -45,7 +45,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input type="text" matInput readonly name="payer"
-                   value="{{selectedObject.payer.name}} ({{selectedObject.payer.identNumber}})"
+                   value="{{selectedObject.payeName}} ({{selectedObject.payeIdentNumber}})"
                    placeholder="გადამხდელი">
           </mat-form-field>
         </div>
@@ -100,9 +100,9 @@
 
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
-          <mat-radio-group aria-label="მიტანის დადასტურება" disabled name="deliveredConfirmation"
+          <mat-radio-group aria-label="ჩაბარების დადასტურება" disabled name="deliveredConfirmation"
                            [(ngModel)]="selectedObject.deliveredConfirmation">
-            <mat-label> მიტანის დადასტურება &nbsp;</mat-label>
+            <mat-label> ჩაბარების დადასტურება &nbsp;</mat-label>
             <mat-radio-button [value]="1"> კი &nbsp;</mat-radio-button>
             <mat-radio-button [value]="2"> არა</mat-radio-button>
           </mat-radio-group>
@@ -114,7 +114,7 @@
         <div class="m-r-15 m-l-15">
           <mat-radio-group aria-label="მიტანის ტიპი" disabled name="deliveryType"
                            [(ngModel)]="selectedObject.deliveryType">
-            <mat-label> მიტანის ტიპი &nbsp;</mat-label>
+            <mat-label> ჩაბარების ტიპი &nbsp;</mat-label>
             <mat-radio-button [value]="1"> მიტანა მისამართზე &nbsp;</mat-radio-button>
             <mat-radio-button [value]="2"> მიკითხვა ფილიალში</mat-radio-button>
           </mat-radio-group>
@@ -138,7 +138,7 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-radio-group aria-label="პაკეტის ტიპი" disabled name="parcelType"
-                           [(ngModel)]="selectedObject.packageType.id">
+                           [(ngModel)]="selectedObject.packageType">
             <mat-label> პაკეტის ტიპი &nbsp;</mat-label>
             <mat-radio-button [value]="1"> ამანათი &nbsp;</mat-radio-button>
             <mat-radio-button [value]="2"> პაკეტი &nbsp;</mat-radio-button>

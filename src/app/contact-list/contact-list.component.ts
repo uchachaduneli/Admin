@@ -11,6 +11,9 @@ import {ContactAddress} from '../models/contact-address';
 import {ContactAddressService} from '../services/contact-address.service';
 import {User} from '../models/user';
 import {UtilService} from '../services/util.service';
+import {Tariff} from '../models/tariff';
+import {TariffByZone} from '../models/tariff-by-zone';
+import {TariffService} from '../services/tariff.service';
 
 
 @Component({
@@ -27,6 +30,8 @@ export class ContactListComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
+
+  tariffs!: TariffByZone[];
 
   constructor(public dialog: MatDialog, private service: ContactService, private utilService: UtilService,
               private addressService: ContactAddressService, private notifyService: NotificationService) {
@@ -120,8 +125,9 @@ export class ContactListComponent implements AfterViewInit {
 export class ContactDialogContent implements OnInit {
   action: string;
   selectedObject: any;
+  tariffs!: Tariff[];
 
-  constructor(public dialogRef: MatDialogRef<ContactDialogContent>,
+  constructor(public dialogRef: MatDialogRef<ContactDialogContent>, private tariffService: TariffService,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
     this.selectedObject = {...data};
@@ -135,6 +141,9 @@ export class ContactDialogContent implements OnInit {
     if (!this.selectedObject.user) { // es droebitaa da mere daloginebuli uzeri unda aigos avtomaturad
       this.selectedObject.user = {id: 1};
     }
+    if (!this.selectedObject.tariff) {
+      this.selectedObject.tariff = new Tariff();
+    }
     this.action = this.selectedObject.action;
   }
 
@@ -147,6 +156,20 @@ export class ContactDialogContent implements OnInit {
   }
 
   ngOnInit(): void {
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.tariffService.getList();
+        }),
+        map(data => {
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(() => {
+          return observableOf([]);
+        })
+      ).subscribe(data => this.tariffs = data);
   }
 
 }
