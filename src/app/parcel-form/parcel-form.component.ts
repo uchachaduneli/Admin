@@ -78,6 +78,24 @@ export class ParcelFormComponent implements OnInit {
               private docTypeService: DoctypesService) {
   }
 
+  print(): void {
+    // @ts-ignore
+    const divElements = document.getElementById('printContent').innerHTML;
+    // const oldPage = document.body.innerHTML;
+    // document.body.innerHTML = '<html><head><title></title></head><body>' +
+    //   divElements + '</body>';
+    // window.print();
+    // document.body.innerHTML = oldPage;
+
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    // @ts-ignore
+    popupWin.document.open();
+    // @ts-ignore
+    popupWin.document.write(`<html><head><style>body { -webkit-print-color-adjust: exact !important; }</style></head><body onload="window.print();window.close()">${divElements}</body></html>`);
+    // @ts-ignore
+    popupWin.document.close();
+  }
+
   validateNextStep(i: number, stepper: MatStepper): void {
     if (i === 1) {
       if (!this.senderContactDto.contact.id && !this.senderContactDto.contact.identNumber) {
@@ -521,7 +539,12 @@ export class ParcelFormComponent implements OnInit {
         totalVolWeight += p.volumeWeight;
       });
       this.selectedObject.volumeWeight = totalVolWeight;
+      console.log(this.dynamicArray);
     });
+  }
+
+  idToBarcode(): string[] {
+    return this.selectedObject.id ? this.selectedObject.id.toString().split('\n') : [];
   }
 
   ngOnInit(): void {

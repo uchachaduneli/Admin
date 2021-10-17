@@ -17,12 +17,14 @@ export class Parcel {
   senderContactPerson!: string;
   senderAddress!: string;
   senderCity!: City;
+  senderPhone!: string;
 
   receiverName!: string;
   receiverIdentNumber!: string;
   receiverContactPerson!: string;
   receiverAddress!: string;
   receiverCity!: City;
+  receiverPhone!: string;
 
   payerSide!: number; // 1 sender  2 receiver  3 third person
   payerName!: string;
@@ -30,6 +32,7 @@ export class Parcel {
   payerAddress!: string;
   payerCity!: City;
   payerContactPerson!: string;
+  payerPhone!: string;
 
   comment!: string;
   deliveredConfirmation!: number;

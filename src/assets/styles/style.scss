@@ -130,3 +130,9 @@ $custom-typography: mat-typography-config(
 .mat-select-disabled .mat-select-value {
   color: black !important;
 }
+
+@media print {
+  .doNotPrint {
+    display: none !important;
+  }
+}

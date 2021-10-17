@@ -13,6 +13,15 @@
           </mat-form-field>
         </div>
       </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="engName" name="engName"
+                   [(ngModel)]="selectedObject.engName"
+                   placeholder="ინგლისური დასახელება">
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div align="end">
       <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
@@ -39,6 +48,15 @@
             <input type="text" matInput readonly name="name"
                    [(ngModel)]="selectedObject.name"
                    placeholder="სახელი">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="engName"
+                   [(ngModel)]="selectedObject.engName"
+                   placeholder="ინგლისური დასახელება">
           </mat-form-field>
         </div>
       </div>
