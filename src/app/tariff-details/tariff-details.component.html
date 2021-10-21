@@ -8,9 +8,9 @@
       <div fxLayout="row wrap" class="align-items-center">
         <div fxFlex="100" fxFlex.gt-md="100" *ngFor="let row of tarifByZones; let i=index"
              style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgba(0, 0, 0, 0.12);">
-          <div fxFlex="100" fxFlex.gt-md="15" style="justify-content: center; align-items: center; display: flex;">
+          <div fxFlex="100" fxFlex.gt-md="25" style="justify-content: center; align-items: center; display: flex;">
             წონა:&nbsp;
-            <input type="number" required id="weight{{i}}" name="weight" style="margin-right: 20px;"
+            <input type="string" required id="weight{{i}}" name="weight{{i}}" style="margin-right: 20px;"
                    class="form-control" [(ngModel)]="row.weight" placeholder="მიუთითეთ წონა">
           </div>
           <div fxFlex="100" fxFlex.gt-md="50"

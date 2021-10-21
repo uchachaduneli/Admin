@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
@@ -10,6 +10,7 @@ import {Zone} from '../models/zone';
 import {ZoneService} from '../services/zone.service';
 import {UtilService} from '../services/util.service';
 import {TariffByZone} from '../models/tariff-by-zone';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-tariff-details',
@@ -23,7 +24,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   zones!: Zone[];
   tarifByZones: TariffByZone[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private zoneService: ZoneService,
+  constructor(private route: ActivatedRoute, private router: Router, private zoneService: ZoneService, private cdr: ChangeDetectorRef,
               private service: TariffService, private notifyService: NotificationService, private utilService: UtilService) {
   }
 
@@ -60,10 +61,6 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
     this.tarifByZones.splice(i, 1);
   }
 
-  onSubmit(): void {
-    console.log(this.tarifByZones);
-  }
-
   getZones(): void {
     const srchZone = new Zone(2);
     merge()
@@ -84,6 +81,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   }
 
   getMainData(): void {
+    this.cdr.detectChanges();
     merge()
       .pipe(
         startWith({}),
@@ -93,36 +91,76 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
         }),
         map(data => {
           // @ts-ignore
-          this.resultsLength = data.total_count;
-          // @ts-ignore
-          return data.items;
+          return data;
         }),
         catchError(() => {
           return observableOf([]);
         })
-      ).subscribe(data => this.tariffDetails = data);
+      ).subscribe(data => {
+      this.tariffDetails = data;
+      if (data && data.length > 0) {
+
+        // @ts-ignore
+        const grouped = _.groupBy(this.tariffDetails, t => t.weight);
+        Object.keys(grouped).forEach(e => {
+          let tariffDetailsArr: TariffDetail[] = [];
+          grouped[e].forEach(dt => {
+            tariffDetailsArr = grouped[e];
+          });
+          // tslint:disable-next-line:radix
+          this.tarifByZones.push({weight: parseInt(e), details: tariffDetailsArr});
+        });
+        console.log(this.tarifByZones);
+      }
+    });
+    this.cdr.detectChanges();
   }
 
-  save(obj: TariffDetail): void {
+  onSubmit(): void {
+    console.log(this.tarifByZones);
     // @ts-ignore
-    obj.tariff = {id: this.mainObj.tariff.id}; // set tariff With Id Retrieved From URL
-    this.service.createTariffDetails(obj).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის დამატება');
-      window.location.reload();
+    const tariffDetailsArr: TariffDetail[] = [];
+    this.tarifByZones.forEach(tz => {
+      tz.details.forEach(det => {
+        // @ts-ignore
+        tariffDetailsArr.push({id: det.id, tariff: {id: this.mainObj.id}, weight: tz.weight, price: det.price, zone: {id: det.zone.id}});
+      });
+    });
+    console.log(tariffDetailsArr);
+    const forSave = tariffDetailsArr.filter(t => t.id === undefined || t.id === 0);
+    const forUpdate = tariffDetailsArr.filter(t => t.id !== undefined && t.id > 0);
+    if (forSave && forSave.length > 0) {
+      this.save(forSave, !(forUpdate && forUpdate.length > 0));
+    }
+    if (forUpdate && forUpdate.length > 0) {
+      this.update(forUpdate, true);
+    }
+  }
+
+  save(list: TariffDetail[], reload: boolean): void {
+    this.service.createTariffDetails(list).subscribe(res => {
+      this.notifyService.showSuccess('დამატება დასრულდა წარმატებით', 'ჩანაწერის დამატება');
+      if (reload) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      }
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
+      this.notifyService.showError('დამატება არ სრულდება', 'ჩანაწერის დამატება');
       console.log(error);
     });
   }
 
-  update(obj: TariffDetail): void {
-    // @ts-ignore
-    obj.tariff = {id: this.mainObj.tariff.id}; // set tariff With Id Retrieved From URL
-    this.service.updateTariffDetails(obj).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის განახლება');
-      window.location.reload();
+  update(list: TariffDetail[], reload: boolean): void {
+    this.service.updateTariffDetails(list).subscribe(res => {
+      this.notifyService.showSuccess('განახლება დასრულდა წარმატებით', 'არსებულის განახლება');
+      if (reload) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      }
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      this.notifyService.showError('განახლება არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }

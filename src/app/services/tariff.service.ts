@@ -12,11 +12,6 @@ export interface TariffBackendApi {
   total_count: number;
 }
 
-export interface TariffDetailsBackendApi {
-  items: TariffDetail[];
-  total_count: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -50,13 +45,13 @@ export class TariffService {
   }
 
   // tslint:disable-next-line:ban-types
-  createTariffDetails(obj: TariffDetail): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+  createTariffDetails(list: TariffDetail[]): Observable<Object> {
+    return this.httpClient.post(`${this.BaseUrl}/detailsList`, list);
   }
 
   // tslint:disable-next-line:ban-types
-  updateTariffDetails(obj: TariffDetail): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+  updateTariffDetails(list: TariffDetail[]): Observable<Object> {
+    return this.httpClient.put(`${this.BaseUrl}/detailsList`, list);
   }
 
   // tslint:disable-next-line:ban-types
@@ -64,7 +59,7 @@ export class TariffService {
     return this.httpClient.delete(`${this.BaseUrl}/${id}`);
   }
 
-  getByTariffId(id: number): Observable<TariffDetailsBackendApi[]> {
-    return this.httpClient.get<TariffDetailsBackendApi[]>(`${this.BaseUrl}/details/${id}`);
+  getByTariffId(id: number): Observable<TariffDetail[]> {
+    return this.httpClient.get<TariffDetail[]>(`${this.BaseUrl}/details/${id}`);
   }
 }
