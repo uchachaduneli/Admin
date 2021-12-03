@@ -1,17 +1,19 @@
 import {Service} from './service';
 import {DocType} from './doc-type';
-import {ParcelStatus} from './parcel-status';
 import {City} from './city';
 import {Route} from './route';
 import {User} from './user';
+import {ParcelStatusReason} from './parcel-status-reason';
+import {Tariff} from './tariff';
 
 export class Parcel {
   id!: number;
   deleted!: number;
-  status!: ParcelStatus;
+  status!: ParcelStatusReason;
   updatedTime!: string;
   createdTime!: string;
 
+  senderId!: number;
   senderName!: string;
   senderIdentNumber!: string;
   senderContactPerson!: string;
@@ -43,10 +45,12 @@ export class Parcel {
   totalPrice!: number;
   deliveryType!: number; // 1 mitana misamartze, 2 mikitxva filialshi
   paymentType!: number; // 1 invoice, 2 cash, 3 card
-  parcelType: Service = new Service();
+  // parcelType: Service = new Service();
   packageType!: number;  // 1 amanati, 2 paketi
   sticker: DocType = new DocType();
   route: Route = new Route();
   courier: User = new User();
+  service: Service = new Service();
   content!: string;
+  tariff!: number;
 }

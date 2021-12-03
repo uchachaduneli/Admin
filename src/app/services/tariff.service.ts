@@ -4,8 +4,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Tariff} from '../models/tariff';
 import {TariffDetail} from '../models/tariff-detail';
-import {ContactAddress} from '../models/contact-address';
-import {ContactAddressBackendApi} from './contact-address.service';
 
 export interface TariffBackendApi {
   items: Tariff[];
@@ -61,5 +59,9 @@ export class TariffService {
 
   getByTariffId(id: number): Observable<TariffDetail[]> {
     return this.httpClient.get<TariffDetail[]>(`${this.BaseUrl}/details/${id}`);
+  }
+
+  getPriceFor(tariffId: number, zoneId: number, weight: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.BaseUrl}/calculatePrice/${tariffId}/${zoneId}/${weight}`);
   }
 }

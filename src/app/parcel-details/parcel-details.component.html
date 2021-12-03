@@ -1,0 +1,385 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
+      <mat-tab label="მთავარი #{{selectedObject.id}}">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 35%">
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>ზოგადი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="id"
+                           [(ngModel)]="selectedObject.id"
+                           placeholder="თრექინგის #">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="createdTime"
+                           value="{{selectedObject.createdTime | date :'short'}} "
+                           placeholder="თარიღი">
+
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+            <td style="width: 35%">
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>გადამხდელი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="payerName"
+                           [ngModel]="selectedObject.payerName"
+                           placeholder="გადამხდელი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="payerIdentNumber"
+                           [(ngModel)]="selectedObject.payerIdentNumber"
+                           placeholder="საიდენტიფიკაციო #">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+            <td>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>მიმდინარე სტატუსი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="statusName"
+                           [(ngModel)]="selectedObject.status?.status.name"
+                           placeholder="სტატუსი ">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>გამგზავნი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="senderName"
+                           value="{{selectedObject.senderName}} - {{selectedObject.senderIdentNumber}}"
+                           placeholder="გამგზავნი ">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="senderCity"
+                           value="{{selectedObject.senderCity?.name}}"
+                           placeholder="ქალაქი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="senderAddress"
+                           value="{{selectedObject.senderAddress}}"
+                           placeholder="მისამართი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="senderAddress"
+                           value="{{selectedObject.senderContactPerson}} - {{selectedObject.senderPhone}}"
+                           placeholder="საკ. პირი">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+            <td>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>მიმღები</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="receiverName"
+                           value="{{selectedObject.receiverName}} - {{selectedObject.receiverIdentNumber}}"
+                           placeholder="მიმღები">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="receiverCity"
+                           value="{{selectedObject.receiverCity?.name}}"
+                           placeholder="ქალაქი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="receiverAddress"
+                           value="{{selectedObject.receiverAddress}}"
+                           placeholder="მისამართი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="receiverAddress"
+                           value="{{selectedObject.receiverContactPerson}} - {{selectedObject.receiverPhone}}"
+                           placeholder="საკ. პირი">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+            <td>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>გადახდის ადგილი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="paymentPlace"
+                           value="_"
+                           placeholder="საწყობი">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input type="text" matInput readonly name="paymentAddress"
+                           value="_"
+                           placeholder="მისამართი">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </td>
+          </tr>
+        </table>
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 50%">
+              <mat-card>
+                <mat-card-content>
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                      <th>სიგრძე</th>
+                      <th>სიგანე</th>
+                      <th>სიმაღლე</th>
+                      <th>მოც. წონა</th>
+                      <th>პლომბის #</th>
+                      <th>ყუთის #</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let dynamic of packages; let i = index;">
+                      <td>
+                        <input [(ngModel)]="dynamic.length" matInput readonly
+                               placeholder="სიგრძე" type="number"
+                               name="length{{i}}"/>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="dynamic.width" matInput readonly
+                               placeholder="სიგანე" type="number"
+                               name="width{{i}}"/>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="dynamic.height" matInput readonly
+                               placeholder="სიმაღლე" type="number"
+                               name="height{{i}}"/>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="dynamic.volumeWeight" matInput readonly placeholder="მოც.წონა"
+                               type="number" name="volumeWeight{{i}}"/>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="dynamic.plombNumber" readonly matInput placeholder="პლომბის #" type="text"
+                               name="plombNumber{{i}}"/>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="dynamic.boxNumber" readonly matInput placeholder="ყუთის #" type="text"
+                               name="boxNumber{{i}}"/>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </mat-card-content>
+              </mat-card>
+              <br>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>გზავნილი</mat-card-title>
+                  <br>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput placeholder="რაოდენობა" name="packagesLength" [ngModel]="packages?.length">
+                    </mat-form-field> &nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput style="display: none">
+                      <input *ngIf="selectedObject.paymentType === 1" matInput placeholder="გადახდ. ტიპი"
+                             name="paymentType"
+                             value="ინვოისი">
+                      <input *ngIf="selectedObject.paymentType === 2" matInput placeholder="გადახდ. ტიპი" value="ნაღდი"
+                             name="paymentType">
+                      <input *ngIf="selectedObject.paymentType === 3" matInput placeholder="გადახდ. ტიპი"
+                             name="paymentType"
+                             value="ბარათი">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput placeholder="წონა" [ngModel]="selectedObject.weight">
+                    </mat-form-field> &nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput placeholder="გზავ. ტიპი" value="{{selectedObject.service?.name}}">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput placeholder="ფასი" [ngModel]="selectedObject.totalPrice">
+                    </mat-form-field>&nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput placeholder="ტრანსპ. სახე" value="_">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput placeholder="ტრანსპორტირების ფასი" value="_">
+                    </mat-form-field>&nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput placeholder="მომხმარებელი" value="_">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput style="display: none">
+                      <input *ngIf="selectedObject.deliveryType === 1" matInput placeholder="ჩაბარების ტიპი"
+                             value="მიტანა მისამართზე">
+                      <input *ngIf="selectedObject.deliveryType === 2" matInput placeholder="ჩაბარების ტიპი"
+                             value="მიკითხვა">
+                    </mat-form-field>&nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput placeholder="გადაფუთვის ფასი" [ngModel]="selectedObject.gadafutvisPrice">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field>
+                      <input matInput placeholder="ჩაბარების ტიპი" value="{{selectedObject.route.name}}">
+                    </mat-form-field>&nbsp; &nbsp;
+                    <mat-form-field>
+                      <input matInput style="display: none">
+                      <input *ngIf="selectedObject.packageType === 1" matInput placeholder="პაკეტის ტიპი"
+                             value="ამანათი">
+                      <input *ngIf="selectedObject.packageType === 2" matInput placeholder="პაკეტის ტიპი"
+                             value="პაკეტი">
+                    </mat-form-field>
+                  </div>
+
+                </mat-card-content>
+              </mat-card>
+            </td>
+            <td style="width: 35%">
+              <mat-card>
+                <mat-card-content>
+                  <table style="width: 100%">
+                    <tr>
+                      <th>#</th>
+                      <th>სერვისი</th>
+                      <th>ფასი</th>
+                      <th>ტიპი</th>
+                    </tr>
+                  </table>
+                </mat-card-content>
+              </mat-card>
+              <br>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>სხვა</mat-card-title>
+                  <br>
+                  <textarea matInput rows="3" style="border-bottom: 1px solid" placeholder="კომენტარი"
+                            value="{{selectedObject.comment}}"></textarea><br><br><br>
+                  <textarea matInput rows="3" style="border-bottom: 1px solid" placeholder="შიგთავსი"
+                            value="{{selectedObject.content}}"></textarea>
+                </mat-card-content>
+              </mat-card>
+            </td>
+          </tr>
+        </table>
+      </mat-tab>
+      <mat-tab label="ჩექპოინტები">
+        <mat-card>
+          <mat-card-content>
+            <table class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>კოდი</th>
+                <th>კოდის განმარტება</th>
+                <th>ქვეკოდი</th>
+                <th>ქვეკოდის განმარტება</th>
+                <th>ავტორი</th>
+                <th>კომენტარი</th>
+                <th>კურიერი/მომხმარ.</th>
+                <th>საწყობი</th>
+                <th>თარიღი</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="topBottomBorder" *ngFor="let v of statusHistoryList; let i = index;">
+                <td> {{v.id}}</td>
+                <td> {{v.code}}</td>
+                <td> {{v.name}}</td>
+                <td> {{v.reasonCode}}</td>
+                <td> {{v.reason}}</td>
+                <td> {{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
+                <td> {{v.comment}}</td>
+                <td> {{v.courierUser?.name}}&nbsp;{{v.courierUser?.lastName}}</td>
+                <td>{{v.warehouse?.name}}</td>
+                <td>{{v.createdTime | date :'short'}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="დოკუმენტები">
+        <mat-card>
+          <mat-card-content>
+            <table class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>დასახელება</th>
+                <th>ავტორი</th>
+                <th>სკანირების საწყობი</th>
+                <th>თარიღი</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="topBottomBorder" *ngFor="let v of fileList;">
+                <td> {{v.id}}</td>
+                <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
+                <td>{{v.author?.name}}{{v.author?.lastName}}</td>
+                <td>{{v.warehouse?.name}}</td>
+                <td>{{v.createdTime | date :'short'}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="ტრეისინგი">
+
+        <mat-card>
+          <mat-card-content>
+            <table class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>საგანი</th>
+                <th>ადრესატი</th>
+                <th>ავტორი</th>
+                <th>მესიჯი</th>
+                <th>თარიღი</th>
+              </tr>
+              <tr>
+                <td colspan="6"></td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="topBottomBorder" *ngFor="let v of messageList;">
+                <td> {{v.id}}</td>
+                <td>{{v.subject}}</td>
+                <td>{{v.to?.abbreviature}}</td>
+                <td>{{v.from?.warehouse.abbreviature}}({{v.from?.name}} {{v.from?.lastName}})</td>
+                <td>{{v.comment}}</td>
+                <td>{{v.createdTime | date :'short'}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="ტომარა/ჩაბ. დეტალი"></mat-tab>
+      <mat-tab label="SMS შეტყობინებები"></mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

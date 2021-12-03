@@ -14,6 +14,8 @@ import {Service} from '../models/service';
 import {CompanyServicesService} from '../services/company-services.service';
 import {DoctypesService} from '../services/doctypes.service';
 import {DocType} from '../models/doc-type';
+import {ParcelStatusReason} from '../models/parcel-status-reason';
+import {ParcelStatusService} from '../services/parcel-status.service';
 
 @Component({
   selector: 'app-parcel-list',
@@ -95,11 +97,14 @@ export class ParcelListComponent implements AfterViewInit {
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(ParcelDC, {data: obj, maxWidth: '50%'});
+    const dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '50%'});
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
-        if (result.event === 'Delete') {
+        if (result.event === 'statusChange') {
+          console.log('changing parcels status');
+          this.update(result.data);
+        } else if (result.event === 'Delete') {
           this.delete(result.data);
         }
       }
@@ -118,11 +123,13 @@ export class ParcelDC implements OnInit {
   action: string;
   selectedObject: any;
   services!: Service[];
+  statuses!: ParcelStatusReason[];
   docTypes!: DocType[];
 
   constructor(public dialogRef: MatDialogRef<ParcelDC>,
               private companyServices: CompanyServicesService,
               private docTypeService: DoctypesService,
+              private statusService: ParcelStatusService,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: Parcel) {
     this.selectedObject = {...data};
@@ -168,5 +175,22 @@ export class ParcelDC implements OnInit {
           return observableOf([]);
         })
       ).subscribe(data => this.docTypes = data);
+
+    if (this.action === 'statusChange') {
+      merge()
+        .pipe(
+          startWith({}),
+          switchMap(() => {
+            return this.statusService.getAllStatusReasons();
+          }),
+          map(data => {
+            // @ts-ignore
+            return data.items;
+          }),
+          catchError(() => {
+            return observableOf([]);
+          })
+        ).subscribe(data => this.statuses = data);
+    }
   }
 }

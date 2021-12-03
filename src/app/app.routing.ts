@@ -20,6 +20,7 @@ import {TariffDetailsComponent} from './tariff-details/tariff-details.component'
 import {ParcelListComponent} from './parcel-list/parcel-list.component';
 import {ParcelFormComponent} from './parcel-form/parcel-form.component';
 import {DoctypesComponent} from './doctypes/doctypes.component';
+import {ParcelDetailsComponent} from './parcel-details/parcel-details.component';
 
 export const AppRoutes: Routes = [
   {
@@ -41,6 +42,11 @@ export const AppRoutes: Routes = [
       {
         path: 'parcel-form/:id',
         component: ParcelFormComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'parcel-details/:id',
+        component: ParcelDetailsComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -22,7 +22,17 @@
           </mat-form-field>
         </div>
       </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="number" matInput required id="price" name="price"
+                   [(ngModel)]="selectedObject.price"
+                   placeholder="ფასი">
+          </mat-form-field>
+        </div>
+      </div>
     </div>
+
     <div align="end">
       <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
               [disabled]="!userForm.valid"> შენახვა

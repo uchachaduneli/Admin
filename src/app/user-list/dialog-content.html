@@ -88,6 +88,16 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.warehouse.id" name="warehouse"
+                        placeholder="ფილიალი" aria-placeholder="ფილიალი" >
+              <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.route.id" name="route" id="route" placeholder="მარშრუტი"
                         aria-placeholder="მარშრუტი">
               <mat-option *ngFor="let r of routes" [value]="r.id">{{r.name}}</mat-option>
@@ -177,6 +187,16 @@
               <mat-select [(ngModel)]="selectedObject.city.id" disabled name="city" placeholder="ქალაქი"
                           aria-placeholder="ქალაქი" required (selectionChange)="onCitySelect($event.value)">
                 <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="100">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedObject.warehouse.id" disabled name="warehouse"
+                          placeholder="ფილიალი" aria-placeholder="ფილიალი" >
+                <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

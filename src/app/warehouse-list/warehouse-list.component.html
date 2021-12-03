@@ -24,6 +24,11 @@
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
               </ng-container>
 
+              <ng-container matColumnDef="abbreviature">
+                <th mat-header-cell *matHeaderCellDef> სახელი</th>
+                <td mat-cell *matCellDef="let element"> {{element.abbreviature}} </td>
+              </ng-container>
+
               <ng-container matColumnDef="city">
                 <th mat-header-cell *matHeaderCellDef>ქალაქი</th>
                 <td mat-cell *matCellDef="let element"> {{element.city.name}} </td>

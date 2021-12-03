@@ -136,3 +136,10 @@ $custom-typography: mat-typography-config(
     display: none !important;
   }
 }
+
+.topBottomBorder td{
+  padding: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  border-bottom-style: solid;
+  border-bottom-width: 1px
+}

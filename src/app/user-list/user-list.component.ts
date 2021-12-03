@@ -15,6 +15,8 @@ import {City} from '../models/city';
 import {CityService} from '../services/city.service';
 import {RouteService} from '../services/route.service';
 import {Route} from '../models/route';
+import {WarehouseService} from '../services/warehouse.service';
+import {Warehouse} from '../models/warehouse';
 
 @Component({
   selector: 'app-user-list',
@@ -125,13 +127,15 @@ export class UserDialogContent implements OnInit {
   cities: City [] = [];
   routes: Route [] = [];
   selectedRoles: string [] = [];
+  warehouseList: Warehouse [] = [];
 
   constructor(public dialogRef: MatDialogRef<UserDialogContent>,
               private roleSrvice: RoleService,
+              private warehouseService: WarehouseService,
               private cityService: CityService,
               private routeService: RouteService,
               // @Optional() is used to prevent error if no data is passed
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: User) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
     this.selectedObject.changePass = false;
@@ -153,6 +157,9 @@ export class UserDialogContent implements OnInit {
     }
     if (!this.selectedObject.route) {
       this.selectedObject.route = {};
+    }
+    if (!this.selectedObject.warehouse) {
+      this.selectedObject.warehouse = {};
     }
   }
 
@@ -187,6 +194,22 @@ export class UserDialogContent implements OnInit {
       })
     ).subscribe(data => {
       this.routes = data;
+    });
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.warehouseService.getByCityId(selectedCityId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.warehouseList = data;
     });
   }
 

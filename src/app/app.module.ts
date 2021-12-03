@@ -332,6 +332,9 @@ import {ParcelDC, ParcelListComponent} from './parcel-list/parcel-list.component
 import { ParcelFormComponent } from './parcel-form/parcel-form.component';
 import {DocTypeDC, DoctypesComponent} from './doctypes/doctypes.component';
 import {NgxBarcodeModule} from 'ngx-barcode';
+import { ParcelDetailsComponent } from './parcel-details/parcel-details.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 // tslint:disable-next-line:typedef
@@ -671,7 +674,10 @@ const icons = {
     TariffDetailsComponent,
     ParcelListComponent,
     ParcelFormComponent,
-    DoctypesComponent
+    DoctypesComponent,
+    ParcelDetailsComponent,
+    FileUploadComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     NgxBarcodeModule,

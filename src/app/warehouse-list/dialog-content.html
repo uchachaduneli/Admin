@@ -13,6 +13,15 @@
           </mat-form-field>
         </div>
       </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput required id="abbreviature" name="abbreviature"
+                   [(ngModel)]="selectedObject.abbreviature"
+                   placeholder="აბრევიატურა">
+          </mat-form-field>
+        </div>
+      </div>
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
@@ -52,11 +61,20 @@
           </mat-form-field>
         </div>
       </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="abbreviature"
+                   [(ngModel)]="selectedObject.abbreviature"
+                   placeholder="აბრევიატურა">
+          </mat-form-field>
+        </div>
+      </div>
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.city.id" disabled name="city" placeholder="ქალაქი"
-                        aria-placeholder="ქალაქი" required >
+                        aria-placeholder="ქალაქი" required>
               <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>

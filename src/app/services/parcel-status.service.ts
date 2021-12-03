@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ParcelStatus} from '../models/parcel-status';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
+import {ParcelStatusHistory} from '../models/parcel-status-history';
 
 export interface ParcelStatusBackendApi {
   items: ParcelStatus[];
@@ -46,6 +47,10 @@ export class ParcelStatusService {
 
   getByParcelStatusId(id: number): Observable<ParcelStatusReasonBackApi[]> {
     return this.httpClient.get<ParcelStatusReasonBackApi[]>(`${this.BaseUrl}/statusReason/${id}`);
+  }
+
+  getAllStatusReasons(): Observable<ParcelStatusReasonBackApi[]> {
+    return this.httpClient.get<ParcelStatusReasonBackApi[]>(`${this.BaseUrl}/statusReason`);
   }
 
   // tslint:disable-next-line:ban-types

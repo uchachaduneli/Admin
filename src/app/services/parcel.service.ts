@@ -7,6 +7,7 @@ import {Contact} from '../models/contact';
 import {VolumeWeightIndex} from '../models/volume-weight-index';
 import {Packages} from '../models/packages';
 import {ContactAddress} from '../models/contact-address';
+import {ParcelStatusHistory} from '../models/parcel-status-history';
 
 export interface ParcelBackendApi {
   items: Parcel[];
@@ -34,7 +35,7 @@ export class ParcelService {
 
   // tslint:disable-next-line:ban-types
   update(obj: Parcel): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+    return this.httpClient.put(`${this.BaseUrl}/${obj.id}`, obj);
   }
 
   // tslint:disable-next-line:ban-types
@@ -68,5 +69,9 @@ export class ParcelService {
 
   getByPackageId(id: number): Observable<Packages> {
     return this.httpClient.get<Packages>(`${this.BaseUrl}/package/${id}`);
+  }
+
+  getStatusHistoryByParceId(id: number): Observable<ParcelStatusHistory> {
+    return this.httpClient.get<ParcelStatusHistory>(`${this.BaseUrl}/statusHistory/${id}`);
   }
 }

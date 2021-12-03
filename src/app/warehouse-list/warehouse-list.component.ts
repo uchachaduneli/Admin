@@ -21,7 +21,7 @@ export class WarehouseListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Warehouse = {};
   data = new MatTableDataSource<WarehouseBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'city', 'updatedTime', 'createdTime', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'abbreviature',  'city', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -122,7 +122,7 @@ export class WarehouseDialogContent implements OnInit {
   constructor(public dialogRef: MatDialogRef<WarehouseDialogContent>,
               private cityService: CityService,
               // @Optional() is used to prevent error if no data is passed
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: Warehouse) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
     if (!this.selectedObject.city) {

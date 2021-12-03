@@ -1,6 +1,7 @@
 import {Contact} from './contact';
 import {ContactAddress} from './contact-address';
 import {City} from './city';
+import {Tariff} from './tariff';
 
 export class ContactDTO {
   contact: Contact = new Contact();

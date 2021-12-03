@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl} from '@angular/forms';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {CityService} from '../services/city.service';
@@ -23,6 +23,7 @@ import {Route} from '../models/route';
 import {RouteService} from '../services/route.service';
 import {MatStepper} from '@angular/material/stepper';
 import {ActivatedRoute, Router} from '@angular/router';
+import {TariffService} from '../services/tariff.service';
 
 @Component({
   selector: 'app-parcel-form',
@@ -73,7 +74,7 @@ export class ParcelFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private cityService: CityService, private utilService: UtilService,
               private contactService: ContactService, private companyServices: CompanyServicesService, private routeService: RouteService,
-              private contactAddressService: ContactAddressService, private service: ParcelService,
+              private contactAddressService: ContactAddressService, private service: ParcelService, private tarrifService: TariffService,
               private notifyService: NotificationService, private route: ActivatedRoute, private router: Router,
               private docTypeService: DoctypesService) {
   }
@@ -81,12 +82,6 @@ export class ParcelFormComponent implements OnInit {
   print(): void {
     // @ts-ignore
     const divElements = document.getElementById('printContent').innerHTML;
-    // const oldPage = document.body.innerHTML;
-    // document.body.innerHTML = '<html><head><title></title></head><body>' +
-    //   divElements + '</body>';
-    // window.print();
-    // document.body.innerHTML = oldPage;
-
     const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     // @ts-ignore
     popupWin.document.open();
@@ -207,7 +202,7 @@ export class ParcelFormComponent implements OnInit {
     } else if (!this.selectedObject.packageType) {
       this.notifyService.showError('გთხოვთ მიუთითეთ პაკეტის ტიპი', '');
       return false;
-    } else if (!this.selectedObject.parcelType.id) {
+    } else if (!this.selectedObject.service.id) {
       this.notifyService.showError('გთხოვთ მიუთითეთ გზავნილის ტიპი', '');
       return false;
     } else if (!this.selectedObject.route.id) {
@@ -223,6 +218,7 @@ export class ParcelFormComponent implements OnInit {
   save(): void {
     if (this.validateBeforeSave()) {
       // set senders data
+      this.selectedObject.senderId = this.senderContactDto.contact.id;
       this.selectedObject.senderName = this.senderContactDto.contact.name;
       this.selectedObject.senderIdentNumber = this.senderContactDto.contact.identNumber;
       this.selectedObject.senderAddress = this.senderAddressCtrl.value;
@@ -286,11 +282,7 @@ export class ParcelFormComponent implements OnInit {
           })
         ).subscribe(data => {
         console.log(data);
-        // @ts-ignore
-        this.selectedObject = data;
-        // if (!data && data.id > 0) {
-        //
-        // }
+        this.router.navigate(['parcels']);
       });
 
     } else {
@@ -364,7 +356,115 @@ export class ParcelFormComponent implements OnInit {
   }
 
   onContactSelect(selectedSenderContactId: number, senderReceiverPayer: number): void {// 1 Sender   2 Reseiver   3 Payer
-    //
+    // if(senderReceiverPayer == 1){
+    //   this.senderContactDto
+    // }
+  }
+
+  calculateTotalPrice(): void {
+    let calculatedWeight = 0;
+    // ამ if -ში წონის არჩევა ხდება. თუ წონა ან მოცულობითი ნალია და მეორე არაა იმის მიხედვით დათვლის ფასს
+    if ((!this.selectedObject.weight || this.selectedObject.weight === 0)
+      && (this.selectedObject.volumeWeight && this.selectedObject.volumeWeight > 0)) {
+      calculatedWeight = this.selectedObject.volumeWeight;
+    } else if ((!this.selectedObject.volumeWeight || this.selectedObject.volumeWeight === 0)
+      && (this.selectedObject.weight && this.selectedObject.weight > 0)) {
+      calculatedWeight = this.selectedObject.weight;
+      // თუ ორივე მოცემულია მაქსიმუმის მიხედვით
+    } else if ((this.selectedObject.weight && this.selectedObject.weight > 0)
+      && (this.selectedObject.volumeWeight && this.selectedObject.volumeWeight > 0)) {
+      // თუ ორივე მოცემულია და ერთმანეთის ტოლია რომელიმეს აიღებს
+      if (this.selectedObject.weight === this.selectedObject.volumeWeight) {
+        calculatedWeight = this.selectedObject.weight;
+      } else {
+        calculatedWeight = this.selectedObject.weight > this.selectedObject.volumeWeight ?
+          this.selectedObject.weight : this.selectedObject.volumeWeight;
+      }
+    } else {
+      console.log('Can not determine weight for calculating weight');
+    }
+    this.notifyService.showInfo('კალკულაცია ხდება ' + calculatedWeight + 'კგ -ზე', '');
+    // თუ დასეივებული კონტაქტია ბაზიდან წამოიღოს მიბმული ტარიფის აიდი
+    let senderContactId = 0;
+    if (this.selectedObject.senderId) {
+      senderContactId = this.selectedObject.senderId;
+    } else if (this.senderContactDto.contact.id) {
+      senderContactId = this.senderContactDto.contact.id;
+    }
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.contactService.getById(senderContactId);
+        }),
+        map(data => {
+          // @ts-ignore
+          return data;
+        }),
+        catchError(() => {
+          // კონტაქტი ვერ მოიძებნა, სტანდარტული ტარიფის წამოღება
+          console.log('კონტაქტი ვერ მოიძებნა, იწყება სტანდარტული ტარიფის წამოღება');
+          merge()
+            .pipe(
+              startWith({}),
+              switchMap(() => {
+                return this.tarrifService.getPriceFor(1, this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+              }),
+              map(data => {
+                // @ts-ignore
+                return data;
+              }),
+              catchError(() => {
+                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა');
+                this.notifyService.showError('მთლიანი ფასის დათვლა ვერ მოხერხდა! (ტარიფის დეტალები ვერ მოიძებნა)', '');
+                return observableOf([]);
+              })
+            ).subscribe(r => {
+            console.log('სტანდარტული ტარიფის წამოღება დასრულდა ტარიფი: ' + r);
+            r = r as number;
+            this.notifyService.showInfo('ტარიფი ' + r, '');
+            this.selectedObject.totalPrice = r * calculatedWeight;
+          });
+          return observableOf([]);
+        })
+      ).subscribe(c => {
+      // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
+      console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს');
+      c = c as Contact;
+      console.log(c);
+      if (c) {
+
+        this.senderContactDto.contact = c;
+        if (!this.senderContactDto.contact.tariff) {
+          this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
+          return;
+        } else {
+          console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
+          merge()
+            .pipe(
+              startWith({}),
+              switchMap(() => {
+                return this.tarrifService.getPriceFor(this.senderContactDto.contact.tariff.id,
+                  this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+              }),
+              map(data => {
+                // @ts-ignore
+                return data;
+              }),
+              catchError(() => {
+                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა');
+                this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
+                return observableOf([]);
+              })
+            ).subscribe(r => {
+            console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფი: ' + r);
+            r = r as number;
+            this.notifyService.showInfo('ტარიფი ' + r, '');
+            this.selectedObject.totalPrice = r * calculatedWeight;
+          });
+        }
+      }
+    });
   }
 
   onCityChange(cityId: number, senderReceiverPayer: number): void {// 1 Sender   2 Reseiver   3 Payer
@@ -556,7 +656,7 @@ export class ParcelFormComponent implements OnInit {
           } else {
 
             this.getParcelPackages(existinParcel.id);
-
+            console.log(existinParcel);
             this.selectedObject = existinParcel;
             this.senderContactDto.contact.name = this.selectedObject.senderName;
             this.senderContactDto.contact.identNumber = this.selectedObject.senderIdentNumber;

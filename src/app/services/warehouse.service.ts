@@ -29,7 +29,7 @@ export class WarehouseService {
   }
 
   update(obj: Warehouse): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+    return this.httpClient.put(`${this.BaseUrl}`, obj);
   }
 
   delete(id: number): Observable<Object> {
@@ -40,7 +40,7 @@ export class WarehouseService {
     return this.httpClient.get<Warehouse>(`${this.BaseUrl}/${id}`);
   }
 
-  getByCityId(id: number): Observable<Route[]> {
-    return this.httpClient.get<Route[]>(`${this.BaseUrl}/byCityId/${id}`);
+  getByCityId(id: number): Observable<Warehouse[]> {
+    return this.httpClient.get<Warehouse[]>(`${this.BaseUrl}/byCityId/${id}`);
   }
 }
