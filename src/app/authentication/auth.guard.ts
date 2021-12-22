@@ -1,32 +1,53 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
+import {TokenStorageService} from '../services/token-storage.service';
+import {NotificationService} from '../services/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
+    private router: Router, private notificationService: NotificationService,
+    private tokenStorageService: TokenStorageService,
+    private authService: AuthenticationService
   ) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const currentUser = this.authenticationService.currentUserValue;
-    if (currentUser) {
-      // check if route is restricted by role
-      // if (route.data.roles && route.data.roles.indexOf(currentUser.role) === -1) {
-      //   // role not authorised so redirect to home page
-      //   this.router.navigate(['/']);
-      //   return false;
-      // }
-      // authorised so return true
+    const token = this.tokenStorageService.getToken();
+    if (!token) {
+      this.notificationService.showError('Please Login', '');
+      return false;
+    } else if (this.authService.isTokenExpired()) {
+      this.authService.logout();
+      this.notificationService.showError('Token Expired Please Login', '');
+      return false;
+    } else {
       return true;
     }
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/login']);
-    // {queryParams: {returnUrl: state.url}});
-    return false;
   }
 }
+// export class AuthGuard implements CanLoad {
+//   constructor(
+//     private router: Router, private notificationService: NotificationService,
+//     private tokenStorageService: TokenStorageService,
+//     private authService: AuthenticationService
+//   ) {
+//   }
+//
+//     canLoad(): boolean {
+//     const token = this.tokenStorageService.getToken();
+//     if (!token) {
+//       this.notificationService.showError('Please Login', '');
+//       return false;
+//     } else if (this.authService.isTokenExpired()) {
+//       this.authService.logout();
+//       this.notificationService.showError('Token Expired Please Login', '');
+//       return false;
+//     } else {
+//       return true;
+//     }
+//   }
+// }

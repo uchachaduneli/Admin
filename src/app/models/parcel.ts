@@ -4,7 +4,6 @@ import {City} from './city';
 import {Route} from './route';
 import {User} from './user';
 import {ParcelStatusReason} from './parcel-status-reason';
-import {Tariff} from './tariff';
 
 export class Parcel {
   id!: number;

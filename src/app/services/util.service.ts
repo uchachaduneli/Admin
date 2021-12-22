@@ -29,7 +29,6 @@ export class UtilService {
         return [key, val].join('=');
       }
     });
-    console.log('pairs ' + pairs.join('&'));
     return pairs.join('&');
   }
 }

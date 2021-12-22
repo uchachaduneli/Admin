@@ -1,11 +1,12 @@
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItems} from '../../shared/menu-items/menu-items';
 
 
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {AuthenticationService} from '../../services/authentication.service';
+import {TokenStorageService} from '../../services/token-storage.service';
 
 /** @title Responsive sidenav */
 @Component({
@@ -13,7 +14,7 @@ import {AuthenticationService} from '../../services/authentication.service';
   templateUrl: 'full.component.html',
   styleUrls: []
 })
-export class FullComponent implements OnDestroy {
+export class FullComponent implements OnDestroy, OnInit {
   mobileQuery: MediaQueryList;
   dir = 'ltr';
   green = false;
@@ -28,12 +29,14 @@ export class FullComponent implements OnDestroy {
   sidebarOpened = false;
   status = false;
 
+  username?: string;
+
   public showSearch = false;
 
   public config: PerfectScrollbarConfigInterface = {};
   private _mobileQueryListener: () => void;
 
-  clickEvent() {
+  clickEvent(): void {
     this.status = !this.status;
   }
 
@@ -43,7 +46,8 @@ export class FullComponent implements OnDestroy {
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     public menuItems: MenuItems,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private tokenStorageService: TokenStorageService
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 1023px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -60,5 +64,15 @@ export class FullComponent implements OnDestroy {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  ngOnInit(): void {
+    this.authService.isLoggedIn.subscribe((isLoggedIn: any) => {
+      if (!isLoggedIn) {
+        this.router.navigateByUrl('/login');
+      } else {
+        this.username = this.tokenStorageService.getUser().name + ' ' + this.tokenStorageService.getUser().lastName;
+      }
+    });
   }
 }

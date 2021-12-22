@@ -67,6 +67,14 @@
       <!--      <ng-template #horizontalheader>-->
       <!--        <app-horizontal-header></app-horizontal-header>-->
       <!--      </ng-template>-->
+
+      <span fxFlex> <button class="ml-xs overflow-visible" mat-icon-button>
+        <mat-icon>person_outline</mat-icon>
+        <span>&nbsp;&nbsp;{{username}}</span>
+      </button>
+      </span>
+      <span fxFlex></span>
+
       <button (click)="logout()" class="ml-xs overflow-visible" mat-icon-button>
         <mat-icon>exit_to_app</mat-icon>
       </button>

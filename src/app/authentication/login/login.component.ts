@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit {
   public form: FormGroup = Object.create(null);
 
   constructor(private fb: FormBuilder, private router: Router,
-              private authService: AuthenticationService, private notifyService: NotificationService) {
+              private authService: AuthenticationService,
+              private notifyService: NotificationService) {
   }
 
   ngOnInit(): void {

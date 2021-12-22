@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
-import {Tariff} from '../models/tariff';
 import {MatTableDataSource} from '@angular/material/table';
-import {TariffBackendApi, TariffService} from '../services/tariff.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
@@ -16,6 +14,7 @@ import {DoctypesService} from '../services/doctypes.service';
 import {DocType} from '../models/doc-type';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
 import {ParcelStatusService} from '../services/parcel-status.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-parcel-list',
@@ -32,7 +31,7 @@ export class ParcelListComponent implements AfterViewInit {
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, private service: ParcelService,
+  constructor(public dialog: MatDialog, private service: ParcelService, private router: Router,
               private notifyService: NotificationService, private utilService: UtilService) {
   }
 
@@ -93,6 +92,10 @@ export class ParcelListComponent implements AfterViewInit {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
     });
+  }
+
+  redirectToDetailsPage(obj: Parcel): void {
+    this.router.navigate(['parcel-details/' + obj.id]);
   }
 
   openDialog(action: string, obj: any): void {

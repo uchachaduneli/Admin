@@ -423,7 +423,7 @@ export class ParcelFormComponent implements OnInit {
             console.log('სტანდარტული ტარიფის წამოღება დასრულდა ტარიფი: ' + r);
             r = r as number;
             this.notifyService.showInfo('ტარიფი ' + r, '');
-            this.selectedObject.totalPrice = r * calculatedWeight;
+            this.selectedObject.totalPrice = r;
           });
           return observableOf([]);
         })
@@ -460,7 +460,7 @@ export class ParcelFormComponent implements OnInit {
             console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფი: ' + r);
             r = r as number;
             this.notifyService.showInfo('ტარიფი ' + r, '');
-            this.selectedObject.totalPrice = r * calculatedWeight;
+            this.selectedObject.totalPrice = r;
           });
         }
       }
