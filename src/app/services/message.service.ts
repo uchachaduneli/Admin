@@ -16,11 +16,11 @@ export class MessageService {
   constructor(private httpClient: HttpClient) {
   }
 
-  create(obj: Route): Observable<Message> {
+  create(obj: Message): Observable<Message> {
     return this.httpClient.post<Message>(`${this.BaseUrl}`, obj);
   }
 
-  update(obj: Route): Observable<Object> {
+  update(obj: Message): Observable<Object> {
     return this.httpClient.post(`${this.BaseUrl}`, obj);
   }
 

@@ -7,6 +7,7 @@ import {MenuItems} from '../../shared/menu-items/menu-items';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {AuthenticationService} from '../../services/authentication.service';
 import {TokenStorageService} from '../../services/token-storage.service';
+import {User} from '../../models/user';
 
 /** @title Responsive sidenav */
 @Component({
@@ -29,7 +30,7 @@ export class FullComponent implements OnDestroy, OnInit {
   sidebarOpened = false;
   status = false;
 
-  username?: string;
+  currentUser!: User;
 
   public showSearch = false;
 
@@ -71,7 +72,7 @@ export class FullComponent implements OnDestroy, OnInit {
       if (!isLoggedIn) {
         this.router.navigateByUrl('/login');
       } else {
-        this.username = this.tokenStorageService.getUser().name + ' ' + this.tokenStorageService.getUser().lastName;
+        this.currentUser = this.tokenStorageService.getUser();
       }
     });
   }

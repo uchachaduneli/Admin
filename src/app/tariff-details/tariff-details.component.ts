@@ -11,6 +11,9 @@ import {ZoneService} from '../services/zone.service';
 import {UtilService} from '../services/util.service';
 import {TariffByZone} from '../models/tariff-by-zone';
 import * as _ from 'lodash';
+import {CompanyServicesService} from '../services/company-services.service';
+import {Service} from '../models/service';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-tariff-details',
@@ -23,9 +26,13 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   tariffDetails!: TariffDetail[];
   zones!: Zone[];
   tarifByZones: TariffByZone[] = [];
+  servicesList: Service[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private zoneService: ZoneService, private cdr: ChangeDetectorRef,
-              private service: TariffService, private notifyService: NotificationService, private utilService: UtilService) {
+  constructor(private route: ActivatedRoute, private router: Router,
+              private zoneService: ZoneService, private cdr: ChangeDetectorRef,
+              private service: TariffService, private services: CompanyServicesService,
+              private notifyService: NotificationService,
+              private utilService: UtilService) {
   }
 
   ngOnInit(): void {
@@ -43,7 +50,29 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
+    this.getServicesList();
+  }
 
+  handleTabChanges($event: MatTabChangeEvent): void {
+    console.log(this.servicesList[$event.index]);
+  }
+
+  getServicesList(): void {
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          // @ts-ignore
+          return this.services.getList(20, 0, '');
+        }),
+        map(data => {
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(() => {
+          return observableOf([]);
+        })
+      ).subscribe(data => this.servicesList = data);
   }
 
   addQuantity(): void {

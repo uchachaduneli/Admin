@@ -18,11 +18,11 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const token = this.tokenStorageService.getToken();
     if (!token) {
-      this.notificationService.showError('Please Login', '');
+      this.notificationService.showInfo('გთხოვთ გაიაროთ ავტორიზაცია', '');
       return false;
     } else if (this.authService.isTokenExpired()) {
       this.authService.logout();
-      this.notificationService.showError('Token Expired Please Login', '');
+      this.notificationService.showInfo('გთხოვთ გაიაროთ ავტორიზაცია', '');
       return false;
     } else {
       return true;

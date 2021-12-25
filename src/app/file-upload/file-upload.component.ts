@@ -7,6 +7,8 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {NotificationService} from '../services/notification.service';
 import {ConfirmDialogComponent, ConfirmDialogModel} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {TokenStorageService} from '../services/token-storage.service';
+import {User} from '../models/user';
 
 @Component({
   selector: 'app-file-upload',
@@ -22,10 +24,14 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
   @Input() showNewlyUploadedFilesUl!: boolean;
   @Input() showUploadedFilesTable!: boolean;
   fileList!: Files[];
+  currentUser!: User;
 
   fileInfos?: Observable<any>;
 
-  constructor(private notifyService: NotificationService, private uploadService: FileUploadService, private dialog: MatDialog) {
+  constructor(private notifyService: NotificationService,
+              private tokenStorageService: TokenStorageService,
+              private uploadService: FileUploadService,
+              private dialog: MatDialog) {
   }
 
   selectFile(event: any): void {
@@ -55,6 +61,7 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.fileInfos = this.uploadService.getFiles();
+    this.currentUser = this.tokenStorageService.getUser();
   }
 
   upload(): void {
@@ -66,7 +73,7 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
       if (file) {
         this.currentFile = file;
 
-        this.uploadService.upload(this.currentFile, this.parcelId).subscribe(
+        this.uploadService.upload(this.currentFile, this.parcelId, this.currentUser.id).subscribe(
           (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);

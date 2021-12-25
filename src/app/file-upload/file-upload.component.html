@@ -55,8 +55,8 @@
   <tr class="topBottomBorder" *ngFor="let v of fileList;">
     <td> {{v.id}}</td>
     <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
-    <td>{{v.author?.name}}{{v.author?.lastName}}</td>
-    <td>{{v.warehouse?.name}}</td>
+    <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
+    <td>{{v.author?.warehouse?.abbreviature}}</td>
     <td>{{v.createdTime | date :'short'}}</td>
     <td>
       <a (click)="confirmFileDeletion(v.name)" class="m-r-10 cursor-pointer">

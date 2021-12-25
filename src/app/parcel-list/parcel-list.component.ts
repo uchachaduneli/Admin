@@ -15,13 +15,15 @@ import {DocType} from '../models/doc-type';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
 import {ParcelStatusService} from '../services/parcel-status.service';
 import {Router} from '@angular/router';
+import {User} from '../models/user';
+import {TokenStorageService} from '../services/token-storage.service';
 
 @Component({
   selector: 'app-parcel-list',
   templateUrl: './parcel-list.component.html',
   styleUrls: ['./parcel-list.component.scss']
 })
-export class ParcelListComponent implements AfterViewInit {
+export class ParcelListComponent implements AfterViewInit, OnInit {
   // @ts-ignore
   srchObj: Parcel = {};
   data = new MatTableDataSource<ParcelBackendApi>();
@@ -30,9 +32,15 @@ export class ParcelListComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
+  currentUser!: User;
 
   constructor(public dialog: MatDialog, private service: ParcelService, private router: Router,
+              private tokenStorageService: TokenStorageService,
               private notifyService: NotificationService, private utilService: UtilService) {
+  }
+
+  ngOnInit(): void {
+    this.currentUser = this.tokenStorageService.getUser();
   }
 
   ngAfterViewInit(): void {
@@ -100,7 +108,12 @@ export class ParcelListComponent implements AfterViewInit {
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '50%'});
+    let dialogRef;
+    if (action === 'fileUpload') {
+      dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '80%'});
+    } else {
+      dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '50%'});
+    }
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {

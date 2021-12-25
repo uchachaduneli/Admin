@@ -21,29 +21,7 @@
     </div>
   </form>
   <form #userForm="ngForm" *ngIf="action == 'fileUpload'">
-
     <app-file-upload [showNewlyUploadedFilesUl]="false" [showUploadedFilesTable]="true" [parcelId]="selectedObject.id"></app-file-upload>
-
-<!--    <table class="table table-striped table-bordered">-->
-<!--      <tbody>-->
-<!--      <tr>-->
-<!--        <td>#</td>-->
-<!--        <td>დასახელება</td>-->
-<!--        <td>თარიღი</td>-->
-<!--        <td>action</td>-->
-<!--      </tr>-->
-<!--      <tr class="topBottomBorder" *ngFor="let v of fileList;">-->
-<!--        <td> {{v.id}}</td>-->
-<!--        <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>-->
-<!--        <td>{{v.createdTime | date :'short'}}</td>-->
-<!--        <td>-->
-<!--          <a (click)="confirmFileDeletion(v.name)" class="m-r-10 cursor-pointer">-->
-<!--            <mat-icon>delete_outline</mat-icon>-->
-<!--          </a>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
     <div align="end">
       <button mat-button (click)="closeDialog()">დახურვა</button>
     </div>

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     const val = this.form.value;
     if (val.uname && val.password) {
       this.authService.login(val.uname, val.password).subscribe(() => {
-        this.router.navigateByUrl('/users');
+        this.router.navigateByUrl('/parcels');
       }, error => {
         console.log(error);
         this.notifyService.showError('ავტორიზაცია ვერ მოხერხდა', '');

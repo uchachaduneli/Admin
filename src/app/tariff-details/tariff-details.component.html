@@ -1,3 +1,12 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
+      <mat-tab *ngFor="let serviceObj of servicesList" label="{{serviceObj.name}}">
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
 <mat-card>
   <mat-card-content>
     <mat-card-title>ტარიფი "{{mainObj.name}}" - ის ფასები ზონების მიხედვით</mat-card-title>

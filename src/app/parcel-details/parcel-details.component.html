@@ -337,8 +337,8 @@
               <tr class="topBottomBorder" *ngFor="let v of fileList;">
                 <td> {{v.id}}</td>
                 <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
-                <td>{{v.author?.name}}{{v.author?.lastName}}</td>
-                <td>{{v.warehouse?.name}}</td>
+                <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
+                <td>{{v.author?.warehouse?.abbreviature}}</td>
                 <td>{{v.createdTime | date :'short'}}</td>
               </tr>
               </tbody>
@@ -347,36 +347,67 @@
         </mat-card>
       </mat-tab>
       <mat-tab label="ტრეისინგი">
+        <form #tracingForm="ngForm">
+          <mat-card>
+            <mat-card-content>
+              <mat-form-field>
+                <input type="text" matInput required id="subject" name="subject"
+                       [(ngModel)]="selectedMessage.subject"
+                       placeholder="თემა">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select [(ngModel)]="selectedMessage.to" required name="to" placeholder="ადრესატი">
+                  <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select [(ngModel)]="selectedCCList" multiple name="cc" placeholder="CC">
+                  <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+              <textarea matInput required cols="5" rows="5" placeholder="მესიჯი" name="msg"
+                        [(ngModel)]="selectedMessage.msg"></textarea>
+              </mat-form-field>
+              <div align="end">
+                <button mat-button bg-success mat-flat-button color="warn" [disabled]="!tracingForm.valid"
+                        (click)="sendMsg()"> გაგზავნა
+                  <mat-icon>send</mat-icon>
+                </button>
+                <button mat-button (click)="clearMsg()">გასუფთავება
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
 
-        <mat-card>
-          <mat-card-content>
-            <table class="table table-striped table-bordered">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>საგანი</th>
-                <th>ადრესატი</th>
-                <th>ავტორი</th>
-                <th>მესიჯი</th>
-                <th>თარიღი</th>
-              </tr>
-              <tr>
-                <td colspan="6"></td>
-              </tr>
-              </thead>
-              <tbody>
-              <tr class="topBottomBorder" *ngFor="let v of messageList;">
-                <td> {{v.id}}</td>
-                <td>{{v.subject}}</td>
-                <td>{{v.to?.abbreviature}}</td>
-                <td>{{v.from?.warehouse.abbreviature}}({{v.from?.name}} {{v.from?.lastName}})</td>
-                <td>{{v.comment}}</td>
-                <td>{{v.createdTime | date :'short'}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </mat-card-content>
-        </mat-card>
+              <br><br><br>
+              <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>საგანი</th>
+                  <th>ადრესატი</th>
+                  <th>ავტორი</th>
+                  <th>მესიჯი</th>
+                  <th>თარიღი</th>
+                </tr>
+                <tr>
+                  <td colspan="6"></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="topBottomBorder" *ngFor="let v of messageList;">
+                  <td> {{v.id}}</td>
+                  <td>{{v.subject}}</td>
+                  <td>{{v.to?.abbreviature}}</td>
+                  <td>{{v.author?.warehouse.abbreviature}}({{v.author?.name}} {{v.author?.lastName}})</td>
+                  <td>{{v.msg}}</td>
+                  <td>{{v.createdTime | date :'short'}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </form>
       </mat-tab>
       <mat-tab label="ტომარა/ჩაბ. დეტალი"></mat-tab>
       <mat-tab label="SMS შეტყობინებები"></mat-tab>

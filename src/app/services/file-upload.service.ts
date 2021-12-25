@@ -13,7 +13,7 @@ export class FileUploadService {
   constructor(private http: HttpClient) {
   }
 
-  upload(file: File, parcelId: any, key?: string, value?: any): Observable<HttpEvent<any>> {
+  upload(file: File, parcelId: any, authorId: any, key?: string, value?: any): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     if (key) {
@@ -21,6 +21,9 @@ export class FileUploadService {
     }
     if (parcelId) {
       formData.append('parcelId', parcelId);
+    }
+    if (authorId) {
+      formData.append('authorId', authorId);
     }
     const req = new HttpRequest('POST', `${this.baseUrl}/upload`, formData, {
       reportProgress: true,

@@ -14,6 +14,8 @@ import {WarehouseService} from '../services/warehouse.service';
 import {Warehouse} from '../models/warehouse';
 import {Message} from '../models/message';
 import {MessageService} from '../services/message.service';
+import {User} from '../models/user';
+import {TokenStorageService} from '../services/token-storage.service';
 
 @Component({
   selector: 'app-parcel-details',
@@ -26,14 +28,18 @@ export class ParcelDetailsComponent implements OnInit {
   statusHistoryList!: ParcelStatusHistory[];
   fileList!: Files[];
   warehouseList!: Warehouse[];
+  selectedCCList!: Warehouse[];
   messageList: Message[] = [];
+  selectedMessage: Message = new Message();
+  currentUser!: User;
 
-  constructor(private notifyService: NotificationService, private route: ActivatedRoute,
+  constructor(private notifyService: NotificationService, private route: ActivatedRoute, private tokenStorageService: TokenStorageService,
               private warehouseService: WarehouseService, private messageService: MessageService,
               private router: Router, private service: ParcelService, private fileService: FileUploadService) {
   }
 
   ngOnInit(): void {
+    this.currentUser = this.tokenStorageService.getUser();
     this.route.params.subscribe(params => {
       if (params.id && params.id > 0) {
         this.service.getById(params.id).subscribe(existinParcel => {
@@ -42,10 +48,55 @@ export class ParcelDetailsComponent implements OnInit {
           } else {
             this.getParcelPackages(existinParcel.id);
             this.selectedObject = existinParcel;
+            this.getWarehouseList();
           }
         });
       }
     });
+  }
+
+  sendMsg(): void {
+    // @ts-ignore
+    this.selectedMessage.parcel = {id: this.selectedObject.id};
+    // @ts-ignore
+    this.selectedMessage.author = {id: this.currentUser.id};
+    this.selectedCCList.forEach(w => {
+      // @ts-ignore
+      this.selectedMessage.cc.push({cc: {id: w.id}});
+    });
+    console.log(this.selectedMessage);
+    this.messageService.create(this.selectedMessage).subscribe(() => {
+      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      this.getParcelMessages();
+      this.clearMsg();
+    }, error => {
+      this.notifyService.showError('ოპერაცია არ სრულდება', '');
+      console.log(error);
+    });
+  }
+
+  clearMsg(): void {
+    this.selectedMessage = new Message();
+    this.selectedCCList = [];
+  }
+
+  getWarehouseList(): void {
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          // @ts-ignore
+          return this.warehouseService.getList(1000, 0, '');
+        }),
+        map(data => {
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(a => {
+          console.log(a);
+          return observableOf([]);
+        })
+      ).subscribe(data => this.warehouseList = data);
   }
 
   getParcelMessages(): void {
@@ -73,26 +124,6 @@ export class ParcelDetailsComponent implements OnInit {
       // // @ts-ignore
       // this.displayedRows$ = rows$.pipe(sortRows(this.sortEvents$), paginateRows(this.pageEvents$));
     });
-  }
-
-  getWarehouseList(): void {
-    merge()
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          // @ts-ignore
-          return this.service.getList(1000, 0, null);
-        }),
-        map(data => {
-          // @ts-ignore
-          this.resultsLength = data.total_count;
-          // @ts-ignore
-          return data.items;
-        }),
-        catchError(() => {
-          return observableOf([]);
-        })
-      ).subscribe(data => this.warehouseList = data);
   }
 
   getParcelPackages(id: number): void {
