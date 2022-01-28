@@ -21,6 +21,7 @@ import {ParcelListComponent} from './parcel-list/parcel-list.component';
 import {ParcelFormComponent} from './parcel-form/parcel-form.component';
 import {DoctypesComponent} from './doctypes/doctypes.component';
 import {ParcelDetailsComponent} from './parcel-details/parcel-details.component';
+import {ExcelImportComponent} from './excel-import/excel-import.component';
 
 export const AppRoutes: Routes = [
   {
@@ -36,6 +37,12 @@ export const AppRoutes: Routes = [
       {
         path: 'parcels',
         component: ParcelListComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'excel-import',
+        component: ExcelImportComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
       },

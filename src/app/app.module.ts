@@ -335,6 +335,7 @@ import {NgxBarcodeModule} from 'ngx-barcode';
 import { ParcelDetailsComponent } from './parcel-details/parcel-details.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-import.component';
 
 
 // tslint:disable-next-line:typedef
@@ -651,6 +652,7 @@ const icons = {
     ContactAddressDialogContent,
     UserDialogContent,
     RouteDialogContent,
+    ExcelRowDialogContent,
     ServiceDialogContent,
     WarehouseDialogContent,
     ParcelDC,
@@ -677,7 +679,8 @@ const icons = {
     DoctypesComponent,
     ParcelDetailsComponent,
     FileUploadComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ExcelImportComponent
   ],
   imports: [
     NgxBarcodeModule,

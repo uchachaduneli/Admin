@@ -101,6 +101,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
+              "hidden": false,
               "namedChunks": true
             }
           }
