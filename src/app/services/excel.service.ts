@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import { ExcelTmpParcel } from '../models/ExcelTmpParcel';
+import {ExcelTmpParcel} from '../models/ExcelTmpParcel';
 import {ParcelBackendApi} from './parcel.service';
+import {Parcel} from '../models/parcel';
 
 export interface ExcelTmpParcelBackendApi {
   items: ExcelTmpParcel[];
@@ -42,4 +43,7 @@ export class ExcelService {
   }
 
 
+  moveToMainTable(id: number): Observable<Object> {
+    return this.httpClient.post(`${this.BaseUrl}/move-to-main?authorId=${id}`, null);
+  }
 }

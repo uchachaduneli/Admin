@@ -27,13 +27,13 @@
                      placeholder=" საიდენტიფიკაციო #" class="search-input">
             </mat-form-field>
           </div>
-          <div fxFlex="100" fxFlex.gt-md="10"> &nbsp;&nbsp;
+          <div fxFlex="100" fxFlex.gt-md="10" fxLayoutGap="5px" style="margin: auto;">
             <button mat-button bg-success mat-flat-button color="warn" (click)="searchContact()"
                     [disabled]="!excelImportForm.valid"> ძებნა
               <mat-icon>search</mat-icon>
             </button>
           </div>
-          <div fxFlex="100" fxFlex.gt-md="10">
+          <div fxFlex="100" fxFlex.gt-md="38" style="margin: auto;">
             <button mat-button (click)="clear()">გასუფთავება
               <mat-icon>close</mat-icon>
             </button>

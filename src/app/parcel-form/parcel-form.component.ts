@@ -644,7 +644,8 @@ export class ParcelFormComponent implements OnInit {
   }
 
   idToBarcode(): string[] {
-    return this.selectedObject.id ? this.selectedObject.id.toString().split('\n') : [];
+    // return this.selectedObject.id ? this.selectedObject.id.toString().split('\n') : [];
+    return this.selectedObject.barCode ? [this.selectedObject.barCode] : [];
   }
 
   ngOnInit(): void {

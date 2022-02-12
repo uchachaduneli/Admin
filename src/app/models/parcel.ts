@@ -7,6 +7,7 @@ import {ParcelStatusReason} from './parcel-status-reason';
 
 export class Parcel {
   id!: number;
+  barCode!: string;
   deleted!: number;
   status!: ParcelStatusReason;
   updatedTime!: string;

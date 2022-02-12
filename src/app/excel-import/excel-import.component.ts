@@ -33,7 +33,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'barCode', 'sender', 'receiverName',
     'receiverContactPerson', 'weight', 'totalPrice', 'action'];
   resultsLength = 0;
-  isLoadingResults = false;
+  isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
   currentUser!: User;
   // @ts-ignore
@@ -174,7 +174,18 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        alert('წავიდა გადატანაა');
+        this.service.moveToMainTable(this.currentUser.id).subscribe(res => {
+          this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+          this.getImportedDataFromDb();
+        }, error => {
+          if (error.error && error.error.includes('არსებობს')) {
+            this.notifyService.showError(error.error, '');
+          } else {
+            this.notifyService.showError('გადატანა ვერ მოხერხდა', '');
+          }
+          console.log(error);
+          this.isLoadingResults = false;
+        });
       }
     });
   }
@@ -184,7 +195,6 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          console.log('started');
           return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
         }),
         map(data => {

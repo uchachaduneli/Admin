@@ -27,7 +27,7 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
   // @ts-ignore
   srchObj: Parcel = {};
   data = new MatTableDataSource<ParcelBackendApi>();
-  displayedColumns: string[] = ['id', 'senderName', 'receiverName', 'payerName', 'weight', 'totalPrice', 'status', 'createdTime', 'action'];
+  displayedColumns: string[] = ['barCode', 'senderName', 'receiverName', 'payerName', 'weight', 'totalPrice', 'status', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
