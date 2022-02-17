@@ -4,7 +4,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
-import {ParcelStatusHistory} from '../models/parcel-status-history';
 
 export interface ParcelStatusBackendApi {
   items: ParcelStatus[];
@@ -66,5 +65,9 @@ export class ParcelStatusService {
   // tslint:disable-next-line:ban-types
   deleteReason(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.BaseUrl}/statusReason/${id}`);
+  }
+
+  getExcel(params: string): string {
+    return `${this.BaseUrl}/excel?${params}`;
   }
 }

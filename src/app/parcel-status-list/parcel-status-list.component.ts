@@ -21,8 +21,23 @@ export class ParcelStatusListComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
+  filter: ParcelStatus = new ParcelStatus();
 
   constructor(public dialog: MatDialog, private service: ParcelStatusService, private notifyService: NotificationService) {
+  }
+
+  downloadExcel(): void {
+    window.open(this.service.getExcel(this.generateQueryParams()), '_blank');
+  }
+
+  generateQueryParams(): string {
+    const params = new URLSearchParams();
+    // tslint:disable-next-line:forin
+    for (const key in this.filter) {
+      // @ts-ignore
+      params.set(key, this.filter[key]);
+    }
+    return params.toString();
   }
 
   ngAfterViewInit(): void {

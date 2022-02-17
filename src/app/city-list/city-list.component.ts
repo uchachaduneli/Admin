@@ -3,7 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
-import {merge, of as observableOf, pipe} from 'rxjs';
+import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {CityBackendApi, CityService} from '../services/city.service';
 import {City} from '../models/city';
@@ -24,6 +24,7 @@ export class CityListComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
+  filter: City = new City();
 
   constructor(public dialog: MatDialog, private service: CityService, private notifyService: NotificationService) {
   }
@@ -32,6 +33,20 @@ export class CityListComponent implements AfterViewInit {
     this.isLoadingResults = false;
     this.resultsLength = 0;
     this.getMainData();
+  }
+
+  downloadExcel(): void {
+    window.open(this.service.getExcel(this.generateQueryParams()), '_blank');
+  }
+
+  generateQueryParams(): string {
+    const params = new URLSearchParams();
+    // tslint:disable-next-line:forin
+    for (const key in this.filter) {
+      // @ts-ignore
+      params.set(key, this.filter[key]);
+    }
+    return params.toString();
   }
 
   getMainData(): void {

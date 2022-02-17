@@ -16,8 +16,10 @@
             </button>
           </div>
 
+          <a style="float: right; height: 70px;" title="Export To Excel" (click)="downloadExcel()" class="m-r-10 cursor-pointer">
+            <img style="height: 30px;" src="./assets/images/excel.png">
+          </a>
           <div class="example-table-container responsive-table">
-
             <table mat-table [dataSource]="data" class="example-table striped">
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef> #</th>

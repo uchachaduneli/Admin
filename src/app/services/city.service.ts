@@ -38,4 +38,8 @@ export class CityService {
   getById(id: number): Observable<City> {
     return this.httpClient.get<City>(`${this.BaseUrl}/${id}`);
   }
+
+  getExcel(params: string): string {
+    return `${this.BaseUrl}/excel?${params}`;
+  }
 }

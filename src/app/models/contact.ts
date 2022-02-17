@@ -1,5 +1,6 @@
 import {User} from './user';
 import {Tariff} from './tariff';
+import {ContactAddress} from './contact-address';
 
 export class Contact {
   id!: number;
@@ -15,5 +16,5 @@ export class Contact {
   tariff!: Tariff;
   updatedTime!: string;
   createdTime!: string;
-
+  mainAddress = new ContactAddress();
 }

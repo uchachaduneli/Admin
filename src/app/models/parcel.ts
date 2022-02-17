@@ -20,6 +20,7 @@ export class Parcel {
   senderAddress!: string;
   senderCity!: City;
   senderPhone!: string;
+  sendSmsToSender!: number;
 
   receiverName!: string;
   receiverIdentNumber!: string;
@@ -27,6 +28,7 @@ export class Parcel {
   receiverAddress!: string;
   receiverCity!: City;
   receiverPhone!: string;
+  sendSmsToReceiver!: number;
 
   payerSide!: number; // 1 sender  2 receiver  3 third person
   payerName!: string;

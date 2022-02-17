@@ -41,4 +41,8 @@ export class ContactService {
   getById(id: number): Observable<Contact> {
     return this.httpClient.get<Contact>(`${this.BaseUrl}/${id}`);
   }
+
+  getExcel(params: string): string {
+    return `${this.BaseUrl}/excel?${params}`;
+  }
 }

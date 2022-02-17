@@ -1,12 +1,12 @@
 import {Contact} from './contact';
 import {ContactAddress} from './contact-address';
 import {City} from './city';
-import {Tariff} from './tariff';
 
 export class ContactDTO {
   contact: Contact = new Contact();
   contactAddress: ContactAddress = new ContactAddress();
   payerSide!: number; // 1 sender 2 receiver 3 third side
+  sendSms: any = false;
 
   constructor() {
     this.contactAddress.city = new City();

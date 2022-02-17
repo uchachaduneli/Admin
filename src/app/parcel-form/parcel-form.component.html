@@ -484,6 +484,23 @@
                     </mat-form-field>
                   </div>
                 </div>
+                <div fxFlex="100" fxFlex.gt-md="100">
+                  <div fxFlex="100" fxFlex.gt-md="20">
+                    <div class="m-r-15 m-l-15">
+                      <mat-form-field>
+                        <input matInput type="text" name="senderContactPhone" placeholder=" საკონტაქტო ტელეფონი"
+                               [(ngModel)]="senderContactDto.contactAddress.contactPersonPhone">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxFlex="100" fxFlex.gt-md="20">
+                    <div class="m-r-15 m-l-15">
+                      <mat-slide-toggle name="senderSendSms" style="margin-top: 5px;"
+                                        [(ngModel)]="senderContactDto.sendSms">Send SMS
+                      </mat-slide-toggle>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
                 <!--                <button mat-button matStepperNext color="primary">-->
@@ -576,6 +593,23 @@
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="100">
+                  <div fxFlex="100" fxFlex.gt-md="20">
+                    <div class="m-r-15 m-l-15">
+                      <mat-form-field>
+                        <input matInput type="text" name="receiverContactPhone" placeholder=" საკონტაქტო ტელეფონი"
+                               [(ngModel)]="receiverContactDto.contactAddress.contactPersonPhone">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxFlex="100" fxFlex.gt-md="20">
+                    <div class="m-r-15 m-l-15">
+                      <mat-slide-toggle name="receiverSendSms" style="margin-top: 5px;"
+                                        [(ngModel)]="receiverContactDto.sendSms">Send SMS
+                      </mat-slide-toggle>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -798,7 +832,8 @@
                     <input matInput type="number" name="totalPrice"
                            [(ngModel)]="selectedObject.totalPrice" placeholder=" მთლიანი ფასი ">
                     <button mat-button matPrefix mat-stroked-button (click)="calculateTotalPrice()">
-                      <mat-icon>attach_money</mat-icon> კალკულაცია
+                      <mat-icon>attach_money</mat-icon>
+                      კალკულაცია
                     </button>
                   </mat-form-field>
                 </div>

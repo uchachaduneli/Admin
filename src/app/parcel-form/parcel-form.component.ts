@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -30,7 +30,7 @@ import {TariffService} from '../services/tariff.service';
   templateUrl: './parcel-form.component.html',
   styleUrls: ['./parcel-form.component.scss']
 })
-export class ParcelFormComponent implements OnInit {
+export class ParcelFormComponent implements AfterViewInit {
   cities!: City[];
   services!: Service[];
   routes!: Route[];
@@ -225,12 +225,15 @@ export class ParcelFormComponent implements OnInit {
       this.selectedObject.senderContactPerson = this.senderContactPersonCtrl.value;
       // @ts-ignore
       this.selectedObject.senderCity = {id: this.senderContactDto.contactAddress.city.id};
-
+      this.selectedObject.sendSmsToSender = this.senderContactDto.sendSms ? 1 : 2;
+      this.selectedObject.senderPhone = this.senderContactDto.contactAddress.contactPersonPhone;
       // set senders data
       this.selectedObject.receiverName = this.receiverContactDto.contact.name;
       this.selectedObject.receiverIdentNumber = this.receiverContactDto.contact.identNumber;
       this.selectedObject.receiverAddress = this.receiverAddressCtrl.value;
       this.selectedObject.receiverContactPerson = this.receiverContactPersonCtrl.value;
+      this.selectedObject.sendSmsToReceiver = this.receiverContactDto.sendSms ? 1 : 2;
+      this.selectedObject.receiverPhone = this.receiverContactDto.contactAddress.contactPersonPhone;
       // @ts-ignore
       this.selectedObject.receiverCity = {id: this.receiverContactDto.contactAddress.city.id};
 
@@ -261,6 +264,7 @@ export class ParcelFormComponent implements OnInit {
       // set parcel data
       this.selectedObject.count = this.packagesCount;
 
+      console.log('send to api ', this.selectedObject);
 
       merge()
         .pipe(
@@ -281,7 +285,6 @@ export class ParcelFormComponent implements OnInit {
             return observableOf([]);
           })
         ).subscribe(data => {
-        console.log(data);
         this.router.navigate(['parcels']);
       });
 
@@ -648,7 +651,7 @@ export class ParcelFormComponent implements OnInit {
     return this.selectedObject.barCode ? [this.selectedObject.barCode] : [];
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       if (params.id && params.id > 0) {
         this.service.getById(params.id).subscribe(existinParcel => {
@@ -659,17 +662,22 @@ export class ParcelFormComponent implements OnInit {
             this.getParcelPackages(existinParcel.id);
             console.log(existinParcel);
             this.selectedObject = existinParcel;
+            // set senders data
             this.senderContactDto.contact.name = this.selectedObject.senderName;
             this.senderContactDto.contact.identNumber = this.selectedObject.senderIdentNumber;
             this.senderAddressCtrl.setValue(this.selectedObject.senderAddress);
             this.senderContactPersonCtrl.setValue(this.selectedObject.senderContactPerson);
             this.senderContactDto.contactAddress.city = this.selectedObject.senderCity;
-            // set senders data
+            this.senderContactDto.sendSms = this.selectedObject.sendSmsToSender === 1 ? true : false;
+            this.senderContactDto.contactAddress.contactPersonPhone = this.selectedObject.senderPhone;
+            // set receiver data
             this.receiverContactDto.contact.name = this.selectedObject.receiverName;
             this.receiverContactDto.contact.identNumber = this.selectedObject.receiverIdentNumber;
             this.receiverAddressCtrl.setValue(this.selectedObject.receiverAddress);
             this.receiverContactPersonCtrl.setValue(this.selectedObject.receiverContactPerson);
             this.receiverContactDto.contactAddress.city = this.selectedObject.receiverCity;
+            this.receiverContactDto.sendSms = this.selectedObject.sendSmsToReceiver === 1 ? true : false;
+            this.receiverContactDto.contactAddress.contactPersonPhone = this.selectedObject.receiverPhone;
             // set payer data
             this.payerContactDto.contact.name = this.selectedObject.payerName;
             this.payerContactDto.contact.identNumber = this.selectedObject.payerIdentNumber;
@@ -678,6 +686,7 @@ export class ParcelFormComponent implements OnInit {
             this.payerContactDto.contactAddress.city = this.selectedObject.payerCity;
             // set common data
             this.packagesCount = this.selectedObject.count;
+            console.log('Set data from db to senderDto ', this.senderContactDto);
           }
         });
       }
@@ -750,6 +759,4 @@ export class ParcelFormComponent implements OnInit {
       this.cities = data;
     });
   }
-
-
 }

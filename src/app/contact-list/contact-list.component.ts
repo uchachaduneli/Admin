@@ -14,6 +14,7 @@ import {UtilService} from '../services/util.service';
 import {Tariff} from '../models/tariff';
 import {TariffByZone} from '../models/tariff-by-zone';
 import {TariffService} from '../services/tariff.service';
+import {City} from '../models/city';
 
 
 @Component({
@@ -30,11 +31,26 @@ export class ContactListComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
+  filter: Contact = new Contact();
 
   tariffs!: TariffByZone[];
 
   constructor(public dialog: MatDialog, private service: ContactService, private utilService: UtilService,
               private addressService: ContactAddressService, private notifyService: NotificationService) {
+  }
+
+  downloadExcel(): void {
+    window.open(this.service.getExcel(this.generateQueryParams()), '_blank');
+  }
+
+  generateQueryParams(): string {
+    const params = new URLSearchParams();
+    // tslint:disable-next-line:forin
+    for (const key in this.filter) {
+      // @ts-ignore
+      params.set(key, this.filter[key]);
+    }
+    return params.toString();
   }
 
   ngAfterViewInit(): void {
