@@ -1,9 +1,9 @@
 import {Service} from './service';
-import {DocType} from './doc-type';
 import {City} from './city';
 import {Route} from './route';
 import {User} from './user';
 import {ParcelStatusReason} from './parcel-status-reason';
+import {Packages} from './packages';
 
 export class Parcel {
   id!: number;
@@ -49,7 +49,6 @@ export class Parcel {
   paymentType!: number; // 1 invoice, 2 cash, 3 card
   // parcelType: Service = new Service();
   packageType!: number;  // 1 amanati, 2 paketi
-  sticker: DocType = new DocType();
   route: Route = new Route();
   courier: User = new User();
   service: Service = new Service();

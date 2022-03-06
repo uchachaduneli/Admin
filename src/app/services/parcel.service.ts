@@ -3,10 +3,8 @@ import {Parcel} from '../models/parcel';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Contact} from '../models/contact';
 import {VolumeWeightIndex} from '../models/volume-weight-index';
 import {Packages} from '../models/packages';
-import {ContactAddress} from '../models/contact-address';
 import {ParcelStatusHistory} from '../models/parcel-status-history';
 
 export interface ParcelBackendApi {
@@ -46,6 +44,10 @@ export class ParcelService {
   // tslint:disable-next-line:ban-types
   getById(id: number): Observable<Parcel> {
     return this.httpClient.get<Parcel>(`${this.BaseUrl}/${id}`);
+  }
+
+  getWithPackagesWhereIdIn(ides: string): Observable<Parcel> {
+    return this.httpClient.get<Parcel>(`${this.BaseUrl}/byIdesIn?ides=${ides}`);
   }
 
   getVolumeWeightIndex(): Observable<VolumeWeightIndex> {

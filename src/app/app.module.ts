@@ -329,13 +329,14 @@ import {ParcelStatusReasonDC, ParcelStatusReasonsComponent} from './parcel-statu
 import {TariffDialogContent, TariffListComponent} from './tariff-list/tariff-list.component';
 import { TariffDetailsComponent } from './tariff-details/tariff-details.component';
 import {ParcelDC, ParcelListComponent} from './parcel-list/parcel-list.component';
-import { ParcelFormComponent } from './parcel-form/parcel-form.component';
+import {ParcelFormComponent, ParcelFormPrintDialogContent} from './parcel-form/parcel-form.component';
 import {DocTypeDC, DoctypesComponent} from './doctypes/doctypes.component';
 import {NgxBarcodeModule} from 'ngx-barcode';
 import { ParcelDetailsComponent } from './parcel-details/parcel-details.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-import.component';
+import { PrintComponent } from './print/print.component';
 
 
 // tslint:disable-next-line:typedef
@@ -655,6 +656,7 @@ const icons = {
     ExcelRowDialogContent,
     ServiceDialogContent,
     WarehouseDialogContent,
+    ParcelFormPrintDialogContent,
     ParcelDC,
     DocTypeDC,
     ParcelStatusDialogContent,
@@ -680,7 +682,8 @@ const icons = {
     ParcelDetailsComponent,
     FileUploadComponent,
     ConfirmDialogComponent,
-    ExcelImportComponent
+    ExcelImportComponent,
+    PrintComponent
   ],
   imports: [
     NgxBarcodeModule,

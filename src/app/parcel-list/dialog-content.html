@@ -17,11 +17,20 @@
       <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
               [disabled]="!userForm.valid"> შენახვა
       </button>
-      <button mat-button (click)="closeDialog()">დახურვა</button>
+      <button mat-button (click)="closeDialog()"> დახურვა</button>
     </div>
   </form>
+  <div *ngIf="action === 'Print'"><br><br>
+    <div fxLayout="row wrap" class="align-items-center">
+      <app-print [parcelId]="selectedObject.id" style="width: 100%;"></app-print>
+    </div>
+<!--    <div align="end">-->
+<!--      <button mat-button (click)="closeDialog()">დახურვა</button>-->
+<!--    </div>-->
+  </div>
   <form #userForm="ngForm" *ngIf="action == 'fileUpload'">
-    <app-file-upload [showNewlyUploadedFilesUl]="false" [showUploadedFilesTable]="true" [parcelId]="selectedObject.id"></app-file-upload>
+    <app-file-upload [showNewlyUploadedFilesUl]="false" [showUploadedFilesTable]="true"
+                     [parcelId]="selectedObject.id"></app-file-upload>
     <div align="end">
       <button mat-button (click)="closeDialog()">დახურვა</button>
     </div>

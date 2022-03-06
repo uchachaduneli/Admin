@@ -102,6 +102,18 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
     });
   }
 
+  printStiker(): void {
+    // @ts-ignore
+    const stickerDivElements = document.getElementById('printStickerContent').innerHTML;
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    // @ts-ignore
+    popupWin.document.open();
+    // @ts-ignore
+    popupWin.document.write(`<html><head><style>body { -webkit-print-color-adjust: exact !important; }</style></head><body onload="window.print();window.close()">${stickerDivElements}</body></html>`);
+    // @ts-ignore
+    popupWin.document.close();
+  }
+
   redirectToDetailsPage(obj: Parcel): void {
     this.router.navigate(['parcel-details/' + obj.id]);
   }
@@ -111,6 +123,8 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
     let dialogRef;
     if (action === 'fileUpload') {
       dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '80%'});
+    } else if (action === 'Print') {
+      dialogRef = this.dialog.open(ParcelDC, {data: obj});
     } else {
       dialogRef = this.dialog.open(ParcelDC, {data: obj, width: '50%'});
     }
@@ -122,6 +136,9 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
           this.update(result.data);
         } else if (result.event === 'Delete') {
           this.delete(result.data);
+        } else if (result.event === 'Print') {
+          // result.data.printStikerOrZednadebi - 1 print sticker, 2 print zednadebi
+          console.log('printCopiesCount ', result.data);
         }
       }
     });
@@ -135,12 +152,15 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
 })
 
 // tslint:disable-next-line:component-class-suffix
-export class ParcelDC implements OnInit {
+export class ParcelDC implements AfterViewInit {
   action: string;
   selectedObject: any;
   services!: Service[];
   statuses!: ParcelStatusReason[];
   docTypes!: DocType[];
+
+  printStikerOrZednadebi = 1; // 1 print sticker, 2 print zednadebi
+  printCopiesCount = 1;
 
   constructor(public dialogRef: MatDialogRef<ParcelDC>,
               private companyServices: CompanyServicesService,
@@ -156,11 +176,27 @@ export class ParcelDC implements OnInit {
     this.dialogRef.close({event: this.action, data: this.selectedObject});
   }
 
+  printAction(): void {
+    this.dialogRef.close({
+      event: this.action,
+      data: {
+        selectedObject: this.selectedObject,
+        printStikerOrZednadebi: this.printStikerOrZednadebi,
+        printCopiesCount: this.printCopiesCount
+      }
+    });
+    this.printStikerOrZednadebi = 1;
+    this.printCopiesCount = 1;
+  }
+
   closeDialog(): void {
     this.dialogRef.close({event: 'Cancel'});
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    if (this.action === 'Print') {
+      return;
+    }
     merge()
       .pipe(
         startWith({}),

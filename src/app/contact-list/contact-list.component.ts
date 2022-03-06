@@ -3,18 +3,15 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotificationService} from '../services/notification.service';
-import {merge, of as observableOf, pipe} from 'rxjs';
+import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {ContactBackendApi, ContactService} from '../services/contact.service';
 import {Contact} from '../models/contact';
-import {ContactAddress} from '../models/contact-address';
 import {ContactAddressService} from '../services/contact-address.service';
-import {User} from '../models/user';
 import {UtilService} from '../services/util.service';
 import {Tariff} from '../models/tariff';
 import {TariffByZone} from '../models/tariff-by-zone';
 import {TariffService} from '../services/tariff.service';
-import {City} from '../models/city';
 
 
 @Component({
@@ -97,7 +94,7 @@ export class ContactListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }

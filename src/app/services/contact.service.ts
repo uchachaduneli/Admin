@@ -30,7 +30,7 @@ export class ContactService {
 
   // tslint:disable-next-line:ban-types
   update(obj: Contact): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+    return this.httpClient.put(`${this.BaseUrl}`, obj);
   }
 
   // tslint:disable-next-line:ban-types

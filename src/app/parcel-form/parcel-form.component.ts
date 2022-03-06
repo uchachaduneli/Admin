@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, Inject, Optional} from '@angular/core';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -24,6 +24,10 @@ import {RouteService} from '../services/route.service';
 import {MatStepper} from '@angular/material/stepper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TariffService} from '../services/tariff.service';
+import {User} from '../models/user';
+import {TokenStorageService} from '../services/token-storage.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ExcelTmpParcel} from '../models/ExcelTmpParcel';
 
 @Component({
   selector: 'app-parcel-form',
@@ -47,55 +51,41 @@ export class ParcelFormComponent implements AfterViewInit {
   receiverAddresses: ContactAddress[] = [];
   senderContactPersons: ContactAddress[] = [];
   receiverContactPersons: ContactAddress[] = [];
-  // @ts-ignore
-  filteredSenderAddresses: Observable<ContactAddress[]>;
-  // @ts-ignore
-  filteredSenderContactPersons: Observable<ContactAddress[]>;
-  // @ts-ignore
-  filteredSenderContacts: Observable<ContactAddress[]>;
-  // @ts-ignore
-  filteredReceiverAddresses: Observable<ContactAddress[]>;
-  // @ts-ignore
-  filteredReceiverContactPersons: Observable<ContactAddress[]>;
-  // @ts-ignore
+  filteredSenderAddresses!: Observable<ContactAddress[]>;
+  filteredSenderContactPersons!: Observable<ContactAddress[]>;
+  filteredSenderContacts!: Observable<ContactAddress[]>;
+  filteredReceiverAddresses!: Observable<ContactAddress[]>;
+  filteredReceiverContactPersons!: Observable<ContactAddress[]>;
   senderAddressCtrl: FormControl = new FormControl();
-  // @ts-ignore
   senderContactPersonCtrl: FormControl = new FormControl();
-  // @ts-ignore
   receiverContactPersonCtrl: FormControl = new FormControl();
-  // @ts-ignore
   receiverAddressCtrl: FormControl = new FormControl();
-
   dynamicArray: Array<Packages> = [];
-
   slctedVolumeWeightIndex: VolumeWeightIndex = new VolumeWeightIndex();
-
   packagesCount!: number;
+  currentUser!: User;
 
   constructor(private formBuilder: FormBuilder, private cityService: CityService, private utilService: UtilService,
-              private contactService: ContactService, private companyServices: CompanyServicesService, private routeService: RouteService,
-              private contactAddressService: ContactAddressService, private service: ParcelService, private tarrifService: TariffService,
+              public dialog: MatDialog,
+              private contactService: ContactService, private companyServices: CompanyServicesService,
+              private routeService: RouteService,
+              private contactAddressService: ContactAddressService, private service: ParcelService,
+              private tarrifService: TariffService,
               private notifyService: NotificationService, private route: ActivatedRoute, private router: Router,
+              private tokenStorageService: TokenStorageService,
               private docTypeService: DoctypesService) {
   }
 
-  print(): void {
-    // @ts-ignore
-    const divElements = document.getElementById('printContent').innerHTML;
-    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    // @ts-ignore
-    popupWin.document.open();
-    // @ts-ignore
-    popupWin.document.write(`<html><head><style>body { -webkit-print-color-adjust: exact !important; }</style></head><body onload="window.print();window.close()">${divElements}</body></html>`);
-    // @ts-ignore
-    popupWin.document.close();
+  showPrintDlg(): void {
+    this.openDialog('Print', this.selectedObject);
   }
 
   validateNextStep(i: number, stepper: MatStepper): void {
     if (i === 1) {
-      if (!this.senderContactDto.contact.id && !this.senderContactDto.contact.identNumber) {
-        this.notifyService.showError('გთხოვთ მიუთითეთ გამგზავნის შესახებ ინფორმაცია', '');
-      } else if (!this.senderContactDto.contactAddress.city.id) {
+      // if (!this.senderContactDto.contact.id) {
+      //   this.notifyService.showError('გთხოვთ მიუთითეთ გამგზავნის შესახებ ინფორმაცია', '');
+      // } else
+      if (!this.senderContactDto.contactAddress.city.id) {
         this.notifyService.showError('გთხოვთ მიუთითეთ ქალაქი გამგზავნის ბლოკში', '');
       } else if (this.senderAddressCtrl.value === null || this.senderAddressCtrl.value.length < 1) {
         this.notifyService.showError('გთხოვთ მიუთითეთ მისამართი გამგზავნის ბლოკში', '');
@@ -105,9 +95,10 @@ export class ParcelFormComponent implements AfterViewInit {
         stepper.next();
       }
     } else if (i === 2) {
-      if (!this.receiverContactDto.contact.id && !this.receiverContactDto.contact.identNumber) {
-        this.notifyService.showError('გთხოვთ მიუთითეთ მიმღების შესახებ ინფორმაცია', '');
-      } else if (!this.receiverContactDto.contactAddress.city.id) {
+      // if (!this.receiverContactDto.contact.id && !this.receiverContactDto.contact.identNumber) {
+      //   this.notifyService.showError('გთხოვთ მიუთითეთ მიმღების შესახებ ინფორმაცია', '');
+      // } else
+      if (!this.receiverContactDto.contactAddress.city.id) {
         this.notifyService.showError('გთხოვთ მიუთითეთ ქალაქი მიმღების ბლოკში', '');
       } else if (this.receiverAddressCtrl.value === null || this.receiverAddressCtrl.value.length < 1) {
         this.notifyService.showError('გთხოვთ მიუთითეთ მისამართი მიმღების ბლოკში', '');
@@ -140,10 +131,11 @@ export class ParcelFormComponent implements AfterViewInit {
 
   validateBeforeSave(): boolean {
     // sender
-    if (!this.senderContactDto.contact.id && !this.senderContactDto.contact.identNumber) {
-      this.notifyService.showError('გთხოვთ მიუთითეთ გამგზავნის შესახებ ინფორმაცია', '');
-      return false;
-    } else if (!this.senderContactDto.contactAddress.city.id) {
+    // if (!this.senderContactDto.contact.id && !this.senderContactDto.contact.identNumber) {
+    //   this.notifyService.showError('გთხოვთ მიუთითეთ გამგზავნის შესახებ ინფორმაცია', '');
+    //   return false;
+    // } else
+    if (!this.senderContactDto.contactAddress.city.id) {
       this.notifyService.showError('გთხოვთ მიუთითეთ ქალაქი გამგზავნის ბლოკში', '');
       return false;
     } else if (this.senderAddressCtrl.value === null || this.senderAddressCtrl.value.length < 1) {
@@ -154,10 +146,11 @@ export class ParcelFormComponent implements AfterViewInit {
       return false;
     }
     // receiver
-    if (!this.receiverContactDto.contact.id && !this.receiverContactDto.contact.identNumber) {
-      this.notifyService.showError('გთხოვთ მიუთითეთ მიმღების შესახებ ინფორმაცია', '');
-      return false;
-    } else if (!this.receiverContactDto.contactAddress.city.id) {
+    // if (!this.receiverContactDto.contact.id && !this.receiverContactDto.contact.identNumber) {
+    //   this.notifyService.showError('გთხოვთ მიუთითეთ მიმღების შესახებ ინფორმაცია', '');
+    //   return false;
+    // } else
+    if (!this.receiverContactDto.contactAddress.city.id) {
       this.notifyService.showError('გთხოვთ მიუთითეთ ქალაქი მიმღების ბლოკში', '');
       return false;
     } else if (this.receiverAddressCtrl.value === null || this.receiverAddressCtrl.value.length < 1) {
@@ -190,9 +183,9 @@ export class ParcelFormComponent implements AfterViewInit {
     } else if (!this.selectedObject.weight || this.selectedObject.weight === 0) {
       this.notifyService.showError('გთხოვთ მიუთითეთ ამანათის წონა', '');
       return false;
-    } else if (!this.selectedObject.gadafutvisPrice) {
-      this.notifyService.showError('გთხოვთ მიუთითეთ გადაფუთვის ფასი', '');
-      return false;
+      // } else if (!this.selectedObject.gadafutvisPrice) {
+      //   this.notifyService.showError('გთხოვთ მიუთითეთ გადაფუთვის ფასი', '');
+      //   return false;
     } else if (!this.selectedObject.deliveryType) {
       this.notifyService.showError('გთხოვთ მიუთითეთ ჩაბარების ტიპი', '');
       return false;
@@ -208,14 +201,12 @@ export class ParcelFormComponent implements AfterViewInit {
     } else if (!this.selectedObject.route.id) {
       this.notifyService.showError('გთხოვთ მიუთითეთ მარშრუტი', '');
       return false;
-    } else if (!this.selectedObject.sticker.id) {
-      this.notifyService.showError('გთხოვთ მიუთითეთ სტიკერი', '');
-      return false;
     }
     return true;
   }
 
-  save(): void {
+  save(moveAndPrint: boolean, moveAndNotifyCouriers: boolean): void {
+
     if (this.validateBeforeSave()) {
       // set senders data
       this.selectedObject.senderId = this.senderContactDto.contact.id;
@@ -263,8 +254,11 @@ export class ParcelFormComponent implements AfterViewInit {
 
       // set parcel data
       this.selectedObject.count = this.packagesCount;
+      // @ts-ignore
+      this.selectedObject.author = {id: this.currentUser.id};
 
-      console.log('send to api ', this.selectedObject);
+      // console.log('senderDto ', this.senderContactDto);
+      // console.log('send to api ', this.selectedObject);
 
       merge()
         .pipe(
@@ -274,8 +268,12 @@ export class ParcelFormComponent implements AfterViewInit {
           }),
           map(data => {
             this.notifyService.showSuccess('ამანათის ინფორმაცია შენახულია', '');
+            if (moveAndPrint) {
+              this.openDialog('Print', this.selectedObject);
+            }
             // @ts-ignore
             this.saveParcelPackages(data.id);
+            // this.router.navigate(['parcels']);
             // @ts-ignore
             return data;
           }),
@@ -285,12 +283,17 @@ export class ParcelFormComponent implements AfterViewInit {
             return observableOf([]);
           })
         ).subscribe(data => {
-        this.router.navigate(['parcels']);
       });
-
     } else {
       console.log('fields validation failed During Saving Parcel');
     }
+  }
+
+  openDialog(action: string, obj: any): void {
+    obj.action = action;
+    const dialogRef = this.dialog.open(ParcelFormPrintDialogContent, {
+      data: obj
+    });
   }
 
   saveParcelPackages(id: number): void {
@@ -299,8 +302,6 @@ export class ParcelFormComponent implements AfterViewInit {
       e.parcel = {id};
     });
     this.service.createPackages(this.dynamicArray).subscribe(res => {
-      console.log('saved Packages ');
-      console.log(res);
     }, error => {
       this.notifyService.showError('ამანათის პაკეტების შენახვისას დაფიქსირდა შეცდომა', '');
       console.log(error);
@@ -652,6 +653,7 @@ export class ParcelFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.currentUser = this.tokenStorageService.getUser();
     this.route.params.subscribe(params => {
       if (params.id && params.id > 0) {
         this.service.getById(params.id).subscribe(existinParcel => {
@@ -660,7 +662,7 @@ export class ParcelFormComponent implements AfterViewInit {
           } else {
 
             this.getParcelPackages(existinParcel.id);
-            console.log(existinParcel);
+            // console.log(existinParcel);
             this.selectedObject = existinParcel;
             // set senders data
             this.senderContactDto.contact.name = this.selectedObject.senderName;
@@ -686,7 +688,7 @@ export class ParcelFormComponent implements AfterViewInit {
             this.payerContactDto.contactAddress.city = this.selectedObject.payerCity;
             // set common data
             this.packagesCount = this.selectedObject.count;
-            console.log('Set data from db to senderDto ', this.senderContactDto);
+            // console.log('Set data from db to senderDto ', this.senderContactDto);
           }
         });
       }
@@ -758,5 +760,31 @@ export class ParcelFormComponent implements AfterViewInit {
     ).subscribe(data => {
       this.cities = data;
     });
+  }
+}
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'dialog-content',
+  templateUrl: 'dialog-content.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class ParcelFormPrintDialogContent {
+  action: string;
+  selectedObject: any;
+
+  constructor(public dialogRef: MatDialogRef<ParcelFormPrintDialogContent>,
+              // @Optional() is used to prevent error if no data is passed
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: ExcelTmpParcel) {
+    this.selectedObject = {...data};
+    this.action = this.selectedObject.action;
+  }
+
+  doAction(): void {
+    this.dialogRef.close({event: this.action, data: this.selectedObject});
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({event: 'Cancel'});
   }
 }

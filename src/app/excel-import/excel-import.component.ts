@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
-import {merge, of as observableOf} from 'rxjs';
+import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {Contact} from '../models/contact';
 import {UtilService} from '../services/util.service';
@@ -19,6 +19,14 @@ import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {FileUploadService} from '../services/file-upload.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ConfirmDialogComponent, ConfirmDialogModel} from '../confirm-dialog/confirm-dialog.component';
+import {ContactAddressService} from '../services/contact-address.service';
+import {City} from '../models/city';
+import {CityService} from '../services/city.service';
+import {FormControl} from '@angular/forms';
+import {ContactAddress} from '../models/contact-address';
+import {CompanyServicesService} from '../services/company-services.service';
+import {Service} from '../models/service';
+import {Parcel} from '../models/parcel';
 
 @Component({
   selector: 'app-excel-import',
@@ -40,12 +48,29 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
   foundedSenderContact: Contact = new Contact();
   stikersList!: DocType[];
   routes!: Route[];
-  stickerId!: number;
   routeId!: number;
+  serviceId!: number;
+  copiesCount!: number;
   identNumber!: string;
+  importedIdes!: string;
   selectedFiles?: FileList;
   currentFile?: File;
   progress = 0;
+  cities!: City[];
+  servicesList!: Service[];
+  cityId!: number;
+  contactPersonControl = new FormControl();
+  contactPhoneControl = new FormControl();
+  contactAddressControl = new FormControl();
+
+  contactPersonOptions!: string[];
+  contactAddressOptions!: string[];
+  contactPhoneOptions!: string[];
+
+  contactPersonFilteredOptions!: Observable<string[]>;
+  contactPhoneFilteredOptions!: Observable<string[]>;
+  contactAddressFilteredOptions!: Observable<string[]>;
+  foundedContactAddresses!: ContactAddress[];
 
   constructor(private utilService: UtilService,
               private contactService: ContactService,
@@ -55,7 +80,139 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
               private uploadService: FileUploadService,
               private tokenStorageService: TokenStorageService,
               public dialog: MatDialog,
+              private cityService: CityService,
+              private services: CompanyServicesService,
+              private contactAddressService: ContactAddressService,
               private docTypeService: DoctypesService) {
+  }
+
+  ngAfterViewInit(): void {
+    this.getImportedDataFromDb();
+    this.getCitiesList();
+    this.getServicesList();
+  }
+
+  private refreshAutoCompleteFilters(): void {
+    this.contactAddressFilteredOptions = this.contactAddressControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 1))
+      );
+    this.contactPersonFilteredOptions = this.contactPersonControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 2))
+      );
+    this.contactPhoneFilteredOptions = this.contactPhoneControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 3))
+      );
+  }
+
+  // addrssOrPersOrPhone - 1 filter addresses / 2 filter Persons / 3 filter Phones
+  private _filter(value: string, addrssOrPersOrPhone: number): string[] {
+    const filterValue = value.toLowerCase();
+    if (addrssOrPersOrPhone === 1) {
+      return this.contactAddressOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else if (addrssOrPersOrPhone === 2) {
+      return this.contactPersonOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else if (addrssOrPersOrPhone === 3) {
+      return this.contactPhoneOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else {
+      return [];
+    }
+  }
+
+  onAddressSelect(addr: string): void {
+    const filteredContact = this.foundedContactAddresses.filter(o => (o.street + ' ' + o.appartmentDetails) === addr)[0];
+    if (filteredContact) {
+      this.contactPersonControl.setValue(filteredContact.contactPerson);
+      this.contactPhoneControl.setValue(filteredContact.contactPersonPhone);
+    }
+  }
+
+  downloadExcel(): void {
+    window.open(this.service.getExcel(this.currentUser.id), '_blank');
+  }
+
+  onCityChange(cityId: number): void {
+    // console.log(this.generateQueryParams({
+    //   city: {id: cityId},
+    //   contact: {id: this.foundedSenderContact.id}
+    // }));
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          // @ts-ignore
+          return this.contactAddressService.getList(1000, 0, `city.id=${cityId}&contact.id=${this.foundedSenderContact.id}`);
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          return observableOf([]);
+        })
+      ).subscribe(data => {
+      this.foundedContactAddresses = data;
+      this.contactPersonOptions = [];
+      this.contactAddressOptions = [];
+      this.contactPhoneOptions = [];
+      // @ts-ignore
+      data.forEach(contAddr => {
+        this.contactAddressOptions.push(contAddr.street + ' ' + contAddr.appartmentDetails);
+        this.contactPersonOptions.push(contAddr.contactPerson);
+        this.contactPhoneOptions.push(contAddr.contactPersonPhone);
+      });
+      console.log(this.contactAddressOptions);
+      console.log(this.contactPersonOptions);
+      console.log(this.contactPhoneOptions);
+      this.contactPersonControl = new FormControl();
+      this.contactPhoneControl = new FormControl();
+      this.contactAddressControl = new FormControl();
+      this.refreshAutoCompleteFilters();
+    });
+  }
+
+  getCitiesList(): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.cityService.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.cities = data;
+    });
+  }
+
+  getServicesList(): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.services.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.servicesList = data;
+    });
   }
 
   openDialog(action: string, obj: any): void {
@@ -78,10 +235,6 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.getImportedDataFromDb();
   }
 
   ngOnInit(): void {
@@ -120,7 +273,6 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
   clear(): void {
     this.foundedSenderContact = new Contact();
     this.routeId = 0;
-    this.stickerId = 0;
   }
 
   selectFile(event: any): void {
@@ -138,7 +290,9 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
       if (file) {
         this.currentFile = file;
         this.service.upload(this.currentFile, this.foundedSenderContact.id,
-          this.routeId, this.stickerId, this.currentUser.id).subscribe(
+          this.routeId, this.currentUser.id, this.cityId,
+          this.contactAddressControl.value, this.contactPersonControl.value,
+          this.contactPhoneControl.value, this.serviceId).subscribe(
           (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
@@ -165,7 +319,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
     }
   }
 
-  moveToMainTable(): void {
+  moveToMainTable(moveAndPrint: boolean, moveAndNotifyCouriers: boolean): void {
     const dialogData = new ConfirmDialogModel('დაადასტურეთ ოპერაცია', 'შეიმპორტებული ჩანაწერების ძირითად ცხრილში გადატანა');
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '400px',
@@ -174,18 +328,31 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.service.moveToMainTable(this.currentUser.id).subscribe(res => {
-          this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-          this.getImportedDataFromDb();
-        }, error => {
-          if (error.error && error.error.includes('არსებობს')) {
-            this.notifyService.showError(error.error, '');
-          } else {
-            this.notifyService.showError('გადატანა ვერ მოხერხდა', '');
-          }
-          console.log(error);
-          this.isLoadingResults = false;
-        });
+        if (dialogResult.event === 'Print') {
+          // result.data.printStikerOrZednadebi - 1 print sticker, 2 print zednadebi
+          console.log('printCopiesCount ', dialogResult.data);
+        } else {
+          this.service.moveToMainTable(this.currentUser.id).subscribe(res => {
+            this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+            // concatenate ides for printing case
+            console.log('res', res);
+            this.importedIdes = (res as Array<Parcel>).map((x) => x.id).join(',');
+            console.log('ides - ', this.importedIdes);
+            console.log('res', res);
+            if (moveAndPrint) {
+              this.openDialog('Print', {importedIdes: this.importedIdes});
+            }
+            this.getImportedDataFromDb();
+          }, error => {
+            if (error.error && error.error.includes('არსებობს')) {
+              this.notifyService.showError(error.error, '');
+            } else {
+              this.notifyService.showError('გადატანა ვერ მოხერხდა', '');
+            }
+            console.log(error);
+            this.isLoadingResults = false;
+          });
+        }
       }
     });
   }
@@ -246,19 +413,21 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
 
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'dialog-content',
+  selector: 'app-excel-print',
   templateUrl: 'excel-row-dlg.html',
 })
 // tslint:disable-next-line: component-class-suffix
 export class ExcelRowDialogContent {
   action: string;
   selectedObject: any;
+  importedIdes: string;
 
   constructor(public dialogRef: MatDialogRef<ExcelRowDialogContent>,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: ExcelTmpParcel) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
+    this.importedIdes = this.selectedObject.importedIdes;
   }
 
   doAction(): void {

@@ -1,0 +1,10 @@
+<mat-dialog-content class="pb-3">
+  <div *ngIf="action === 'Print'"><br><br>
+    <div fxLayout="row wrap" class="align-items-center">
+      <app-print [parcelId]="selectedObject.id" style="width: 100%;"></app-print>
+    </div>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </div>
+</mat-dialog-content>

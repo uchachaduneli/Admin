@@ -3,8 +3,6 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {ExcelTmpParcel} from '../models/ExcelTmpParcel';
-import {ParcelBackendApi} from './parcel.service';
-import {Parcel} from '../models/parcel';
 
 export interface ExcelTmpParcelBackendApi {
   items: ExcelTmpParcel[];
@@ -28,13 +26,19 @@ export class ExcelService {
     return this.httpClient.delete(`${this.BaseUrl}/${id}`);
   }
 
-  upload(file: File, senderId: any, routeId: any, stikerId: any, authorId: any): Observable<HttpEvent<any>> {
+  upload(file: File, senderId: any, routeId: any,
+         authorId: any, cityId: any,
+         address: any, contactPerson: any, contactPhone: any, serviceId: any): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('senderId', senderId);
     formData.append('routeId', routeId);
-    formData.append('stikerId', stikerId);
     formData.append('authorId', authorId);
+    formData.append('cityId', cityId);
+    formData.append('address', address);
+    formData.append('contactPerson', contactPerson);
+    formData.append('contactPhone', contactPhone);
+    formData.append('serviceId', serviceId);
     const req = new HttpRequest('POST', `${this.BaseUrl}/import`, formData, {
       reportProgress: true,
       responseType: 'json'
@@ -45,5 +49,9 @@ export class ExcelService {
 
   moveToMainTable(id: number): Observable<Object> {
     return this.httpClient.post(`${this.BaseUrl}/move-to-main?authorId=${id}`, null);
+  }
+
+  getExcel(userId: number): string {
+    return `${this.BaseUrl}/excel?userId=${userId}`;
   }
 }

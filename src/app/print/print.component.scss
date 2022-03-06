@@ -1,0 +1,10 @@
+#printsCountInputId::-webkit-outer-spin-button,
+#printsCountInputId::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+#printsCountInputId {
+  -moz-appearance: textfield;
+}

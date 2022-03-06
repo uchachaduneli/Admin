@@ -32,13 +32,26 @@
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="100">
-        <div class="m-r-15 m-l-15">
-          <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.tariff.id" name="tariff"
-                        placeholder="ტარიფი" aria-placeholder="ტარიფი" required>
-              <mat-option *ngFor="let c of tariffs" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedObject.tariff.id" name="tariff"
+                          placeholder="ტარიფი" aria-placeholder="ტარიფი" required>
+                <mat-option *ngFor="let c of tariffs" [value]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedObject.status" name="status"
+                          placeholder="სტატუსი" aria-placeholder="სტატუსი" required>
+                <mat-option [value]="1">აქტიური</mat-option>
+                <mat-option [value]="2">პასიური</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
@@ -58,7 +71,8 @@
             <mat-radio-button [value]="2"> არა</mat-radio-button>
           </mat-radio-group>
         </div>
-      </div><br><br>
+      </div>
+      <br><br>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-radio-group aria-label="კონტრაქტი" id="hasContract" name="hasContract"
@@ -132,6 +146,7 @@
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="100">
+      <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.tariff.id" disabled name="tariff"
@@ -139,6 +154,18 @@
               <mat-option *ngFor="let c of tariffs" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedObject.status" name="status" required
+                          placeholder="სტატუსი" aria-placeholder="სტატუსი" disabled>
+                <mat-option [value]="1">აქტიური</mat-option>
+                <mat-option [value]="2">პასიური</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="100">
@@ -179,7 +206,8 @@
               <mat-radio-button [value]="2"> არა</mat-radio-button>
             </mat-radio-group>
           </div>
-        </div><br><br>
+        </div>
+        <br><br>
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-radio-group aria-label="კონტრაქტი" disabled name="hasContract"

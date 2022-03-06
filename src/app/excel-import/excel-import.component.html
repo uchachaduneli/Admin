@@ -28,8 +28,7 @@
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.gt-md="10" fxLayoutGap="5px" style="margin: auto;">
-            <button mat-button bg-success mat-flat-button color="warn" (click)="searchContact()"
-                    [disabled]="!excelImportForm.valid"> ძებნა
+            <button mat-button bg-success mat-flat-button color="warn" (click)="searchContact()"> ძებნა
               <mat-icon>search</mat-icon>
             </button>
           </div>
@@ -39,19 +38,87 @@
             </button>
           </div>
         </div>
+        <div fxLayout="row wrap" class="align-items-center">
+          <div fxFlex="100" fxFlex.gt-md="30">
+            <mat-form-field>
+              <mat-select name="services" [(ngModel)]="serviceId" placeholder="სერვისი"
+                          aria-placeholder="სერვისი" required>
+                <mat-option *ngFor="let c of servicesList" [value]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="4"></div>
+          <div fxFlex="100" fxFlex.gt-md="30">
+            <mat-form-field>
+              <mat-select [(ngModel)]="cityId" name="senderContactCity"
+                          placeholder="ქალაქი" (selectionChange)="onCityChange($event.value)"
+                          aria-placeholder="ქალაქი" required>
+                <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="4"></div>
+          <div fxFlex="100" fxFlex.gt-md="32">
+            <mat-form-field>
+              <mat-select [(ngModel)]="routeId" name="route" required
+                          placeholder="მარშრუტი" aria-placeholder="მარშრუტი">
+                <mat-option *ngFor="let c of routes" [value]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
         <mat-form-field>
-          <mat-select name="sticker" [(ngModel)]="stickerId" placeholder="სტიკერი"
-                      aria-placeholder="სტიკერი">
-            <mat-option *ngFor="let c of stikersList" [value]="c.id">{{c.name}}</mat-option>
-          </mat-select>
+          <input type="text" placeholder="მისამართი" aria-label="მისამართი" name="contactAddress"
+                 required matInput [formControl]="contactAddressControl" [matAutocomplete]="contactAddressAuto">
+          <mat-autocomplete #contactAddressAuto="matAutocomplete">
+            <mat-option *ngFor="let option of contactAddressFilteredOptions | async" [value]="option"
+                        (onSelectionChange)="onAddressSelect(option)">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-        <mat-form-field>
-          <mat-select [(ngModel)]="routeId" name="route"
-                      placeholder="მარშრუტი" aria-placeholder="მარშრუტი">
-            <mat-option *ngFor="let c of routes" [value]="c.id">{{c.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="foundedSenderContact && foundedSenderContact.id > 0 && routeId > 0 && stickerId > 0">
+
+        <div fxLayout="row wrap" class="align-items-center">
+          <div fxFlex="100" fxFlex.gt-md="48">
+            <mat-form-field>
+              <input type="text" placeholder="საკონტაქტო პირი" aria-label="საკონტაქტო პირი" name="contactPerson"
+                     required matInput [formControl]="contactPersonControl" [matAutocomplete]="contactPersonAuto">
+              <mat-autocomplete #contactPersonAuto="matAutocomplete">
+                <mat-option *ngFor="let option of contactPersonFilteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="4"></div>
+          <div fxFlex="100" fxFlex.gt-md="48">
+            <mat-form-field>
+              <input type="text" placeholder="ტელეფონი" aria-label="ტელეფონი" name="contactPhone"
+                     required matInput [formControl]="contactPhoneControl" [matAutocomplete]="contactPhoneAuto">
+              <mat-autocomplete #contactPhoneAuto="matAutocomplete">
+                <mat-option *ngFor="let option of contactPhoneFilteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!--        <div fxLayout="row wrap" class="align-items-center">-->
+        <!--          <div fxFlex="100" fxFlex.gt-md="48">-->
+        <!--            <mat-form-field>-->
+        <!--              <mat-select name="sticker" [(ngModel)]="stickerId" placeholder="სტიკერი"-->
+        <!--                          aria-placeholder="სტიკერი" required>-->
+        <!--                <mat-option *ngFor="let c of stikersList" [value]="c.id">{{c.name}}</mat-option>-->
+        <!--              </mat-select>-->
+        <!--            </mat-form-field>-->
+        <!--          </div>-->
+        <!--          -->
+        <!--        </div>-->
+
+
+        <div *ngIf="foundedSenderContact && foundedSenderContact.id > 0 && routeId > 0">
           <div fxLayout="row wrap" class="align-items-center">
             <input type="file" style="display: none;"
                    (change)="selectFile($event)" #fileUpload>
@@ -73,16 +140,39 @@
           </div>
         </div>
       </form>
-      <button mat-button bg-primary mat-flat-button color="warn" (click)="moveToMainTable()"
-              [disabled]="resultsLength === 0"> ძირითადში გადატანა
-        <mat-icon>playlist_add_check</mat-icon>
-      </button>
+      <br><br>
+      <div fxLayout="row wrap" class="align-items-center">
+        <div fxFlex="100" fxFlex.gt-md="10">
+          <button mat-button bg-primary mat-flat-button color="warn" (click)="moveToMainTable(false, false)"
+                  [disabled]="resultsLength === 0"> გადატანა
+            <mat-icon>playlist_add_check</mat-icon>
+          </button>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="20">
+          <button mat-button bg-primary mat-flat-button color="warn" (click)="moveToMainTable(false, true)"
+                  [disabled]="resultsLength === 0"> გადატანა & კურიერთან გაგზავნა
+            <mat-icon>directions_bike</mat-icon>
+          </button>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="15">
+          <button mat-button bg-primary mat-flat-button color="primary" (click)="moveToMainTable(true, false)"
+                  [disabled]="resultsLength === 0"> გადატანა & ბეჭდვა
+            <mat-icon>local_printshop</mat-icon>
+          </button>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="55"></div>
+      </div>
       <br>
       <mat-header-row></mat-header-row>
       <div class="example-loading-shade" *ngIf="isLoadingResults">
         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
       </div>
       <div class="example-container m-t-20">
+
+        <a style="float: right; height: 70px;" *ngIf="resultsLength != 0" title="Export To Excel"
+           (click)="downloadExcel()" class="m-r-10 cursor-pointer">
+          <img style="height: 30px;" src="./assets/images/excel.png">
+        </a>
         <div class="example-table-container responsive-table">
           <table mat-table [dataSource]="data" class="example-table striped">
 
@@ -108,7 +198,8 @@
 
             <ng-container matColumnDef="receiverContactPerson">
               <th mat-header-cell *matHeaderCellDef>საკონტაქტო პირი</th>
-              <td mat-cell *matCellDef="let element"> {{element.receiverContactPerson}} ({{element.receiverPhone}})</td>
+              <td mat-cell *matCellDef="let element"> {{element.receiverContactPerson}} ({{element.receiverPhone}})
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="weight">

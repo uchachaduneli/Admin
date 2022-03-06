@@ -3,6 +3,17 @@
 }
 
 
-.mat-form-field-prefix, .mat-form-field-suffix{
+.mat-form-field-prefix, .mat-form-field-suffix {
   padding-right: 30px !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input {
+  -moz-appearance: textfield;
 }
