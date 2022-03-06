@@ -1,6 +1,6 @@
 <div align="middle"><h3>ბეჭდვა</h3></div><br><br>
 <div fxLayout="row wrap" class="align-items-center">
-<!--  <div fxFlex="100" fxFlex.gt-md="{{!excelImportedPrint? '50':'100'}}">-->
+  <!--  <div fxFlex="100" fxFlex.gt-md="{{!excelImportedPrint? '50':'100'}}">-->
   <div fxFlex="100" fxFlex.gt-md="100">
     <div class="m-r-15 m-l-15">
       <mat-form-field>
@@ -12,7 +12,7 @@
   <div fxFlex="100" fxFlex.gt-md="100">
     <div class="m-r-15 m-l-15">
       <mat-radio-group aria-label="ბეჭდვის ტიპი" name="stikerOrZednadebi"
-                       *ngIf="!excelImportedPrint"   [(ngModel)]="printStikerOrZednadebi">
+                       *ngIf="!excelImportedPrint" [(ngModel)]="printStikerOrZednadebi">
         <mat-label> ტიპი &nbsp;</mat-label>
         <mat-radio-button [value]="1"> სტიკერი &nbsp;</mat-radio-button>
         <mat-radio-button [value]="2"> ზედნადები</mat-radio-button>
@@ -368,50 +368,26 @@
         <tr style="font-weight: bold">
           <td style="width: 1000px; font-size: 14px; ">{{selectedObject.senderCity?.name}}</td>
           <td style="font-size: 22px;width: 480px; text-align: center;"> {{selectedObject.receiverCity?.name}}</td>
-          <td style="width: 1000px; font-size: 14px; text-align: right; border-left: 2px solid black;">{{c + 1}} /
-            &nbsp;
+          <td style="width: 1000px; font-size: 14px; text-align: right; border-left: 2px solid black;">{{c + 1}} /  &nbsp;
             &nbsp; {{copiesCount}}</td>
         </tr>
         <tr>
           <td colspan="3"><br></td>
         </tr>
         <tr>
-          <td colspan="3" style="border-top: 4px solid black"></td>
+          <td colspan="3" style="border-top: 3px; border-style: groove none none none"></td>
         </tr>
         <tr>
           <td colspan="3" style="font-weight: bold"><br>&nbsp;{{selectedObject.senderIdentNumber}}
-            / {{selectedObject.senderName}}<br><br><br></td>
+            / {{selectedObject.senderName}}<br><br></td>
         </tr>
         <tr>
           <td colspan="3">&nbsp;{{selectedObject.senderAddress}}<br>&nbsp;{{selectedObject.senderPhone}}
             <br>&nbsp;{{selectedObject.senderContactPerson}}<br></td>
         </tr>
         <tr>
-          <td colspan="3" style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold">
-            &nbsp;{{selectedObject.senderCity?.name}}</td>
-        </tr>
-        <tr>
-          <td>&nbsp;{{selectedObject.service?.name}}</td>
-          <td style="text-align: center">PAC ???</td>
-          <td style="text-align: right; padding-right: 10px">
-            {{selectedObject.paymentType === 1 ? 'გადარიცხვა' : (selectedObject.paymentType === 2 ? 'ნაღდი' : selectedObject.paymentType === 3 ? 'ბარათი' : '')}}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">&nbsp;{{selectedObject.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
-          <td style="text-align: right; padding-right: 10px">BUSR ???</td>
-        </tr>
-        <tr>
-          <td colspan="3" style="border-bottom: 4px solid black;"></td>
-        </tr>
-        <tr>
-          <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold">
-            &nbsp;{{selectedObject.service?.name}}</td>
-          <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold; text-align: center">
-            DOM% ???
-          </td>
-          <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold; text-align: right">
-            {{selectedObject.receiverIdentNumber}}&nbsp;{{selectedObject.receiverContactPerson}}</td>
+          <td colspan="3" style="border: 3px; border-style:none none groove none; font-size: 16px; font-weight: bold">
+            &nbsp;{{selectedObject.senderCity?.name}}<br></td>
         </tr>
         <tr>
           <td colspan="3" style="font-weight: bold"><br>&nbsp;{{selectedObject.receiverIdentNumber}}
@@ -425,20 +401,57 @@
             &nbsp;{{selectedObject.receiverCity?.name}}</td>
         </tr>
         <tr>
+          <td><br>&nbsp;{{selectedObject.service?.name}}</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: right; padding-right: 10px">
+            {{selectedObject.paymentType === 1 ? 'გადარიცხვა' : (selectedObject.paymentType === 2 ? 'ნაღდი' : selectedObject.paymentType === 3 ? 'ბარათი' : '')}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border: 3px; border-style:none none groove none;"></td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+        </tr>
+        <tr *ngIf="selectedObject.payerSide != 3">
+          <td style="" colspan="3"><br>
+            &nbsp;გადამხდელი: {{selectedObject.payerSide === 1 ? ' გამგზავნი მხარე' : (selectedObject.payerSide === 2 ? ' მიმღები მხარე' : '')}}
+          </td>
+          <!--          <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold; text-align: right">-->
+          <!--            {{selectedObject.receiverIdentNumber}}&nbsp;{{selectedObject.receiverContactPerson}}</td>-->
+        </tr>
+        <!-- this side payer info -->
+        <tr *ngIf="selectedObject.payerSide === 3">
+          <td colspan="3" style="font-weight: bold"><br>&nbsp;{{selectedObject.payerIdentNumber}}
+            / {{selectedObject.payerName}}<br><br></td>
+        </tr>
+        <tr *ngIf="selectedObject.payerSide === 3">
+          <td colspan="3">&nbsp;{{selectedObject.payerAddress}}<br>&nbsp;{{selectedObject.payerPhone}}</td>
+        </tr>
+        <tr *ngIf="selectedObject.payerSide === 3">
           <td colspan="3" style="font-size: 16px; font-weight: bold">
+            &nbsp;{{selectedObject.payerCity?.name}}
+          </td>
+        </tr>
+        <!-- end of third side payer params-->
+        <tr>
+          <td colspan="3" style="font-size: 10px;"><br>
+            &nbsp;შენიშვნა: {{selectedObject.comment}}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-size: 16px; font-weight: bold"><br>
             &nbsp;წონა: {{selectedObject.weight}}&nbsp;&nbsp;ფასი: {{selectedObject.totalPrice}}</td>
         </tr>
         <tr>
           <td colspan="3" style="text-align: center">
-            <ngx-barcode [bc-value]="bcValue" [bc-height]="80"
+            <ngx-barcode [bc-value]="bcValue" [bc-height]="50"
                          *ngFor="let bcValue of idToBarcode()"
                          [bc-display-value]="true"></ngx-barcode>
           </td>
         </tr>
         <tr>
-          <td colspan="3" style="text-align: center; font-weight: bold; font-size: 16px"><br><br><br>Express LINE &nbsp;
-            551 77 77
-            88
+          <td colspan="3" style="text-align: center; font-weight: bold; font-size: 16px"><br>Express LINE &nbsp;
+            551 77 77 88
           </td>
         </tr>
       </table>
@@ -447,85 +460,98 @@
   </div>
   <div *ngIf="excelImportedPrint">
     <div *ngFor="let p of excelImportedParcels; let i = index" style="size: A4;">
-<!--      <div *ngFor="let c of copies; let j = index">{{i+1}}/{{j+1}}-->
-        <table cellspacing="0" cellpadding="0" style=" font-size: 14px;">
-          <tr style="font-weight: bold">
-            <td style="width: 1000px; font-size: 14px; ">{{p.parcel.senderCity?.name}}</td>
-            <td style="font-size: 22px;width: 480px; text-align: center;"> {{p.parcel.receiverCity?.name}}</td>
-            <td style="width: 1000px; font-size: 14px; text-align: right; border-left: 2px solid black;">{{i + 1}} /
-              &nbsp; &nbsp; {{excelImportedParcels.length}}</td>
-          </tr>
-          <tr>
-            <td colspan="3"><br></td>
-          </tr>
-          <tr>
-            <td colspan="3" style="border-top: 4px solid black"></td>
-          </tr>
-          <tr>
-            <td colspan="3" style="font-weight: bold"><br>&nbsp;{{p.parcel.senderIdentNumber}}
-              / {{p.parcel.senderName}}<br><br><br></td>
-          </tr>
-          <tr>
-            <td colspan="3">&nbsp;{{p.parcel.senderAddress}}<br>&nbsp;{{p.parcel.senderPhone}}
-              <br>&nbsp;{{p.parcel.senderContactPerson}}<br></td>
-          </tr>
-          <tr>
-            <td colspan="3" style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold">
-              &nbsp;{{p.parcel.senderCity?.name}}</td>
-          </tr>
-          <tr>
-            <td>&nbsp;{{p.parcel.service?.name}}</td>
-            <td style="text-align: center">PAC ???</td>
-            <td style="text-align: right; padding-right: 10px">
-              {{p.parcel.paymentType === 1 ? 'გადარიცხვა' : (p.parcel.paymentType === 2 ? 'ნაღდი' : p.parcel.paymentType === 3 ? 'ბარათი' : '')}}
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">&nbsp;{{p.parcel.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
-            <td style="text-align: right; padding-right: 10px">BUSR ???</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="border-bottom: 4px solid black;"></td>
-          </tr>
-          <tr>
-            <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold">
-              &nbsp;{{p.parcel.service?.name}}</td>
-            <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold; text-align: center">
-              DOM% ???
-            </td>
-            <td style="border-bottom: 4px solid black; font-size: 16px; font-weight: bold; text-align: right">
-              {{p.parcel.receiverIdentNumber}}&nbsp;{{p.parcel.receiverContactPerson}}</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="font-weight: bold"><br>&nbsp;{{p.parcel.receiverIdentNumber}}
-              / {{p.parcel.receiverName}}<br><br><br></td>
-          </tr>
-          <tr>
-            <td colspan="3">&nbsp;{{p.parcel.receiverAddress}}<br>&nbsp;{{p.parcel.receiverPhone}}</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="font-size: 16px; font-weight: bold">
-              &nbsp;{{p.parcel.receiverCity?.name}}</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="font-size: 16px; font-weight: bold">
-              &nbsp;წონა: {{p.parcel.weight}}&nbsp;&nbsp;ფასი: {{p.parcel.totalPrice}}</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="text-align: center">
-              <ngx-barcode [bc-value]="bcValue" [bc-height]="80"
-                           *ngFor="let bcValue of idToBarcode(p.parcel)"
-                           [bc-display-value]="true"></ngx-barcode>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3" style="text-align: center; font-weight: bold; font-size: 16px"><br><br><br>Express LINE
-              &nbsp; 551 77 77 88
-            </td>
-          </tr>
-        </table>
-        <p style="page-break-after: always;">&nbsp;</p>
-<!--      </div>-->
+      <table cellspacing="0" cellpadding="0" style=" font-size: 14px;">
+        <tr style="font-weight: bold">
+          <td style="width: 1000px; font-size: 14px; ">{{p.parcel.senderCity?.name}}</td>
+          <td style="font-size: 22px;width: 480px; text-align: center;"> {{p.parcel.receiverCity?.name}}</td>
+          <td style="width: 1000px; font-size: 14px; text-align: right; border-left: 2px solid black;">{{c + 1}} /
+            &nbsp;
+            &nbsp; {{copiesCount}}</td>
+        </tr>
+        <tr>
+          <td colspan="3"><br></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border-top: 3px; border-style: groove none none none"></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-weight: bold"><br>&nbsp;{{p.parcel.senderIdentNumber}}
+            / {{p.parcel.senderName}}<br><br></td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;{{p.parcel.senderAddress}}<br>&nbsp;{{p.parcel.senderPhone}}
+            <br>&nbsp;{{p.parcel.senderContactPerson}}<br></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border: 3px; border-style:none none groove none; font-size: 16px; font-weight: bold">
+            &nbsp;{{p.parcel.senderCity?.name}}<br></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-weight: bold"><br>&nbsp;{{p.parcel.receiverIdentNumber}}
+            / {{p.parcel.receiverName}}<br><br><br></td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;{{p.parcel.receiverAddress}}<br>&nbsp;{{p.parcel.receiverPhone}}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-size: 16px; font-weight: bold">
+            &nbsp;{{p.parcel.receiverCity?.name}}</td>
+        </tr>
+        <tr>
+          <td><br>&nbsp;{{p.parcel.service?.name}}</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: right; padding-right: 10px">
+            {{p.parcel.paymentType === 1 ? 'გადარიცხვა' : (p.parcel.paymentType === 2 ? 'ნაღდი' : p.parcel.paymentType === 3 ? 'ბარათი' : '')}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border: 3px; border-style:none none groove none;"></td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+        </tr>
+        <!-- payer info -->
+        <tr *ngIf="p.parcel.payerSide != 3">
+          <td style="" colspan="3"><br>
+            &nbsp;გადამხდელი: {{p.parcel.payerSide === 1 ? ' გამგზავნი მხარე' : (p.parcel.payerSide === 2 ? ' მიმღები მხარე' : '')}}
+          </td>
+        </tr>
+        <!-- third side payer info -->
+        <tr *ngIf="p.parcel.payerSide === 3">
+          <td colspan="3" style="font-weight: bold"><br>&nbsp;{{p.parcel.payerIdentNumber}}
+            / {{p.parcel.payerName}}<br><br></td>
+        </tr>
+        <tr *ngIf="p.parcel.payerSide === 3">
+          <td colspan="3">&nbsp;{{p.parcel.payerAddress}}<br>&nbsp;{{p.parcel.payerPhone}}</td>
+        </tr>
+        <tr *ngIf="p.parcel.payerSide === 3">
+          <td colspan="3" style="font-size: 16px; font-weight: bold">
+            &nbsp;{{p.parcel.payerCity?.name}}
+          </td>
+        </tr>
+        <!-- end of third side payer params-->
+        <tr>
+          <td colspan="3" style="font-size: 10px;"><br>
+            &nbsp;შენიშვნა: {{p.parcel.comment}}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-size: 16px; font-weight: bold"><br>
+            &nbsp;წონა: {{p.parcel.weight}}&nbsp;&nbsp;ფასი: {{p.parcel.totalPrice}}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <ngx-barcode [bc-value]="bcValue" [bc-height]="50"
+                         *ngFor="let bcValue of idToBarcode(p.parcel)"
+                         [bc-display-value]="true"></ngx-barcode>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center; font-weight: bold; font-size: 16px"><br>Express LINE &nbsp;
+            551 77 77 88
+          </td>
+        </tr>
+      </table>
+      <p style="page-break-after: always;">&nbsp;</p>
     </div>
   </div>
 </div>
