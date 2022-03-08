@@ -335,10 +335,10 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
           this.service.moveToMainTable(this.currentUser.id).subscribe(res => {
             this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
             // concatenate ides for printing case
-            console.log('res', res);
+            // console.log('res', res);
             this.importedIdes = (res as Array<Parcel>).map((x) => x.id).join(',');
-            console.log('ides - ', this.importedIdes);
-            console.log('res', res);
+            // console.log('ides - ', this.importedIdes);
+            // console.log('res', res);
             if (moveAndPrint) {
               this.openDialog('Print', {importedIdes: this.importedIdes});
             }
