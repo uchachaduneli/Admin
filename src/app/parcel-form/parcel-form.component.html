@@ -305,12 +305,12 @@
                     <mat-label> &nbsp;</mat-label>
                     <mat-radio-button [value]="1"> გამგზავნი &nbsp;</mat-radio-button>
                     <mat-radio-button [value]="2"> მიმღები &nbsp;</mat-radio-button>
-                    <mat-radio-button [value]="3"> მესამე მხარე &nbsp;</mat-radio-button>
+                    <mat-radio-button [value]="3"> მესამე პირი &nbsp;</mat-radio-button>
                   </mat-radio-group>
                 </div>
               </div>
               <br/>
-              <div fxLayout="row wrap" class="align-items-center" *ngIf="receiverContactDto.payerSide === 3">
+              <div fxLayout="row wrap" class="align-items-center" *ngIf="selectedObject.payerSide === 3">
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">

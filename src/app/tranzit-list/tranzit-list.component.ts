@@ -242,7 +242,7 @@ export class TranzitDialogContent implements OnInit {
     merge().pipe(
       startWith({}),
       switchMap(() => {
-        return this.userService.getList(1000, 0, this.utilService.encode({srchRoleName: 'DRIVER'}, ''));
+        return this.userService.getList(1000, 0, '&srchRoleName=DRIVER');
       }),
       map(data => {
         // @ts-ignore

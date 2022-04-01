@@ -1,0 +1,28 @@
+<mat-dialog-content class="pb-3">
+  <!--  Details Dialog Content -->
+  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+    <div fxLayout="row wrap" class="align-items-center">
+      <div fxFlex="100" fxFlex.gt-md="15">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="id"
+                   [(ngModel)]="selectedObject.id"
+                   placeholder="#">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input type="text" matInput readonly name="name"
+                   [(ngModel)]="selectedObject.name"
+                   placeholder="დასახელება">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button mat-button (click)="closeDialog()">დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>

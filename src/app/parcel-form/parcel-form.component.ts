@@ -273,7 +273,7 @@ export class ParcelFormComponent implements AfterViewInit {
             }
             // @ts-ignore
             this.saveParcelPackages(data.id);
-            // this.router.navigate(['parcels']);
+            this.router.navigate(['parcels']);
             // @ts-ignore
             return data;
           }),
