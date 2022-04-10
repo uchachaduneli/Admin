@@ -37,11 +37,6 @@ export class FullComponent implements OnDestroy, OnInit {
   public config: PerfectScrollbarConfigInterface = {};
   private _mobileQueryListener: () => void;
 
-  clickEvent(): void {
-    this.status = !this.status;
-  }
-
-
   constructor(
     public router: Router,
     changeDetectorRef: ChangeDetectorRef,
@@ -55,6 +50,10 @@ export class FullComponent implements OnDestroy, OnInit {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
 
+  }
+
+  clickEvent(): void {
+    this.status = !this.status;
   }
 
   ngOnDestroy(): void {

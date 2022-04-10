@@ -1,55 +1,57 @@
 <mat-nav-list appAccordion>
-  <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected"
-                 group="{{menuitem.state}}" (click)="scrollToTop()">
-    <a class="" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
+  <mat-list-item (click)="scrollToTop()" *ngFor="let menuitem of menuItems.getMenuitem()" appAccordionLink
+                 group="{{menuitem.state}}" routerLinkActive="selected">
+    <a *ngIf="menuitem.type === 'link'" [routerLink]="['/', menuitem.state]" appAccordionToggle class="">
       <mat-icon>{{ menuitem.icon }}</mat-icon>
       <span>{{ menuitem.name | translate }}</span>
       <span fxFlex></span>
-      <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+      <span *ngFor="let badge of menuitem.badge" class="label label-{{ badge.type }}">{{ badge.value }}</span>
     </a>
 
-    <a class="" appAccordionToggle href="{{menuitem.state}}" *ngIf="menuitem.type === 'extLink'">
+    <a *ngIf="menuitem.type === 'extLink'" appAccordionToggle class="" href="{{menuitem.state}}">
       <mat-icon>{{ menuitem.icon }}</mat-icon>
       <span>{{ menuitem.name | translate }}</span>
       <span fxFlex></span>
-      <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+      <span *ngFor="let badge of menuitem.badge" class="label label-{{ badge.type }}">{{ badge.value }}</span>
     </a>
-    <a class="" appAccordionToggle href="{{menuitem.state}}" target="_blank" *ngIf="menuitem.type === 'extTabLink'">
+    <a *ngIf="menuitem.type === 'extTabLink'" appAccordionToggle class="" href="{{menuitem.state}}" target="_blank">
       <mat-icon>{{ menuitem.icon }}</mat-icon>
       <span>{{ menuitem.name | translate}}</span>
       <span fxFlex></span>
-      <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+      <span *ngFor="let badge of menuitem.badge" class="label label-{{ badge.type }}">{{ badge.value }}</span>
     </a>
 
-    <a class="" appAccordionToggle href="javascript:;" *ngIf="menuitem.type === 'sub'">
+    <a *ngIf="menuitem.type === 'sub'" appAccordionToggle class="" href="javascript:;">
       <mat-icon>{{ menuitem.icon }}</mat-icon>
       <span>{{ menuitem.name | translate }}</span>
       <span fxFlex></span>
-      <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+      <span *ngFor="let badge of menuitem.badge" class="label label-{{ badge.type }}">{{ badge.value }}</span>
       <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
     </a>
-    <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub'" >
-      <mat-list-item *ngFor="let childitem of menuitem.children; let j=index; let i = childitem" routerLinkActive="selected">
-        <a [routerLink]="['/', menuitem.state, childitem.state ]"  *ngIf="childitem.type === 'link'" class="relative"
-           routerLinkActive="selected" (click)="itemSelect[i]=j">{{ childitem.name | translate}}</a>
+    <mat-nav-list *ngIf="menuitem.type === 'sub'" class="sub-item">
+      <mat-list-item *ngFor="let childitem of menuitem.children; let j=index; let i = childitem"
+                     routerLinkActive="selected">
+        <a (click)="itemSelect[i]=j" *ngIf="childitem.type === 'link'" [routerLink]="['/', menuitem.state, childitem.state ]"
+           class="relative" routerLinkActive="selected">{{ childitem.name | translate}}</a>
       </mat-list-item>
       <mat-list-item *ngFor="let childitem of menuitem.children; let j=index; let i=childitem">
-        <a class="" href="javascript: void(0);" *ngIf="childitem.type === 'subchild'" (click)="itemSelect[i]=j"
-           [ngClass]="j==itemSelect[i]? 'selected' : ''">
+        <a (click)="itemSelect[i]=j" *ngIf="childitem.type === 'subchild'" [ngClass]="j==itemSelect[i]? 'selected' : ''" class=""
+           href="javascript: void(0);">
           <span>{{ childitem.name | translate }}</span>
           <span fxFlex></span>
           <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
         </a>
-        <mat-nav-list class="child-sub-item" *ngIf="childitem.type === 'subchild'" >
+        <mat-nav-list *ngIf="childitem.type === 'subchild'" class="child-sub-item">
           <mat-list-item *ngFor="let child of childitem.subchildren" routerLinkActive="selected">
-            <a [routerLink]="['/', menuitem.state, childitem.state, child.state ]" routerLinkActive="selected" >{{child.name | translate}}</a>
+            <a [routerLink]="['/', menuitem.state, childitem.state, child.state ]"
+               routerLinkActive="selected">{{child.name | translate}}</a>
           </mat-list-item>
         </mat-nav-list>
       </mat-list-item>
 
     </mat-nav-list>
 
-    <div class="saperator text-muted" *ngIf="menuitem.type === 'saperator'">
+    <div *ngIf="menuitem.type === 'saperator'" class="saperator text-muted">
       <span>{{ menuitem.name | translate }}</span>
     </div>
   </mat-list-item>

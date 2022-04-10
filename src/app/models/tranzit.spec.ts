@@ -1,4 +1,4 @@
-import { Tranzit } from './tranzit';
+import {Tranzit} from './tranzit';
 
 describe('Tranzit', () => {
   it('should create an instance', () => {

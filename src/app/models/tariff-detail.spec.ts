@@ -1,4 +1,4 @@
-import { TariffDetail } from './tariff-detail';
+import {TariffDetail} from './tariff-detail';
 
 describe('TariffDetail', () => {
   it('should create an instance', () => {

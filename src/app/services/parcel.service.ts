@@ -46,6 +46,11 @@ export class ParcelService {
     return this.httpClient.get<Parcel>(`${this.BaseUrl}/${id}`);
   }
 
+  // tslint:disable-next-line:ban-types
+  getByBarCode(barcode: string): Observable<Parcel> {
+    return this.httpClient.get<Parcel>(`${this.BaseUrl}/byBarCode/${barcode}`);
+  }
+
   getWithPackagesWhereIdIn(ides: string): Observable<Parcel> {
     return this.httpClient.get<Parcel>(`${this.BaseUrl}/byIdesIn?ides=${ides}`);
   }

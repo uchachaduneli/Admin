@@ -577,29 +577,6 @@ export class ParcelFormComponent implements AfterViewInit {
     });
   }
 
-  // addressesOrPersons = 1  filter addresses / = 2  filter contact persons
-  private _filter(value: string, senderReceiverPayer: number, addressesOrPersons: number): ContactAddress[] {
-    if (addressesOrPersons === 1) {
-      switch (senderReceiverPayer) {
-        case 1:
-          return this.senderAddresses.filter(option => option.street.includes(value));
-        case 2:
-          return this.receiverAddresses.filter(option => option.street.includes(value));
-        default:
-          return [];
-      }
-    } else {
-      switch (senderReceiverPayer) {
-        case 1:
-          return this.senderContactPersons.filter(option => option.contactPerson.includes(value));
-        case 2:
-          return this.receiverContactPersons.filter(option => option.contactPerson.includes(value));
-        default:
-          return [];
-      }
-    }
-  }
-
   getVolumeWeightIndex(): void {
     merge()
       .pipe(
@@ -760,6 +737,29 @@ export class ParcelFormComponent implements AfterViewInit {
     ).subscribe(data => {
       this.cities = data;
     });
+  }
+
+  // addressesOrPersons = 1  filter addresses / = 2  filter contact persons
+  private _filter(value: string, senderReceiverPayer: number, addressesOrPersons: number): ContactAddress[] {
+    if (addressesOrPersons === 1) {
+      switch (senderReceiverPayer) {
+        case 1:
+          return this.senderAddresses.filter(option => option.street.includes(value));
+        case 2:
+          return this.receiverAddresses.filter(option => option.street.includes(value));
+        default:
+          return [];
+      }
+    } else {
+      switch (senderReceiverPayer) {
+        case 1:
+          return this.senderContactPersons.filter(option => option.contactPerson.includes(value));
+        case 2:
+          return this.receiverContactPersons.filter(option => option.contactPerson.includes(value));
+        default:
+          return [];
+      }
+    }
   }
 }
 

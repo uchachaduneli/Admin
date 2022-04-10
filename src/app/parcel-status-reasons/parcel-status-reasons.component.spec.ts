@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ParcelStatusReasonsComponent } from './parcel-status-reasons.component';
+import {ParcelStatusReasonsComponent} from './parcel-status-reasons.component';
 
 describe('ParcelStatusReasonsComponent', () => {
   let component: ParcelStatusReasonsComponent;
@@ -8,9 +8,9 @@ describe('ParcelStatusReasonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParcelStatusReasonsComponent ]
+      declarations: [ParcelStatusReasonsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

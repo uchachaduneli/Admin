@@ -39,4 +39,8 @@ export class UserService {
     return this.httpClient.get<User>(`${this.BaseUrl}/${id}`);
   }
 
+  getByHavingRoles(roles: string): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.BaseUrl}/byRoles?roles=${roles}`);
+  }
+
 }

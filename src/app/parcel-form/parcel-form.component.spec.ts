@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ParcelFormComponent } from './parcel-form.component';
+import {ParcelFormComponent} from './parcel-form.component';
 
 describe('ParcelFormComponent', () => {
   let component: ParcelFormComponent;
@@ -8,9 +8,9 @@ describe('ParcelFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParcelFormComponent ]
+      declarations: [ParcelFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

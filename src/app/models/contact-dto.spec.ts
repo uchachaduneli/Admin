@@ -1,4 +1,4 @@
-import { ContactDTO } from './contact-dto';
+import {ContactDTO} from './contact-dto';
 
 describe('ContactDTO', () => {
   it('should create an instance', () => {

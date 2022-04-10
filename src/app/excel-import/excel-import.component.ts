@@ -92,38 +92,6 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
     this.getServicesList();
   }
 
-  private refreshAutoCompleteFilters(): void {
-    this.contactAddressFilteredOptions = this.contactAddressControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value, 1))
-      );
-    this.contactPersonFilteredOptions = this.contactPersonControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value, 2))
-      );
-    this.contactPhoneFilteredOptions = this.contactPhoneControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value, 3))
-      );
-  }
-
-  // addrssOrPersOrPhone - 1 filter addresses / 2 filter Persons / 3 filter Phones
-  private _filter(value: string, addrssOrPersOrPhone: number): string[] {
-    const filterValue = value.toLowerCase();
-    if (addrssOrPersOrPhone === 1) {
-      return this.contactAddressOptions.filter(option => option.toLowerCase().includes(filterValue));
-    } else if (addrssOrPersOrPhone === 2) {
-      return this.contactPersonOptions.filter(option => option.toLowerCase().includes(filterValue));
-    } else if (addrssOrPersOrPhone === 3) {
-      return this.contactPhoneOptions.filter(option => option.toLowerCase().includes(filterValue));
-    } else {
-      return [];
-    }
-  }
-
   onAddressSelect(addr: string): void {
     const filteredContact = this.foundedContactAddresses.filter(o => (o.street + ' ' + o.appartmentDetails) === addr)[0];
     if (filteredContact) {
@@ -406,6 +374,38 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
     } else {
       this.foundedSenderContact.id = 0;
       this.notifyService.showError('გთხოვთ მიუთითოთ გამგზავნის საიდენტიფიკაციო #', '');
+    }
+  }
+
+  private refreshAutoCompleteFilters(): void {
+    this.contactAddressFilteredOptions = this.contactAddressControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 1))
+      );
+    this.contactPersonFilteredOptions = this.contactPersonControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 2))
+      );
+    this.contactPhoneFilteredOptions = this.contactPhoneControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value, 3))
+      );
+  }
+
+  // addrssOrPersOrPhone - 1 filter addresses / 2 filter Persons / 3 filter Phones
+  private _filter(value: string, addrssOrPersOrPhone: number): string[] {
+    const filterValue = value.toLowerCase();
+    if (addrssOrPersOrPhone === 1) {
+      return this.contactAddressOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else if (addrssOrPersOrPhone === 2) {
+      return this.contactPersonOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else if (addrssOrPersOrPhone === 3) {
+      return this.contactPhoneOptions.filter(option => option.toLowerCase().includes(filterValue));
+    } else {
+      return [];
     }
   }
 }

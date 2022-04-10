@@ -12,7 +12,7 @@ import {
   NavigationCancel,
   NavigationError
 } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-spinner',

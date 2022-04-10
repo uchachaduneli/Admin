@@ -1,4 +1,4 @@
-import { VolumeWeightIndex } from './volume-weight-index';
+import {VolumeWeightIndex} from './volume-weight-index';
 
 describe('VolumeWeightIndex', () => {
   it('should create an instance', () => {

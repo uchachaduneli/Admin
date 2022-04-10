@@ -1,4 +1,4 @@
-import { ParcelStatusReason } from './parcel-status-reason';
+import {ParcelStatusReason} from './parcel-status-reason';
 
 describe('ParcelStatusReason', () => {
   it('should create an instance', () => {

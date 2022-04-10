@@ -1,5 +1,5 @@
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
     <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
       <mat-tab label="მთავარი #{{selectedObject.id}}">
         <table style="width: 100%">
@@ -10,14 +10,14 @@
                   <mat-card-title>ზოგადი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="id"
-                           [(ngModel)]="selectedObject.barCode"
-                           placeholder="თრექინგის #">
+                    <input [(ngModel)]="selectedObject.barCode" matInput name="id" placeholder="თრექინგის #"
+                           readonly
+                           type="text">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="createdTime"
-                           value="{{selectedObject.createdTime | date :'short'}} "
-                           placeholder="თარიღი">
+                    <input matInput name="createdTime" placeholder="თარიღი" readonly
+                           type="text"
+                           value="{{selectedObject.createdTime | date :'short'}} ">
 
                   </mat-form-field>
                 </mat-card-content>
@@ -29,14 +29,14 @@
                   <mat-card-title>გადამხდელი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="payerName"
-                           [ngModel]="selectedObject.payerName"
-                           placeholder="გადამხდელი">
+                    <input [ngModel]="selectedObject.payerName" matInput name="payerName" placeholder="გადამხდელი"
+                           readonly
+                           type="text">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="payerIdentNumber"
-                           [(ngModel)]="selectedObject.payerIdentNumber"
-                           placeholder="საიდენტიფიკაციო #">
+                    <input [(ngModel)]="selectedObject.payerIdentNumber" matInput name="payerIdentNumber" placeholder="საიდენტიფიკაციო #"
+                           readonly
+                           type="text">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
@@ -47,9 +47,9 @@
                   <mat-card-title>მიმდინარე სტატუსი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="statusName"
-                           [(ngModel)]="selectedObject.status?.status.name"
-                           placeholder="სტატუსი ">
+                    <input [(ngModel)]="selectedObject.status?.status.name" matInput name="statusName" placeholder="სტატუსი "
+                           readonly
+                           type="text">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
@@ -63,24 +63,24 @@
                   <mat-card-title>გამგზავნი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="senderName"
-                           value="{{selectedObject.senderName}} - {{selectedObject.senderIdentNumber}}"
-                           placeholder="გამგზავნი ">
+                    <input matInput name="senderName" placeholder="გამგზავნი " readonly
+                           type="text"
+                           value="{{selectedObject.senderName}} - {{selectedObject.senderIdentNumber}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="senderCity"
-                           value="{{selectedObject.senderCity?.name}}"
-                           placeholder="ქალაქი">
+                    <input matInput name="senderCity" placeholder="ქალაქი" readonly
+                           type="text"
+                           value="{{selectedObject.senderCity?.name}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="senderAddress"
-                           value="{{selectedObject.senderAddress}}"
-                           placeholder="მისამართი">
+                    <input matInput name="senderAddress" placeholder="მისამართი" readonly
+                           type="text"
+                           value="{{selectedObject.senderAddress}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="senderAddress"
-                           value="{{selectedObject.senderContactPerson}} - {{selectedObject.senderPhone}}"
-                           placeholder="საკ. პირი">
+                    <input matInput name="senderAddress" placeholder="საკ. პირი" readonly
+                           type="text"
+                           value="{{selectedObject.senderContactPerson}} - {{selectedObject.senderPhone}}">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
@@ -91,24 +91,24 @@
                   <mat-card-title>მიმღები</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="receiverName"
-                           value="{{selectedObject.receiverName}} - {{selectedObject.receiverIdentNumber}}"
-                           placeholder="მიმღები">
+                    <input matInput name="receiverName" placeholder="მიმღები" readonly
+                           type="text"
+                           value="{{selectedObject.receiverName}} - {{selectedObject.receiverIdentNumber}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="receiverCity"
-                           value="{{selectedObject.receiverCity?.name}}"
-                           placeholder="ქალაქი">
+                    <input matInput name="receiverCity" placeholder="ქალაქი" readonly
+                           type="text"
+                           value="{{selectedObject.receiverCity?.name}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="receiverAddress"
-                           value="{{selectedObject.receiverAddress}}"
-                           placeholder="მისამართი">
+                    <input matInput name="receiverAddress" placeholder="მისამართი" readonly
+                           type="text"
+                           value="{{selectedObject.receiverAddress}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="receiverAddress"
-                           value="{{selectedObject.receiverContactPerson}} - {{selectedObject.receiverPhone}}"
-                           placeholder="საკ. პირი">
+                    <input matInput name="receiverAddress" placeholder="საკ. პირი" readonly
+                           type="text"
+                           value="{{selectedObject.receiverContactPerson}} - {{selectedObject.receiverPhone}}">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
@@ -119,14 +119,14 @@
                   <mat-card-title>გადახდის ადგილი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="paymentPlace"
-                           value="_"
-                           placeholder="საწყობი">
+                    <input matInput name="paymentPlace" placeholder="საწყობი" readonly
+                           type="text"
+                           value="_">
                   </mat-form-field>
                   <mat-form-field>
-                    <input type="text" matInput readonly name="paymentAddress"
-                           value="_"
-                           placeholder="მისამართი">
+                    <input matInput name="paymentAddress" placeholder="მისამართი" readonly
+                           type="text"
+                           value="_">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
@@ -145,39 +145,39 @@
                       <th>სიგანე</th>
                       <th>სიმაღლე</th>
                       <th>მოც. წონა</th>
-<!--                      <th>პლომბის #</th>-->
-<!--                      <th>ყუთის #</th>-->
+                      <!--                      <th>პლომბის #</th>-->
+                      <!--                      <th>ყუთის #</th>-->
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let dynamic of packages; let i = index;">
                       <td>
-                        <input [(ngModel)]="dynamic.length" matInput readonly
-                               placeholder="სიგრძე" type="number"
-                               name="length{{i}}"/>
+                        <input [(ngModel)]="dynamic.length" matInput name="length{{i}}"
+                               placeholder="სიგრძე" readonly
+                               type="number"/>
                       </td>
                       <td>
-                        <input [(ngModel)]="dynamic.width" matInput readonly
-                               placeholder="სიგანე" type="number"
-                               name="width{{i}}"/>
+                        <input [(ngModel)]="dynamic.width" matInput name="width{{i}}"
+                               placeholder="სიგანე" readonly
+                               type="number"/>
                       </td>
                       <td>
-                        <input [(ngModel)]="dynamic.height" matInput readonly
-                               placeholder="სიმაღლე" type="number"
-                               name="height{{i}}"/>
+                        <input [(ngModel)]="dynamic.height" matInput name="height{{i}}"
+                               placeholder="სიმაღლე" readonly
+                               type="number"/>
                       </td>
                       <td>
-                        <input [(ngModel)]="dynamic.volumeWeight" matInput readonly placeholder="მოც.წონა"
-                               type="number" name="volumeWeight{{i}}"/>
+                        <input [(ngModel)]="dynamic.volumeWeight" matInput name="volumeWeight{{i}}" placeholder="მოც.წონა"
+                               readonly type="number"/>
                       </td>
-<!--                      <td>-->
-<!--                        <input [(ngModel)]="dynamic.plombNumber" readonly matInput placeholder="პლომბის #" type="text"-->
-<!--                               name="plombNumber{{i}}"/>-->
-<!--                      </td>-->
-<!--                      <td>-->
-<!--                        <input [(ngModel)]="dynamic.boxNumber" readonly matInput placeholder="ყუთის #" type="text"-->
-<!--                               name="boxNumber{{i}}"/>-->
-<!--                      </td>-->
+                      <!--                      <td>-->
+                      <!--                        <input [(ngModel)]="dynamic.plombNumber" readonly matInput placeholder="პლომბის #" type="text"-->
+                      <!--                               name="plombNumber{{i}}"/>-->
+                      <!--                      </td>-->
+                      <!--                      <td>-->
+                      <!--                        <input [(ngModel)]="dynamic.boxNumber" readonly matInput placeholder="ყუთის #" type="text"-->
+                      <!--                               name="boxNumber{{i}}"/>-->
+                      <!--                      </td>-->
                     </tr>
                     </tbody>
                   </table>
@@ -190,23 +190,23 @@
                   <br>
                   <div fxLayout="row">
                     <mat-form-field>
-                      <input matInput placeholder="რაოდენობა" name="packagesLength" [ngModel]="packages?.length">
+                      <input [ngModel]="packages?.length" matInput name="packagesLength" placeholder="რაოდენობა">
                     </mat-form-field> &nbsp; &nbsp;
                     <mat-form-field>
                       <input matInput style="display: none">
-                      <input *ngIf="selectedObject.paymentType === 1" matInput placeholder="გადახდ. ტიპი"
-                             name="paymentType"
+                      <input *ngIf="selectedObject.paymentType === 1" matInput name="paymentType"
+                             placeholder="გადახდ. ტიპი"
                              value="ინვოისი">
-                      <input *ngIf="selectedObject.paymentType === 2" matInput placeholder="გადახდ. ტიპი" value="ნაღდი"
-                             name="paymentType">
-                      <input *ngIf="selectedObject.paymentType === 3" matInput placeholder="გადახდ. ტიპი"
-                             name="paymentType"
+                      <input *ngIf="selectedObject.paymentType === 2" matInput name="paymentType" placeholder="გადახდ. ტიპი"
+                             value="ნაღდი">
+                      <input *ngIf="selectedObject.paymentType === 3" matInput name="paymentType"
+                             placeholder="გადახდ. ტიპი"
                              value="ბარათი">
                     </mat-form-field>
                   </div>
                   <div fxLayout="row">
                     <mat-form-field>
-                      <input matInput placeholder="წონა" [ngModel]="selectedObject.weight">
+                      <input [ngModel]="selectedObject.weight" matInput placeholder="წონა">
                     </mat-form-field> &nbsp; &nbsp;
                     <mat-form-field>
                       <input matInput placeholder="გზავ. ტიპი" value="{{selectedObject.service?.name}}">
@@ -214,7 +214,7 @@
                   </div>
                   <div fxLayout="row">
                     <mat-form-field>
-                      <input matInput placeholder="ფასი" [ngModel]="selectedObject.totalPrice">
+                      <input [ngModel]="selectedObject.totalPrice" matInput placeholder="ფასი">
                     </mat-form-field>&nbsp; &nbsp;
                     <mat-form-field>
                       <input matInput placeholder="ტრანსპ. სახე" value="_">
@@ -237,7 +237,7 @@
                              value="მიკითხვა">
                     </mat-form-field>&nbsp; &nbsp;
                     <mat-form-field>
-                      <input matInput placeholder="გადაფუთვის ფასი" [ngModel]="selectedObject.gadafutvisPrice">
+                      <input [ngModel]="selectedObject.gadafutvisPrice" matInput placeholder="გადაფუთვის ფასი">
                     </mat-form-field>
                   </div>
                   <div fxLayout="row">
@@ -274,9 +274,9 @@
                 <mat-card-content>
                   <mat-card-title>სხვა</mat-card-title>
                   <br>
-                  <textarea matInput rows="3" style="border-bottom: 1px solid" placeholder="კომენტარი"
+                  <textarea matInput placeholder="კომენტარი" rows="3" style="border-bottom: 1px solid"
                             value="{{selectedObject.comment}}"></textarea><br><br><br>
-                  <textarea matInput rows="3" style="border-bottom: 1px solid" placeholder="შიგთავსი"
+                  <textarea matInput placeholder="შიგთავსი" rows="3" style="border-bottom: 1px solid"
                             value="{{selectedObject.content}}"></textarea>
                 </mat-card-content>
               </mat-card>
@@ -303,7 +303,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="topBottomBorder" *ngFor="let v of statusHistoryList; let i = index;">
+              <tr *ngFor="let v of statusHistoryList; let i = index;" class="topBottomBorder">
                 <td> {{v.id}}</td>
                 <td> {{v.code}}</td>
                 <td> {{v.name}}</td>
@@ -334,7 +334,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="topBottomBorder" *ngFor="let v of fileList;">
+              <tr *ngFor="let v of fileList;" class="topBottomBorder">
                 <td> {{v.id}}</td>
                 <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
                 <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
@@ -351,12 +351,12 @@
           <mat-card>
             <mat-card-content>
               <mat-form-field>
-                <input type="text" matInput required id="subject" name="subject"
-                       [(ngModel)]="selectedMessage.subject"
-                       placeholder="თემა">
+                <input [(ngModel)]="selectedMessage.subject" id="subject" matInput name="subject" placeholder="თემა"
+                       required
+                       type="text">
               </mat-form-field>
               <mat-form-field>
-                <mat-select [(ngModel)]="selectedMessage.to" required name="to" placeholder="ადრესატი">
+                <mat-select [(ngModel)]="selectedMessage.to" name="to" placeholder="ადრესატი" required>
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>
               </mat-form-field>
@@ -366,15 +366,15 @@
                 </mat-select>
               </mat-form-field>
               <mat-form-field>
-              <textarea matInput required cols="5" rows="5" placeholder="მესიჯი" name="msg"
-                        [(ngModel)]="selectedMessage.msg"></textarea>
+              <textarea [(ngModel)]="selectedMessage.msg" cols="5" matInput name="msg" placeholder="მესიჯი" required
+                        rows="5"></textarea>
               </mat-form-field>
               <div align="end">
-                <button mat-button bg-success mat-flat-button color="warn" [disabled]="!tracingForm.valid"
-                        (click)="sendMsg()"> გაგზავნა
+                <button (click)="sendMsg()" [disabled]="!tracingForm.valid" bg-success color="warn" mat-button
+                        mat-flat-button> გაგზავნა
                   <mat-icon>send</mat-icon>
                 </button>
-                <button mat-button (click)="clearMsg()">გასუფთავება
+                <button (click)="clearMsg()" mat-button>გასუფთავება
                   <mat-icon>close</mat-icon>
                 </button>
               </div>
@@ -395,7 +395,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="topBottomBorder" *ngFor="let v of messageList;">
+                <tr *ngFor="let v of messageList;" class="topBottomBorder">
                   <td> {{v.id}}</td>
                   <td>{{v.subject}}</td>
                   <td>{{v.to?.abbreviature}}</td>

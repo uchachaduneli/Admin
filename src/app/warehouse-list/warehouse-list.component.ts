@@ -21,7 +21,7 @@ export class WarehouseListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Warehouse = {};
   data = new MatTableDataSource<WarehouseBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'abbreviature',  'city', 'updatedTime', 'createdTime', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'abbreviature', 'city', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;

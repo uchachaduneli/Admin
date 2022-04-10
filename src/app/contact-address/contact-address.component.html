@@ -1,16 +1,16 @@
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
     <mat-card>
       <mat-card-content>
         <mat-card-title>{{srchObj.contact.name}} -ის მისამართები</mat-card-title>
 
         <div class="example-container m-t-20">
-          <div class="example-loading-shade" *ngIf="isLoadingResults">
+          <div *ngIf="isLoadingResults" class="example-loading-shade">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
 
           <div class="button-row m-b-15 m-t-15">
-            <button mat-raised-button color="primary" (click)="openDialog('Add',{})">
+            <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
               <mat-icon>plus_one</mat-icon>
               დამატება
             </button>
@@ -18,53 +18,53 @@
 
           <div class="example-table-container responsive-table">
 
-            <table mat-table [dataSource]="data" class="example-table striped">
+            <table [dataSource]="data" class="example-table striped" mat-table>
 
               <ng-container matColumnDef="isPayAddress">
-                <th mat-header-cell *matHeaderCellDef>გადახდ. მის.</th>
-                <td mat-cell *matCellDef="let element">
+                <th *matHeaderCellDef mat-header-cell>გადახდ. მის.</th>
+                <td *matCellDef="let element" mat-cell>
                   <mat-icon *ngIf="element.isPayAddress == 1">check</mat-icon>
                   <mat-icon *ngIf="element.isPayAddress == 2">clear</mat-icon>
               </ng-container>
 
               <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef> #</th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                <th *matHeaderCellDef mat-header-cell> #</th>
+                <td *matCellDef="let element" mat-cell> {{element.id}} </td>
               </ng-container>
 
               <ng-container matColumnDef="city">
-                <th mat-header-cell *matHeaderCellDef> ქალაქი</th>
-                <td mat-cell *matCellDef="let element"> {{element.city.name}} </td>
+                <th *matHeaderCellDef mat-header-cell> ქალაქი</th>
+                <td *matCellDef="let element" mat-cell> {{element.city.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="street">
-                <th mat-header-cell *matHeaderCellDef> ქუჩა</th>
-                <td mat-cell *matCellDef="let element"> {{element.street}} </td>
+                <th *matHeaderCellDef mat-header-cell> ქუჩა</th>
+                <td *matCellDef="let element" mat-cell> {{element.street}} </td>
               </ng-container>
 
               <ng-container matColumnDef="postCode">
-                <th mat-header-cell *matHeaderCellDef> საფოსტო ინექსი</th>
-                <td mat-cell *matCellDef="let element"> {{element.postCode}} </td>
+                <th *matHeaderCellDef mat-header-cell> საფოსტო ინექსი</th>
+                <td *matCellDef="let element" mat-cell> {{element.postCode}} </td>
               </ng-container>
 
               <ng-container matColumnDef="contactPerson">
-                <th mat-header-cell *matHeaderCellDef>საკონტაქტო პირი</th>
-                <td mat-cell *matCellDef="let element"> {{element.contactPerson}} </td>
+                <th *matHeaderCellDef mat-header-cell>საკონტაქტო პირი</th>
+                <td *matCellDef="let element" mat-cell> {{element.contactPerson}} </td>
               </ng-container>
 
               <ng-container matColumnDef="contactPersonPhone">
-                <th mat-header-cell *matHeaderCellDef>ტელეფონი</th>
-                <td mat-cell *matCellDef="let element"> {{element.contactPersonPhone}} </td>
+                <th *matHeaderCellDef mat-header-cell>ტელეფონი</th>
+                <td *matCellDef="let element" mat-cell> {{element.contactPersonPhone}} </td>
               </ng-container>
 
               <ng-container matColumnDef="contactPersonEmail">
-                <th mat-header-cell *matHeaderCellDef>ელ. ფოსტა</th>
-                <td mat-cell *matCellDef="let element"> {{element.contactPersonEmail}} </td>
+                <th *matHeaderCellDef mat-header-cell>ელ. ფოსტა</th>
+                <td *matCellDef="let element" mat-cell> {{element.contactPersonEmail}} </td>
               </ng-container>
 
               <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> მოქმედება</th>
-                <td mat-cell *matCellDef="let element" class="action-link">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
+                <td *matCellDef="let element" class="action-link text-center" mat-cell>
                   <div *ngIf="element.deleted != 1">
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
@@ -79,13 +79,13 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (dblclick)="openDialog('Details', row)"></tr>
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr (dblclick)="openDialog('Details', row)" *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
             </table>
           </div>
 
-          <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="10"
-                         [pageSizeOptions]="[5, 10, 50]"></mat-paginator>
+          <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
+                         showFirstLastButtons></mat-paginator>
         </div>
       </mat-card-content>
     </mat-card>

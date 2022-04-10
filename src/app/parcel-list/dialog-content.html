@@ -1,12 +1,12 @@
-<mat-dialog-content class="pb-3" *ngIf="action != 'Delete'; else elseTemplate">
+<mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
   <!--    Details Dialog Content-->
   <form #userForm="ngForm" *ngIf="action == 'statusChange'">
-    <div fxLayout="row wrap" class="align-items-center">
+    <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.status.id" name="status"
-                        placeholder="გზავნილის სტატუსი" aria-placeholder="გზავნილის სტატუსი" required>
+            <mat-select [(ngModel)]="selectedObject.status.id" aria-placeholder="გზავნილის სტატუსი"
+                        name="status" placeholder="გზავნილის სტატუსი" required>
               <mat-option *ngFor="let c of statuses" [value]="c.id">{{c.status.name}} ({{c.name}})</mat-option>
             </mat-select>
           </mat-form-field>
@@ -14,32 +14,32 @@
       </div>
     </div>
     <div align="end">
-      <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
-              [disabled]="!userForm.valid"> შენახვა
+      <button (click)="doAction()" [disabled]="!userForm.valid" bg-success color="warn" mat-button
+              mat-flat-button> შენახვა
       </button>
-      <button mat-button (click)="closeDialog()"> დახურვა</button>
+      <button (click)="closeDialog()" mat-button> დახურვა</button>
     </div>
   </form>
   <div *ngIf="action === 'Print'"><br><br>
-    <div fxLayout="row wrap" class="align-items-center">
+    <div class="align-items-center" fxLayout="row wrap">
       <app-print [parcelId]="selectedObject.id" style="width: 100%;"></app-print>
     </div>
-<!--    <div align="end">-->
-<!--      <button mat-button (click)="closeDialog()">დახურვა</button>-->
-<!--    </div>-->
+    <!--    <div align="end">-->
+    <!--      <button mat-button (click)="closeDialog()">დახურვა</button>-->
+    <!--    </div>-->
   </div>
   <form #userForm="ngForm" *ngIf="action == 'fileUpload'">
-    <app-file-upload [showNewlyUploadedFilesUl]="false" [showUploadedFilesTable]="true"
-                     [parcelId]="selectedObject.id"></app-file-upload>
+    <app-file-upload [parcelId]="selectedObject.id" [showNewlyUploadedFilesUl]="false"
+                     [showUploadedFilesTable]="true"></app-file-upload>
     <div align="end">
-      <button mat-button (click)="closeDialog()">დახურვა</button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
     </div>
   </form>
 </mat-dialog-content>
 <ng-template #elseTemplate>
   <p>დაადასტურეთ წაშლა <b>{{selectedObject.id}}</b> ?</p>
-  <div mat-dialog-actions align="end" class="pt-3">
-    <button mat-button (click)="doAction()" mat-flat-button color="warn">წაშლა</button>
-    <button mat-button (click)="closeDialog()">გაუქმება</button>
+  <div align="end" class="pt-3" mat-dialog-actions>
+    <button (click)="doAction()" color="warn" mat-button mat-flat-button>წაშლა</button>
+    <button (click)="closeDialog()" mat-button>გაუქმება</button>
   </div>
 </ng-template>

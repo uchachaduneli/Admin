@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { TranslateService } from '@ngx-translate/core';
+import {Component} from '@angular/core';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vertical-header',
@@ -81,7 +81,7 @@ export class VerticalAppHeaderComponent {
     code: 'en',
     type: 'US',
     icon: 'us'
-  }
+  };
 
   public languages: any[] = [{
     language: 'English',
@@ -89,22 +89,21 @@ export class VerticalAppHeaderComponent {
     type: 'US',
     icon: 'us'
   },
-  {
-    language: 'Español',
-    code: 'es',
-    icon: 'es'
-  },
-  {
-    language: 'Français',
-    code: 'fr',
-    icon: 'fr'
-  },
-  {
-    language: 'German',
-    code: 'de',
-    icon: 'de'
-  }]
-
+    {
+      language: 'Español',
+      code: 'es',
+      icon: 'es'
+    },
+    {
+      language: 'Français',
+      code: 'fr',
+      icon: 'fr'
+    },
+    {
+      language: 'German',
+      code: 'de',
+      icon: 'de'
+    }];
 
 
   constructor(private translate: TranslateService) {
@@ -112,7 +111,7 @@ export class VerticalAppHeaderComponent {
   }
 
   changeLanguage(lang: any) {
-    this.translate.use(lang.code)
+    this.translate.use(lang.code);
     this.selectedLanguage = lang;
   }
 }

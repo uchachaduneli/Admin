@@ -312,7 +312,7 @@ import {
   ZoomIn,
   ZoomOut
 } from 'angular-feather/icons';
-import {CarAddDialogContent,  CarListComponent} from './car-list/car-list.component';
+import {CarAddDialogContent, CarListComponent} from './car-list/car-list.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ZoneDialogContent, ZoneListComponent} from './zone-list/zone-list.component';
 import {UserDialogContent, UserListComponent} from './user-list/user-list.component';
@@ -327,16 +327,16 @@ import {JwtInterceptor} from './authentication/jwt.interceptor';
 import {ParcelStatusDialogContent, ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
 import {ParcelStatusReasonDC, ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
 import {TariffDialogContent, TariffListComponent} from './tariff-list/tariff-list.component';
-import { TariffDetailsComponent } from './tariff-details/tariff-details.component';
+import {TariffDetailsComponent} from './tariff-details/tariff-details.component';
 import {ParcelDC, ParcelListComponent} from './parcel-list/parcel-list.component';
 import {ParcelFormComponent, ParcelFormPrintDialogContent} from './parcel-form/parcel-form.component';
 import {DocTypeDC, DoctypesComponent} from './doctypes/doctypes.component';
 import {NgxBarcodeModule} from 'ngx-barcode';
-import { ParcelDetailsComponent } from './parcel-details/parcel-details.component';
-import { FileUploadComponent } from './file-upload/file-upload.component';
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import {ParcelDetailsComponent} from './parcel-details/parcel-details.component';
+import {FileUploadComponent} from './file-upload/file-upload.component';
+import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component';
 import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-import.component';
-import { PrintComponent } from './print/print.component';
+import {PrintComponent} from './print/print.component';
 import {DeliveryDetailsComponent, DeliveryDetailsDialogContent} from './delivery-details/delivery-details.component';
 
 

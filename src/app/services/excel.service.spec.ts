@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ExcelService } from './excel.service';
+import {ExcelService} from './excel.service';
 
 describe('ExcelService', () => {
   let service: ExcelService;

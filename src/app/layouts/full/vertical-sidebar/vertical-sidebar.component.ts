@@ -3,11 +3,11 @@ import {
   Component,
   OnDestroy
 } from '@angular/core';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { MediaMatcher } from '@angular/cdk/layout';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 
-import { MenuItems } from '../../../shared/menu-items/menu-items';
+import {MenuItems} from '../../../shared/menu-items/menu-items';
 
 @Component({
   selector: 'app-vertical-sidebar',
@@ -18,27 +18,11 @@ import { MenuItems } from '../../../shared/menu-items/menu-items';
 export class VerticalAppSidebarComponent implements OnDestroy {
   public config: PerfectScrollbarConfigInterface = {};
   mobileQuery: MediaQueryList;
-
-  private _mobileQueryListener: () => void;
   status = true;
-
   itemSelect: number[] = [];
   parentIndex = 0;
   childIndex = 0;
-
-  setClickedRow(i: number, j: number) {
-    this.parentIndex = i;
-    this.childIndex = j;
-  }
-  subclickEvent() {
-    this.status = true;
-  }
-  scrollToTop() {
-    document.querySelector('.page-wrapper')?.scroll({
-      top: 0,
-      left: 0
-    });
-  }
+  private _mobileQueryListener: () => void;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -49,6 +33,22 @@ export class VerticalAppSidebarComponent implements OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  setClickedRow(i: number, j: number) {
+    this.parentIndex = i;
+    this.childIndex = j;
+  }
+
+  subclickEvent() {
+    this.status = true;
+  }
+
+  scrollToTop() {
+    document.querySelector('.page-wrapper')?.scroll({
+      top: 0,
+      left: 0
+    });
   }
 
   ngOnDestroy(): void {

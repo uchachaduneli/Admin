@@ -1,4 +1,4 @@
-import { TariffByZone } from './tariff-by-zone';
+import {TariffByZone} from './tariff-by-zone';
 
 describe('TariffByZone', () => {
   it('should create an instance', () => {

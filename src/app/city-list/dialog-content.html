@@ -1,81 +1,81 @@
 <h2 class="font-medium" mat-dialog-title>
   <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : ''}}</strong></h2>
-<mat-dialog-content class="pb-3" *ngIf="action != 'Delete'; else elseTemplate">
+<mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
   <!--  Add/Edit Dialog Content-->
   <form #userForm="ngForm" *ngIf="action != 'Details'">
-    <div fxLayout="row wrap" class="align-items-center">
+    <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput required id="name" name="name"
-                   [(ngModel)]="selectedObject.name"
-                   placeholder="დასახელება">
+            <input [(ngModel)]="selectedObject.name" id="name" matInput name="name" placeholder="დასახელება"
+                   required
+                   type="text">
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput required id="code" name="code"
-                   [(ngModel)]="selectedObject.code"
-                   placeholder="კოდი">
+            <input [(ngModel)]="selectedObject.code" id="code" matInput name="code" placeholder="კოდი"
+                   required
+                   type="text">
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.zone.id" name="zone" id="zone" placeholder="ზონა"
-                        aria-placeholder="ზონა" required>
-              <mat-option *ngFor="let z of zones"  [value]="z.id">{{z.name}}</mat-option>
+            <mat-select [(ngModel)]="selectedObject.zone.id" aria-placeholder="ზონა" id="zone" name="zone"
+                        placeholder="ზონა" required>
+              <mat-option *ngFor="let z of zones" [value]="z.id">{{z.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
     </div>
     <div align="end">
-      <button mat-button bg-success (click)="doAction()" mat-flat-button color="warn"
-              [disabled]="!userForm.valid"> შენახვა
+      <button (click)="doAction()" [disabled]="!userForm.valid" bg-success color="warn" mat-button
+              mat-flat-button> შენახვა
       </button>
-      <button mat-button (click)="closeDialog()">დახურვა</button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
     </div>
   </form>
   <!--  Details Dialog Content -->
   <form #detailsForm="ngForm" *ngIf="action == 'Details'">
-    <div fxLayout="row wrap" class="align-items-center">
+    <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="15">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput readonly name="id"
-                   [(ngModel)]="selectedObject.id"
-                   placeholder="#">
+            <input [(ngModel)]="selectedObject.id" matInput name="id" placeholder="#"
+                   readonly
+                   type="text">
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput readonly name="name"
-                   [(ngModel)]="selectedObject.name"
-                   placeholder="დასახელება">
+            <input [(ngModel)]="selectedObject.name" matInput name="name" placeholder="დასახელება"
+                   readonly
+                   type="text">
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput readonly name="code"
-                   [(ngModel)]="selectedObject.code"
-                   placeholder="კოდი">
+            <input [(ngModel)]="selectedObject.code" matInput name="code" placeholder="კოდი"
+                   readonly
+                   type="text">
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input type="text" matInput readonly name="zone"
-                   [(ngModel)]="selectedObject.zone.name"
-                   placeholder="ზონა">
+            <input [(ngModel)]="selectedObject.zone.name" matInput name="zone" placeholder="ზონა"
+                   readonly
+                   type="text">
           </mat-form-field>
         </div>
       </div>
@@ -83,32 +83,32 @@
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
-              <input type="text" matInput readonly name="createdTime"
-                     value="{{selectedObject.createdTime | date: 'short'}}"
-                     placeholder="ჩანაწერის დრო">
+              <input matInput name="createdTime" placeholder="ჩანაწერის დრო" readonly
+                     type="text"
+                     value="{{selectedObject.createdTime | date: 'short'}}">
             </mat-form-field>
           </div>
         </div>
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
-              <input type="text" matInput readonly name="updatedTime"
-                     value="{{selectedObject.updatedTime | date: 'short'}}"
-                     placeholder="განახლების დრო">
+              <input matInput name="updatedTime" placeholder="განახლების დრო" readonly
+                     type="text"
+                     value="{{selectedObject.updatedTime | date: 'short'}}">
             </mat-form-field>
           </div>
         </div>
       </div>
     </div>
     <div align="end">
-      <button mat-button (click)="closeDialog()">დახურვა</button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
     </div>
   </form>
 </mat-dialog-content>
 <ng-template #elseTemplate>
   <p>დაადასტურეთ წაშლა <b>{{selectedObject.name}}</b> ?</p>
-  <div mat-dialog-actions align="end" class="pt-3">
-    <button mat-button (click)="doAction()" mat-flat-button color="warn">წაშლა</button>
-    <button mat-button (click)="closeDialog()">გაუქმება</button>
+  <div align="end" class="pt-3" mat-dialog-actions>
+    <button (click)="doAction()" color="warn" mat-button mat-flat-button>წაშლა</button>
+    <button (click)="closeDialog()" mat-button>გაუქმება</button>
   </div>
 </ng-template>

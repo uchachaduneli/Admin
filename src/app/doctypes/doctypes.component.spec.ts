@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DoctypesComponent } from './doctypes.component';
+import {DoctypesComponent} from './doctypes.component';
 
 describe('DoctypesComponent', () => {
   let component: DoctypesComponent;
@@ -8,9 +8,9 @@ describe('DoctypesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DoctypesComponent ]
+      declarations: [DoctypesComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

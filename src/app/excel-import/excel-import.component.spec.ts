@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ExcelImportComponent } from './excel-import.component';
+import {ExcelImportComponent} from './excel-import.component';
 
 describe('ExcelImportComponent', () => {
   let component: ExcelImportComponent;
@@ -8,9 +8,9 @@ describe('ExcelImportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExcelImportComponent ]
+      declarations: [ExcelImportComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

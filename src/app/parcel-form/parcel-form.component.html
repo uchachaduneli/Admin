@@ -1,7 +1,7 @@
 <form class="doNotPrint">
   <div fxLayout="row wrap">
     <!-- Card column -->
-    <div fxFlex.gt-sm="100%" fxFlex="100">
+    <div fxFlex="100" fxFlex.gt-sm="100%">
       <mat-card>
         <mat-card-content>
           <mat-card-title class="p-b-20">
@@ -14,16 +14,16 @@
                   </mat-expansion-panel-header>
                   <mat-tab-group>
                     <mat-tab label="შტრიხკოდის ბეჭდვა">
-                      <div fxLayout="row wrap" class="align-items-center">
+                      <div class="align-items-center" fxLayout="row wrap">
                         <div fxFlex="100" fxFlex.gt-md="100">
                           <div fxFlex="100" fxFlex.gt-md="50">
                             <mat-form-field>
-                              <input type="number" matInput placeholder="მიუთითეთ დასაბეჭდი შტრიხკოდების რაოდენობა"
-                                     name="barcodesCount">
+                              <input matInput name="barcodesCount" placeholder="მიუთითეთ დასაბეჭდი შტრიხკოდების რაოდენობა"
+                                     type="number">
                             </mat-form-field>
                           </div>
                           <div fxFlex="100" fxFlex.gt-md="50">
-                            <button mat-button bg-success mat-flat-button color="warn" align="start"
+                            <button align="start" bg-success color="warn" mat-button mat-flat-button
                                     style="margin-top: 1.5%;margin-left: 2%;">
                               ბეჭდვა
                             </button>
@@ -32,18 +32,18 @@
                       </div>
                     </mat-tab>
                     <mat-tab label="მოც. წონის კოეფიციენტი">
-                      <div fxLayout="row wrap" class="align-items-center">
+                      <div class="align-items-center" fxLayout="row wrap">
                         <div fxFlex="100" fxFlex.gt-md="100">
                           <div fxFlex="100" fxFlex.gt-md="50">
                             <mat-form-field>
-                              <input type="number" matInput [(ngModel)]="slctedVolumeWeightIndex.amount"
+                              <input [(ngModel)]="slctedVolumeWeightIndex.amount" matInput name="volumeWeightIndex"
                                      placeholder="მიუთითეთ მოცულობითი წონის კოეფიციენტი"
-                                     name="volumeWeightIndex">
+                                     type="number">
                             </mat-form-field>
                           </div>
                           <div fxFlex="100" fxFlex.gt-md="50">
-                            <button mat-button bg-success mat-flat-button color="warn" align="start"
-                                    (click)="saveGlobalVolumeWeight()"
+                            <button (click)="saveGlobalVolumeWeight()" align="start" bg-success color="warn" mat-button
+                                    mat-flat-button
                                     style="margin-top: 1.5%; margin-left: 2%;">
                               შენახვა
                             </button>
@@ -55,7 +55,7 @@
                 </mat-expansion-panel>
               </mat-accordion>
             </div>
-            <div fxFlex="100" fxFlex.gt-md="20" class="text-right">
+            <div class="text-right" fxFlex="100" fxFlex.gt-md="20">
               <button (click)="showPrintDlg()">
                 <mat-icon>local_printshop</mat-icon>
               </button>
@@ -67,36 +67,36 @@
           <mat-vertical-stepper #stepper>
             <mat-step>
               <ng-template matStepLabel>გამგზავნი</ng-template>
-              <div fxLayout="row wrap" class="align-items-center">
+              <div class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input matInput [(ngModel)]="senderContactDto.contact.name" type="text"
-                               name="senderContactNameSrch" id="senderContactNameSrch"
-                               placeholder="კონტაქტის სახელი" class="search-input"
-                               (keyup.enter)="searchContact(1)">
+                        <input (keyup.enter)="searchContact(1)" [(ngModel)]="senderContactDto.contact.name" class="search-input"
+                               id="senderContactNameSrch" matInput
+                               name="senderContactNameSrch" placeholder="კონტაქტის სახელი"
+                               type="text">
                       </mat-form-field>
                     </div>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <mat-form-field>
-                      <input matInput type="number" [(ngModel)]="senderContactDto.contact.identNumber"
-                             name="senderIdentNumber" (keyup.enter)="searchContact(1)"
-                             placeholder=" საიდენტიფიკაციო #" class="search-input">
+                      <input (keyup.enter)="searchContact(1)" [(ngModel)]="senderContactDto.contact.identNumber" class="search-input"
+                             matInput name="senderIdentNumber"
+                             placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="60">
-                    <button mat-button bg-success mat-flat-button (click)="searchContact(1)" color="accent"
-                            align="start"
-                            [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber">
+                    <button (click)="searchContact(1)" [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber" align="start" bg-success color="accent"
+                            mat-button
+                            mat-flat-button>
                       <mat-icon>search</mat-icon>
                     </button>
                     &nbsp;
-                    <button mat-button mat-flat-button (click)="resetFilters()"
-                            align="start"
-                            [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber">
+                    <button (click)="resetFilters()" [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber" align="start"
+                            mat-button
+                            mat-flat-button>
                       <mat-icon>refresh</mat-icon>
                     </button>
                   </div>
@@ -104,11 +104,11 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="senderContactDto.contact.id" name="senderContact"
-                                  placeholder="მოძებნილი კონტაქტი"
+                      <mat-select (selectionChange)="onContactSelect($event.value, 1)" [(ngModel)]="senderContactDto.contact.id"
                                   [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი" required
-                                  (selectionChange)="onContactSelect($event.value, 1)">
+                                  aria-placeholder="მოძებნილი კონტაქტი"
+                                  name="senderContact" placeholder="მოძებნილი კონტაქტი"
+                                  required>
                         <mat-option *ngFor="let c of searchedSenderContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
                         </mat-option>
@@ -119,9 +119,9 @@
                 <div fxFlex="100" fxFlex.gt-md="51">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="senderContactDto.contactAddress.city.id" name="senderContactCity"
-                                  placeholder="ქალაქი" (selectionChange)="onCityChange($event.value, 1)"
-                                  aria-placeholder="ქალაქი" required>
+                      <mat-select (selectionChange)="onCityChange($event.value, 1)" [(ngModel)]="senderContactDto.contactAddress.city.id"
+                                  aria-placeholder="ქალაქი" name="senderContactCity"
+                                  placeholder="ქალაქი" required>
                         <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -130,9 +130,9 @@
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" name="senderContactAddress"
-                             [matAutocomplete]="autoSenderAddress"
-                             [formControl]="senderAddressCtrl" placeholder=" მისამართი">
+                      <input [formControl]="senderAddressCtrl" [matAutocomplete]="autoSenderAddress" matInput
+                             name="senderContactAddress"
+                             placeholder=" მისამართი" type="text">
                       <mat-autocomplete #autoSenderAddress="matAutocomplete">
                         <mat-option *ngFor="let state of filteredSenderAddresses | async"
                                     [value]="state.street +' '+ state.appartmentDetails">
@@ -145,8 +145,8 @@
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" name="senderContactPerson" [matAutocomplete]="senderPersonAuto"
-                             placeholder=" საკონტაქტო პირი" [formControl]="senderContactPersonCtrl">
+                      <input [formControl]="senderContactPersonCtrl" [matAutocomplete]="senderPersonAuto" matInput name="senderContactPerson"
+                             placeholder=" საკონტაქტო პირი" type="text">
                       <mat-autocomplete #senderPersonAuto="matAutocomplete">
                         <mat-option *ngFor="let state of filteredSenderContactPersons | async"
                                     [value]="state.contactPerson + ' ' + state.contactPersonPhone">
@@ -160,15 +160,15 @@
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
-                        <input matInput type="text" name="senderContactPhone" placeholder=" საკონტაქტო ტელეფონი"
-                               [(ngModel)]="senderContactDto.contactAddress.contactPersonPhone">
+                        <input [(ngModel)]="senderContactDto.contactAddress.contactPersonPhone" matInput name="senderContactPhone" placeholder=" საკონტაქტო ტელეფონი"
+                               type="text">
                       </mat-form-field>
                     </div>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
-                      <mat-slide-toggle name="senderSendSms" style="margin-top: 5px;"
-                                        [(ngModel)]="senderContactDto.sendSms">Send SMS
+                      <mat-slide-toggle [(ngModel)]="senderContactDto.sendSms" name="senderSendSms"
+                                        style="margin-top: 5px;">Send SMS
                       </mat-slide-toggle>
                     </div>
                   </div>
@@ -176,7 +176,7 @@
               </div>
               <div>
                 <!--                <button mat-button matStepperNext color="primary">-->
-                <button mat-button (click)="validateNextStep(1, stepper)" color="primary">
+                <button (click)="validateNextStep(1, stepper)" color="primary" mat-button>
                   შემდეგი
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
@@ -184,30 +184,30 @@
             </mat-step>
             <mat-step>
               <ng-template matStepLabel>მიმღები</ng-template>
-              <div fxLayout="row wrap" class="align-items-center">
+              <div class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input matInput [(ngModel)]="receiverContactDto.contact.name" type="text"
-                               name="receiverContactNameSrch" id="receiverContactNameSrch"
-                               placeholder="კონტაქტის სახელი" class="search-input"
-                               (keyup.enter)="searchContact(2)">
+                        <input (keyup.enter)="searchContact(2)" [(ngModel)]="receiverContactDto.contact.name" class="search-input"
+                               id="receiverContactNameSrch" matInput
+                               name="receiverContactNameSrch" placeholder="კონტაქტის სახელი"
+                               type="text">
                       </mat-form-field>
                     </div>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <mat-form-field>
-                      <input matInput type="number" [(ngModel)]="receiverContactDto.contact.identNumber"
-                             name="receiverIdenNumber" (keyup.enter)="searchContact(2)"
-                             placeholder=" საიდენტიფიკაციო #" class="search-input">
+                      <input (keyup.enter)="searchContact(2)" [(ngModel)]="receiverContactDto.contact.identNumber" class="search-input"
+                             matInput name="receiverIdenNumber"
+                             placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="60">
-                    <button mat-button bg-success mat-flat-button (click)="searchContact(2)" color="accent"
-                            align="start"
-                            [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber">
+                    <button (click)="searchContact(2)" [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber" align="start" bg-success color="accent"
+                            mat-button
+                            mat-flat-button>
                       <mat-icon>search</mat-icon>
                     </button>
                   </div>
@@ -216,11 +216,11 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="receiverContactDto.contact.id" name="receiverContact"
-                                  placeholder="მოძებნილი კონტაქტი"
+                      <mat-select (selectionChange)="onContactSelect($event.value, 2)" [(ngModel)]="receiverContactDto.contact.id"
                                   [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი" required
-                                  (selectionChange)="onContactSelect($event.value, 2)">
+                                  aria-placeholder="მოძებნილი კონტაქტი"
+                                  name="receiverContact" placeholder="მოძებნილი კონტაქტი"
+                                  required>
                         <mat-option *ngFor="let c of searchedReceiverContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
                         </mat-option>
@@ -231,9 +231,9 @@
                 <div fxFlex="100" fxFlex.gt-md="51">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="receiverContactDto.contactAddress.city.id" name="receiverContactCity"
-                                  placeholder="ქალაქი" (selectionChange)="onCityChange($event.value, 2)"
-                                  aria-placeholder="ქალაქი" required>
+                      <mat-select (selectionChange)="onCityChange($event.value, 2)" [(ngModel)]="receiverContactDto.contactAddress.city.id"
+                                  aria-placeholder="ქალაქი" name="receiverContactCity"
+                                  placeholder="ქალაქი" required>
                         <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -242,8 +242,8 @@
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" name="receiverContacaddress" [matAutocomplete]="autoReceiverAddress"
-                             placeholder=" მისამართი" [formControl]="receiverAddressCtrl">
+                      <input [formControl]="receiverAddressCtrl" [matAutocomplete]="autoReceiverAddress" matInput name="receiverContacaddress"
+                             placeholder=" მისამართი" type="text">
                       <mat-autocomplete #autoReceiverAddress="matAutocomplete">
                         <mat-option *ngFor="let state of filteredReceiverAddresses | async" [value]="state.street">
                           <span>{{state.street}}, {{state.appartmentDetails}}</span>
@@ -255,9 +255,9 @@
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" id="senderContactPersonInputId" name="receiverContactPerson"
-                             [matAutocomplete]="receiverPersonAuto"
-                             placeholder=" საკონტაქტო პირი" [formControl]="receiverContactPersonCtrl">
+                      <input [formControl]="receiverContactPersonCtrl" [matAutocomplete]="receiverPersonAuto" id="senderContactPersonInputId" matInput
+                             name="receiverContactPerson"
+                             placeholder=" საკონტაქტო პირი" type="text">
                       <mat-autocomplete #receiverPersonAuto="matAutocomplete">
                         <mat-option *ngFor="let state of filteredReceiverContactPersons | async"
                                     [value]="state.contactPerson + ' ' + state.contactPersonPhone">
@@ -271,26 +271,26 @@
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
-                        <input matInput type="text" name="receiverContactPhone" placeholder=" საკონტაქტო ტელეფონი"
-                               [(ngModel)]="receiverContactDto.contactAddress.contactPersonPhone">
+                        <input [(ngModel)]="receiverContactDto.contactAddress.contactPersonPhone" matInput name="receiverContactPhone" placeholder=" საკონტაქტო ტელეფონი"
+                               type="text">
                       </mat-form-field>
                     </div>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
-                      <mat-slide-toggle name="receiverSendSms" style="margin-top: 5px;"
-                                        [(ngModel)]="receiverContactDto.sendSms">Send SMS
+                      <mat-slide-toggle [(ngModel)]="receiverContactDto.sendSms" name="receiverSendSms"
+                                        style="margin-top: 5px;">Send SMS
                       </mat-slide-toggle>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <button mat-button matStepperPrevious color="primary">
+                <button color="primary" mat-button matStepperPrevious>
                   <mat-icon>keyboard_arrow_up</mat-icon>
                   წინა
                 </button>
-                <button mat-button (click)="validateNextStep(2, stepper)" color="primary">
+                <button (click)="validateNextStep(2, stepper)" color="primary" mat-button>
                   შემდეგი
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
@@ -300,8 +300,8 @@
               <ng-template matStepLabel>გადამხდელი მხარე</ng-template>
               <div fxFlex="100" fxFlex.gt-md="50">
                 <div class="m-r-15 m-l-15">
-                  <mat-radio-group aria-label="მიუთითეთ მხარე" name="payerSide"
-                                   [(ngModel)]="selectedObject.payerSide">
+                  <mat-radio-group [(ngModel)]="selectedObject.payerSide" aria-label="მიუთითეთ მხარე"
+                                   name="payerSide">
                     <mat-label> &nbsp;</mat-label>
                     <mat-radio-button [value]="1"> გამგზავნი &nbsp;</mat-radio-button>
                     <mat-radio-button [value]="2"> მიმღები &nbsp;</mat-radio-button>
@@ -310,36 +310,36 @@
                 </div>
               </div>
               <br/>
-              <div fxLayout="row wrap" class="align-items-center" *ngIf="selectedObject.payerSide === 3">
+              <div *ngIf="selectedObject.payerSide === 3" class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input matInput [(ngModel)]="payerContactDto.contact.name" type="text"
-                               name="payerContactNameSrch" id="payerContactNameSrch"
-                               placeholder="კონტაქტის სახელი" class="search-input"
-                               (keyup.enter)="searchContact(1)">
+                        <input (keyup.enter)="searchContact(1)" [(ngModel)]="payerContactDto.contact.name" class="search-input"
+                               id="payerContactNameSrch" matInput
+                               name="payerContactNameSrch" placeholder="კონტაქტის სახელი"
+                               type="text">
                       </mat-form-field>
                     </div>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <mat-form-field>
-                      <input matInput type="number" [(ngModel)]="payerContactDto.contact.identNumber"
-                             name="payerIdentNumber" (keyup.enter)="searchContact(1)"
-                             placeholder=" საიდენტიფიკაციო #" class="search-input">
+                      <input (keyup.enter)="searchContact(1)" [(ngModel)]="payerContactDto.contact.identNumber" class="search-input"
+                             matInput name="payerIdentNumber"
+                             placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="60">
-                    <button mat-button bg-success mat-flat-button (click)="searchContact(1)" color="accent"
-                            align="start"
-                            [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber">
+                    <button (click)="searchContact(1)" [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber" align="start" bg-success color="accent"
+                            mat-button
+                            mat-flat-button>
                       <mat-icon>search</mat-icon>
                     </button>
                     &nbsp;
-                    <button mat-button mat-flat-button (click)="resetFilters()"
-                            align="start"
-                            [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber">
+                    <button (click)="resetFilters()" [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber" align="start"
+                            mat-button
+                            mat-flat-button>
                       <mat-icon>refresh</mat-icon>
                     </button>
                   </div>
@@ -347,11 +347,11 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="payerContactDto.contact.id" name="payerContact"
-                                  placeholder="მოძებნილი კონტაქტი"
+                      <mat-select (selectionChange)="onContactSelect($event.value, 3)" [(ngModel)]="payerContactDto.contact.id"
                                   [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი" required
-                                  (selectionChange)="onContactSelect($event.value, 3)">
+                                  aria-placeholder="მოძებნილი კონტაქტი"
+                                  name="payerContact" placeholder="მოძებნილი კონტაქტი"
+                                  required>
                         <mat-option *ngFor="let c of searchedPayerContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
                         </mat-option>
@@ -362,9 +362,9 @@
                 <div fxFlex="100" fxFlex.gt-md="51">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="payerContactDto.contactAddress.city.id" name="payerContactCity"
-                                  placeholder="ქალაქი" (selectionChange)="onCityChange($event.value, 3)"
-                                  aria-placeholder="ქალაქი" required>
+                      <mat-select (selectionChange)="onCityChange($event.value, 3)" [(ngModel)]="payerContactDto.contactAddress.city.id"
+                                  aria-placeholder="ქალაქი" name="payerContactCity"
+                                  placeholder="ქალაქი" required>
                         <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -373,26 +373,26 @@
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" [(ngModel)]="payerContactDto.contactAddress.street"
-                             name="payerContactAddress" placeholder=" მისამართი">
+                      <input [(ngModel)]="payerContactDto.contactAddress.street" matInput name="payerContactAddress"
+                             placeholder=" მისამართი" type="text">
                     </mat-form-field>
                   </div>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="100">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <input matInput type="text" [(ngModel)]="payerContactDto.contactAddress.contactPerson"
-                             name="payerContactPerson" placeholder=" საკონტაქტო პირი">
+                      <input [(ngModel)]="payerContactDto.contactAddress.contactPerson" matInput name="payerContactPerson"
+                             placeholder=" საკონტაქტო პირი" type="text">
                     </mat-form-field>
                   </div>
                 </div>
               </div>
               <div>
-                <button mat-button matStepperPrevious color="primary">
+                <button color="primary" mat-button matStepperPrevious>
                   <mat-icon>keyboard_arrow_up</mat-icon>
                   წინა
                 </button>
-                <button mat-button (click)="validateNextStep(3, stepper)" color="primary">
+                <button (click)="validateNextStep(3, stepper)" color="primary" mat-button>
                   შემდეგი
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
@@ -404,18 +404,18 @@
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field fxFlex="100" fxFlex.gt-md="50">
-                    <input matInput type="number" align="start" [(ngModel)]="packagesCount"
-                           (keyup)="addPackageRow($event.target.value)" name="packagesCount"
-                           placeholder="რაოდენობა">
+                    <input (keyup)="addPackageRow($event.target.value)" [(ngModel)]="packagesCount" align="start" matInput
+                           name="packagesCount" placeholder="რაოდენობა"
+                           type="number">
                   </mat-form-field>
 
-                  <button mat-button (click)="addPackageRow(-1)" color="accent">
+                  <button (click)="addPackageRow(-1)" color="accent" mat-button>
                     <mat-icon>plus_one</mat-icon>
                   </button>
                 </div>
                 <mat-form-field fxFlex="100" fxFlex.gt-md="20">
-                  <input matInput type="number" [(ngModel)]="selectedObject.weight"
-                         name="parcelWeight" placeholder="წონა">
+                  <input [(ngModel)]="selectedObject.weight" matInput name="parcelWeight"
+                         placeholder="წონა" type="number">
                 </mat-form-field>
               </div>
               <div style="border-bottom:1px dashed #1eacbe;">
@@ -424,43 +424,43 @@
                   <tr *ngFor="let dynamic of dynamicArray; let i = index;">
                     <td fxFlex="10">
                       <mat-form-field>
-                        <input [(ngModel)]="dynamicArray[i].length" (keyup)="calculateVolumeWeight(i)" matInput
-                               placeholder="სიგრძე" type="number"
-                               name="length{{i}}"/>
+                        <input (keyup)="calculateVolumeWeight(i)" [(ngModel)]="dynamicArray[i].length" matInput
+                               name="length{{i}}" placeholder="სიგრძე"
+                               type="number"/>
                       </mat-form-field>
                     </td>
                     <td fxFlex="10">
                       <mat-form-field>
-                        <input [(ngModel)]="dynamicArray[i].width" (keyup)="calculateVolumeWeight(i)" matInput
-                               placeholder="სიგანე" type="number"
-                               name="width{{i}}"/>
+                        <input (keyup)="calculateVolumeWeight(i)" [(ngModel)]="dynamicArray[i].width" matInput
+                               name="width{{i}}" placeholder="სიგანე"
+                               type="number"/>
                       </mat-form-field>
                     </td>
                     <td fxFlex="10">
                       <mat-form-field>
-                        <input [(ngModel)]="dynamicArray[i].height" (keyup)="calculateVolumeWeight(i)" matInput
-                               placeholder="სიმაღლე" type="number"
-                               name="height{{i}}"/>
+                        <input (keyup)="calculateVolumeWeight(i)" [(ngModel)]="dynamicArray[i].height" matInput
+                               name="height{{i}}" placeholder="სიმაღლე"
+                               type="number"/>
                       </mat-form-field>
                     </td>
                     <td fxFlex="10">
                       <mat-form-field>
-                        <input value="{{dynamicArray[i].volumeWeight}}" matInput readonly placeholder="მოც.წონა"
-                               type="number" name="volumeWeight{{i}}"/>
+                        <input matInput name="volumeWeight{{i}}" placeholder="მოც.წონა" readonly
+                               type="number" value="{{dynamicArray[i].volumeWeight}}"/>
                       </mat-form-field>
                     </td>
-<!--                    <td>-->
-<!--                      <mat-form-field>-->
-<!--                        <input [(ngModel)]="dynamicArray[i].plombNumber" matInput placeholder="პლომბის #" type="text"-->
-<!--                               name="plombNumber{{i}}"/>-->
-<!--                      </mat-form-field>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <mat-form-field>-->
-<!--                        <input [(ngModel)]="dynamicArray[i].boxNumber" matInput placeholder="ყუთის #" type="text"-->
-<!--                               name="boxNumber{{i}}"/>-->
-<!--                      </mat-form-field>-->
-<!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                      <mat-form-field>-->
+                    <!--                        <input [(ngModel)]="dynamicArray[i].plombNumber" matInput placeholder="პლომბის #" type="text"-->
+                    <!--                               name="plombNumber{{i}}"/>-->
+                    <!--                      </mat-form-field>-->
+                    <!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                      <mat-form-field>-->
+                    <!--                        <input [(ngModel)]="dynamicArray[i].boxNumber" matInput placeholder="ყუთის #" type="text"-->
+                    <!--                               name="boxNumber{{i}}"/>-->
+                    <!--                      </mat-form-field>-->
+                    <!--                    </td>-->
                     <td (click)="deletePackageRow(i)" class="cursor-pointer">
                       <mat-icon>delete_outline</mat-icon>
                     </td>
@@ -471,8 +471,8 @@
                     <td fxFlex="10"></td>
                     <td fxFlex="10">{{selectedObject.volumeWeight | number:'1.2-3'}}</td>
                     <td></td>
-<!--                    <td></td>-->
-<!--                    <td></td>-->
+                    <!--                    <td></td>-->
+                    <!--                    <td></td>-->
                   </tr>
                   </tbody>
                 </table>
@@ -484,16 +484,16 @@
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input matInput type="number" name="gadaputvisPasi" [(ngModel)]="selectedObject.gadafutvisPrice"
-                             placeholder="გადაფუთვის ფასი">
+                      <input [(ngModel)]="selectedObject.gadafutvisPrice" matInput name="gadaputvisPasi" placeholder="გადაფუთვის ფასი"
+                             type="number">
                     </mat-form-field>
                   </div>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <mat-form-field>
-                    <input matInput type="number" name="totalPrice"
-                           [(ngModel)]="selectedObject.totalPrice" placeholder=" მთლიანი ფასი ">
-                    <button mat-button matPrefix mat-stroked-button (click)="calculateTotalPrice()">
+                    <input [(ngModel)]="selectedObject.totalPrice" matInput name="totalPrice"
+                           placeholder=" მთლიანი ფასი " type="number">
+                    <button (click)="calculateTotalPrice()" mat-button mat-stroked-button matPrefix>
                       <mat-icon>attach_money</mat-icon>
                       კალკულაცია
                     </button>
@@ -512,7 +512,7 @@
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
-                    <mat-radio-group aria-label="ჩაბარების ტიპი" [(ngModel)]="selectedObject.deliveryType"
+                    <mat-radio-group [(ngModel)]="selectedObject.deliveryType" aria-label="ჩაბარების ტიპი"
                                      name="deilveryType">
                       <mat-label>ჩაბარების ტიპი &nbsp;</mat-label>
                       <mat-radio-button [value]="1"> მიტანა მისამართზე &nbsp;</mat-radio-button>
@@ -522,7 +522,7 @@
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
-                    <mat-radio-group aria-label="გადახდის ტიპი" [(ngModel)]="selectedObject.paymentType"
+                    <mat-radio-group [(ngModel)]="selectedObject.paymentType" aria-label="გადახდის ტიპი"
                                      name="paymentType">
                       <mat-label>გადახდის ტიპი &nbsp;</mat-label>
                       <mat-radio-button [value]="1"> ინვოისი &nbsp;</mat-radio-button>
@@ -536,7 +536,7 @@
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15"><br/>
-                    <mat-radio-group aria-label="პაკეტის ტიპი" [(ngModel)]="selectedObject.packageType"
+                    <mat-radio-group [(ngModel)]="selectedObject.packageType" aria-label="პაკეტის ტიპი"
                                      name="packageType">
                       <mat-label>პაკეტის ტიპი &nbsp;</mat-label>
                       <mat-radio-button [value]="1"> ამანათი &nbsp;</mat-radio-button>
@@ -546,8 +546,8 @@
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15"><br/>
-                    <mat-radio-group aria-label="ჩაბარების დადასტურება" name="deliveredConfirmation"
-                                     [(ngModel)]="selectedObject.deliveredConfirmation">
+                    <mat-radio-group [(ngModel)]="selectedObject.deliveredConfirmation" aria-label="ჩაბარების დადასტურება"
+                                     name="deliveredConfirmation">
                       <mat-label> ჩაბარების დადასტურება &nbsp;</mat-label>
                       <mat-radio-button [value]="1"> კი &nbsp;</mat-radio-button>
                       <mat-radio-button [value]="2"> არა</mat-radio-button>
@@ -560,8 +560,8 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="selectedObject.route.id" name="route"
-                                  placeholder="მარშრუტი" aria-placeholder="მარშრუტი">
+                      <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი"
+                                  name="route" placeholder="მარშრუტი">
                         <mat-option *ngFor="let c of routes" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -570,9 +570,9 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="selectedObject.service.id" name="parcelType"
-                                  placeholder="გზავნილის ტიპი"
-                                  aria-placeholder="გზავნილის ტიპი">
+                      <mat-select [(ngModel)]="selectedObject.service.id" aria-placeholder="გზავნილის ტიპი"
+                                  name="parcelType"
+                                  placeholder="გზავნილის ტიპი">
                         <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}} - {{c.price}}₾</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -592,8 +592,8 @@
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <textarea placeholder="შიგთავსი" aria-placeholder="შიგთავსი" rows="3" matInput
-                              [(ngModel)]="selectedObject.content" name="contentTextArea"
+                    <textarea [(ngModel)]="selectedObject.content" aria-placeholder="შიგთავსი" matInput name="contentTextArea"
+                              placeholder="შიგთავსი" rows="3"
                               type="text"></textarea>
                   </mat-form-field>
                 </div>
@@ -601,8 +601,8 @@
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <textarea placeholder="შენიშვნა" aria-placeholder="შენიშვნა" rows="2" matInput
-                              [(ngModel)]="selectedObject.comment" name="comment"
+                    <textarea [(ngModel)]="selectedObject.comment" aria-placeholder="შენიშვნა" matInput name="comment"
+                              placeholder="შენიშვნა" rows="2"
                               type="text"></textarea>
                   </mat-form-field>
                 </div>
@@ -614,26 +614,26 @@
               <!--              </div>-->
             </mat-step>
           </mat-vertical-stepper>
-          <div fxLayout="row wrap" class="align-items-center align-self-center">
+          <div class="align-items-center align-self-center" fxLayout="row wrap">
             <div fxFlex="100" fxFlex.gt-md="25"></div>
             <div fxFlex="100" fxFlex.gt-md="60">
-              <button mat-button bg-primary mat-flat-button color="warn"
-                      (click)="save(false, false)">
+              <button (click)="save(false, false)" bg-primary color="warn" mat-button
+                      mat-flat-button>
                 შენახვა
                 <mat-icon>save</mat-icon>
               </button>&nbsp; &nbsp;&nbsp;
-              <button mat-button bg-primary mat-flat-button color="accent"
-                      (click)="save(false, true)">
+              <button (click)="save(false, true)" bg-primary color="accent" mat-button
+                      mat-flat-button>
                 შენახვა & კურიერთან გაგზავნა
                 <mat-icon>directions_bike</mat-icon>
               </button> &nbsp; &nbsp;&nbsp;
-              <button mat-button bg-primary mat-flat-button color="primary"
-                      (click)="save(true, false)">
+              <button (click)="save(true, false)" bg-primary color="primary" mat-button
+                      mat-flat-button>
                 შენახვა & ბეჭდვა
                 <mat-icon>local_printshop</mat-icon>
               </button>
             </div>
-            <div fxFlex="100" fxFlex.gt-md="15" class="text-right">
+            <div class="text-right" fxFlex="100" fxFlex.gt-md="15">
               <button (click)="showPrintDlg()">
                 <mat-icon>local_printshop</mat-icon>
               </button>

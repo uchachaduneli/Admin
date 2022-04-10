@@ -7,7 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { AccordionDirective } from './accordion.directive';
+import {AccordionDirective} from './accordion.directive';
 
 @Directive({
   selector: '[appAccordionLink]'
@@ -15,6 +15,13 @@ import { AccordionDirective } from './accordion.directive';
 export class AccordionLinkDirective implements OnInit, OnDestroy {
   @Input()
   public group: any;
+  protected nav: AccordionDirective;
+
+  constructor(@Inject(AccordionDirective) nav: AccordionDirective) {
+    this.nav = nav;
+  }
+
+  protected _selected = false;
 
   @HostBinding('class.selected')
   @Input()
@@ -27,13 +34,6 @@ export class AccordionLinkDirective implements OnInit, OnDestroy {
     if (value) {
       this.nav.closeOtherLinks(this);
     }
-  }
-
-  protected _selected = false;
-  protected nav: AccordionDirective;
-
-  constructor(@Inject(AccordionDirective) nav: AccordionDirective) {
-    this.nav = nav;
   }
 
   ngOnInit(): any {

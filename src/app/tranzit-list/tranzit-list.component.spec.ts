@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TranzitListComponent } from './tranzit-list.component';
+import {TranzitListComponent} from './tranzit-list.component';
 
 describe('TranzitListComponent', () => {
   let component: TranzitListComponent;
@@ -8,9 +8,9 @@ describe('TranzitListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TranzitListComponent ]
+      declarations: [TranzitListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

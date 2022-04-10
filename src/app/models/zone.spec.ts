@@ -1,4 +1,4 @@
-import { Zone } from './zone';
+import {Zone} from './zone';
 
 describe('Zone', () => {
   it('should create an instance', () => {

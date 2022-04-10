@@ -1,4 +1,4 @@
-import { ParcelStatus } from './parcel-status';
+import {ParcelStatus} from './parcel-status';
 
 describe('ParcelStatus', () => {
   it('should create an instance', () => {

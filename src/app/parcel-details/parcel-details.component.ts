@@ -145,20 +145,6 @@ export class ParcelDetailsComponent implements OnInit {
     });
   }
 
-  private getParcelIdFromUrl(): void {
-    this.route.params.subscribe(params => {
-      if (params.id && params.id > 0) {
-        this.service.getById(params.id).subscribe(existinParcel => {
-          if (!existinParcel) {
-            this.router.navigate(['parcels']);
-          } else {
-            this.selectedObject = existinParcel;
-          }
-        });
-      }
-    });
-  }
-
   loadStatusHistory(): void {
     if (!this.selectedObject) {
       this.getParcelIdFromUrl();
@@ -213,5 +199,19 @@ export class ParcelDetailsComponent implements OnInit {
     } else if ($event.index === 3) {
       this.getParcelMessages();
     }
+  }
+
+  private getParcelIdFromUrl(): void {
+    this.route.params.subscribe(params => {
+      if (params.id && params.id > 0) {
+        this.service.getById(params.id).subscribe(existinParcel => {
+          if (!existinParcel) {
+            this.router.navigate(['parcels']);
+          } else {
+            this.selectedObject = existinParcel;
+          }
+        });
+      }
+    });
   }
 }

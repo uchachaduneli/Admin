@@ -1,28 +1,50 @@
 <mat-dialog-content class="pb-3">
   <!--  Details Dialog Content -->
   <form #detailsForm="ngForm" *ngIf="action == 'Details'">
-    <div fxLayout="row wrap" class="align-items-center">
-      <div fxFlex="100" fxFlex.gt-md="15">
-        <div class="m-r-15 m-l-15">
-          <mat-form-field>
-            <input type="text" matInput readonly name="id"
-                   [(ngModel)]="selectedObject.id"
-                   placeholder="#">
-          </mat-form-field>
-        </div>
-      </div>
-      <div fxFlex="100" fxFlex.gt-md="50">
-        <div class="m-r-15 m-l-15">
-          <mat-form-field>
-            <input type="text" matInput readonly name="name"
-                   [(ngModel)]="selectedObject.name"
-                   placeholder="დასახელება">
-          </mat-form-field>
-        </div>
+    <div class="example-container m-t-20">
+      <h3>ჩაბარების დეტალ #{{receivedData.detailBarCode}} -ში არსებული ამანათები.  თარიღი {{receivedData.createdTime | date :'dd-MM-yyyy'}}</h3>
+      <div class="example-table-container responsive-table">
+        <table [dataSource]="datasrc" class="example-table striped" mat-table>
+          <ng-container matColumnDef="barCode">
+            <th *matHeaderCellDef mat-header-cell> #</th>
+            <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+          </ng-container>
+          <ng-container matColumnDef="senderName">
+            <th *matHeaderCellDef mat-header-cell> გამგზავნი</th>
+            <td *matCellDef="let element" mat-cell> {{element.senderName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="receiverName">
+            <th *matHeaderCellDef mat-header-cell> მიმღები</th>
+            <td *matCellDef="let element" mat-cell> {{element.receiverName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="payerName">
+            <th *matHeaderCellDef mat-header-cell> გადამხდელი</th>
+            <td *matCellDef="let element" mat-cell> {{element.payerName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="weight">
+            <th *matHeaderCellDef mat-header-cell> წონა</th>
+            <td *matCellDef="let element" mat-cell> {{element.weight}} </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th *matHeaderCellDef mat-header-cell> სტატუსი</th>
+            <td *matCellDef="let element" mat-cell> {{element.status.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
+            <td *matCellDef="let element" class="action-link text-center" mat-cell>
+              <a class="m-r-10 cursor-pointer" href="parcel-form/{{element.id}}" title="რედაქტირება">
+                <mat-icon>create</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let element; columns: displayedColumns;" mat-row></tr>
+        </table>
       </div>
     </div>
     <div align="end">
-      <button mat-button (click)="closeDialog()">დახურვა</button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
     </div>
   </form>
 </mat-dialog-content>

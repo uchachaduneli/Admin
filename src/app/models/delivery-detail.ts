@@ -1,18 +1,16 @@
 import {Parcel} from './parcel';
 import {User} from './user';
 import {Warehouse} from './warehouse';
+import {Route} from './route';
 
-export class ParcelStatusHistory {
+export class DeliveryDetail {
   id!: number;
+  detailBarCode!: string;
   name!: string;
-  reason!: string;
-  code!: string;
-  reasonCode!: string;
-  parcel!: Parcel;
-  author!: User;
-  courierUser!: User;
+  route!: Route;
   warehouse!: Warehouse;
-  comment!: string;
+  parcels: Parcel[] = [];
+  user!: User;
   updatedTime!: string;
   createdTime!: string;
 }

@@ -1,4 +1,4 @@
-import { DocType } from './doc-type';
+import {DocType} from './doc-type';
 
 describe('DocType', () => {
   it('should create an instance', () => {

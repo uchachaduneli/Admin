@@ -2,16 +2,20 @@ import {
   Directive,
   AfterContentChecked
 } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 import 'rxjs/add/operator/filter';
 
-import { AccordionLinkDirective } from './accordionlink.directive';
+import {AccordionLinkDirective} from './accordionlink.directive';
 
 @Directive({
   selector: '[appAccordion]'
 })
 export class AccordionDirective implements AfterContentChecked {
   protected navlinks: Array<AccordionLinkDirective> = [];
+
+  constructor(private router: Router) {
+    setTimeout(() => this.checkOpenLinks());
+  }
 
   closeOtherLinks(selectedLink: AccordionLinkDirective): void {
     this.navlinks.forEach((link: AccordionLinkDirective) => {
@@ -46,10 +50,6 @@ export class AccordionDirective implements AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    
-  }
 
-  constructor(private router: Router) {
-    setTimeout(() => this.checkOpenLinks());
   }
 }

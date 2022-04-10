@@ -29,6 +29,7 @@ export class AuthGuard implements CanActivate {
     }
   }
 }
+
 // export class AuthGuard implements CanLoad {
 //   constructor(
 //     private router: Router, private notificationService: NotificationService,

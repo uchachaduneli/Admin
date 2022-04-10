@@ -1,12 +1,12 @@
 <!-- ============================================================== -->
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
-<div class="main-container" [dir]="dir"
-     [ngClass]="{'minisidebar': minisidebar, 'boxed': boxed, 'danger': danger, 'blue': blue, 'green': green, 'dark': dark}">
+<div [dir]="dir" [ngClass]="{'minisidebar': minisidebar, 'boxed': boxed, 'danger': danger, 'blue': blue, 'green': green, 'dark': dark}"
+     class="main-container">
   <!-- ============================================================== -->
   <!-- Topbar - style you can find in header.scss -->
   <!-- ============================================================== -->
-  <mat-toolbar color="primary" class="topbar telative">
+  <mat-toolbar class="topbar telative" color="primary">
     <div class="w-100 fix-width-for-horizontal">
       <!-- ============================================================== -->
       <!-- Logo - style you can find in header.scss -->
@@ -21,9 +21,9 @@
           <!--            <img src="assets/images/logo.png" alt="homepage" style="height: 37px;" class="dark-logo">-->
           <!-- Light Logo icon -->
           <!--            <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo">-->
-          <a href="/"><img src="assets/images/logo.png" alt="homepage"
-                           style="height: 41px; margin: 0 auto; width: 152px;"
-                           class="light-logo"> </a>
+          <a href="/"><img alt="homepage" class="light-logo"
+                           src="assets/images/logo.png"
+                           style="height: 41px; margin: 0 auto; width: 152px;"> </a>
           <!--          </b>-->
           <!--End Logo icon -->
           <!-- Logo text -->
@@ -41,7 +41,7 @@
       <!-- sidebar toggle -->
       <!-- ============================================================== -->
 
-      <button mat-icon-button (click)="snav.toggle() && clickEvent()" class="sidebar-toggle" value="sidebarclosed">
+      <button (click)="snav.toggle() && clickEvent()" class="sidebar-toggle" mat-icon-button value="sidebarclosed">
         <mat-icon>menu</mat-icon>
       </button>
       <!-- ============================================================== -->
@@ -81,7 +81,7 @@
       <!-- ============================================================== -->
       <!-- Right sidebar toggle - style you can find in rightsidebar.component.scss -->
       <!-- ============================================================== -->
-      <button (click)="end.toggle()" mat-icon-button class="ml-xs overflow-visible">
+      <button (click)="end.toggle()" class="ml-xs overflow-visible" mat-icon-button>
         <mat-icon>settings</mat-icon>
       </button>
     </div>
@@ -90,16 +90,16 @@
   <!-- ============================================================== -->
   <!-- End Topbar - style you can find in pages.scss -->
   <!-- ============================================================== -->
-  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
-                         [ngClass]="{'minisidebar': minisidebar}">
+  <mat-sidenav-container [ngClass]="{'minisidebar': minisidebar}" [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+                         class="example-sidenav-container">
     <!-- ============================================================== -->
     <!-- Sidebar - style you can find in sidebar.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav #snav id="snav" class="pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0"
-                 [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches" (open)="sidebarOpened = true"
-                 (close)="sidebarOpened = false">
+    <mat-sidenav #snav (close)="sidebarOpened = false" (open)="sidebarOpened = true" [disableClose]="mobileQuery.matches" [mode]="mobileQuery.matches ? 'side' : 'over'"
+                 [opened]="mobileQuery.matches" class="pl-xs" fixedTopGap="0"
+                 id="snav">
 
-      <perfect-scrollbar class="scbar" [config]="config">
+      <perfect-scrollbar [config]="config" class="scbar">
         <app-vertical-sidebar class="app-sidebar"></app-vertical-sidebar>
       </perfect-scrollbar>
 
@@ -111,30 +111,30 @@
     <!-- ============================================================== -->
     <!-- Right Sidebar - style you can find in rightsidebar.component.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav #end position="end" class="chat-panel" mode="over" opened="false">
+    <mat-sidenav #end class="chat-panel" mode="over" opened="false" position="end">
       <div class="scroll">
         <mat-nav-list>
 
-          <h3 mat-subheader class="text-uppercase font-weight-bold">პარამეტრები</h3>
+          <h3 class="text-uppercase font-weight-bold" mat-subheader>პარამეტრები</h3>
           <mat-list-item>
             <mat-slide-toggle [(ngModel)]="minisidebar">მენიუს შემცირება</mat-slide-toggle>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <h3 mat-subheader class="text-uppercase font-weight-bold">სტილი</h3>
+          <h3 class="text-uppercase font-weight-bold" mat-subheader>სტილი</h3>
           <!--          <mat-list-item>-->
           <!--            <mat-checkbox color="warn" [(ngModel)]="danger" (change)="green = blue = false" class="text-danger">Red-->
           <!--            </mat-checkbox>-->
           <!--          </mat-list-item>-->
           <mat-list-item>
-            <mat-checkbox color="warn" [(ngModel)]="green" (change)="danger = blue = false" class="text-megna">მწვანე
+            <mat-checkbox (change)="danger = blue = false" [(ngModel)]="green" class="text-megna" color="warn">მწვანე
             </mat-checkbox>
           </mat-list-item>
           <mat-list-item>
-            <mat-checkbox color="warn" [(ngModel)]="blue" (change)="green = danger = false" class="text-info">ლურჯი
+            <mat-checkbox (change)="green = danger = false" [(ngModel)]="blue" class="text-info" color="warn">ლურჯი
             </mat-checkbox>
           </mat-list-item>
           <mat-list-item>
-            <mat-checkbox color="warn" [(ngModel)]="dark" (change)="green = blue = danger = false">მუქი</mat-checkbox>
+            <mat-checkbox (change)="green = blue = danger = false" [(ngModel)]="dark" color="warn">მუქი</mat-checkbox>
           </mat-list-item>
         </mat-nav-list>
       </div>
@@ -143,7 +143,7 @@
     <!-- ============================================================== -->
     <!-- Page container - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav-content class="page-wrapper" [ngClass]="status ? 'minitoggle' : ''">
+    <mat-sidenav-content [ngClass]="status ? 'minitoggle' : ''" class="page-wrapper">
 
       <div class="page-content">
         <router-outlet>

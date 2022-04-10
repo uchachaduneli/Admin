@@ -1,4 +1,4 @@
-import { UserStatus } from './user-status';
+import {UserStatus} from './user-status';
 
 describe('UserStatus', () => {
   it('should create an instance', () => {

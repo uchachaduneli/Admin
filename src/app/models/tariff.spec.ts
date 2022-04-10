@@ -1,4 +1,4 @@
-import { Tariff } from './tariff';
+import {Tariff} from './tariff';
 
 describe('Tariff', () => {
   it('should create an instance', () => {

@@ -1,4 +1,4 @@
-import { ContactAddress } from './contact-address';
+import {ContactAddress} from './contact-address';
 
 describe('ContactAddress', () => {
   it('should create an instance', () => {

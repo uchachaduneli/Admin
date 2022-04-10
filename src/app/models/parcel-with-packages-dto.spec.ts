@@ -1,4 +1,4 @@
-import { ParcelWithPackagesDTO } from './parcel-with-packages-dto';
+import {ParcelWithPackagesDTO} from './parcel-with-packages-dto';
 
 describe('ParcelWithPackagesDTO', () => {
   it('should create an instance', () => {

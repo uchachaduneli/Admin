@@ -1,13 +1,15 @@
 <!-- ============================================================== -->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
-<button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
-  <img src="assets/images/users/default.png" alt="user" class="profile-pic"> </button>
+<button [matMenuTriggerFor]="profile" class="m-r-5" mat-icon-button>
+  <img alt="user" class="profile-pic" src="assets/images/users/default.png"></button>
 <mat-menu #profile="matMenu" class="mymegamenu">
   <button mat-menu-item>
-    <mat-icon>account_box</mat-icon> პროფილი
+    <mat-icon>account_box</mat-icon>
+    პროფილი
   </button>
   <button mat-menu-item>
-    <mat-icon>exit_to_app</mat-icon> გამოსვლა
+    <mat-icon>exit_to_app</mat-icon>
+    გამოსვლა
   </button>
 </mat-menu>

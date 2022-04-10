@@ -1,5 +1,5 @@
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
     <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
       <mat-tab *ngFor="let serviceObj of servicesList" label="{{serviceObj.name}}">
       </mat-tab>
@@ -14,22 +14,22 @@
       <br/> <br/>
 
       <br/><br/>
-      <div fxLayout="row wrap" class="align-items-center">
-        <div fxFlex="100" fxFlex.gt-md="100" *ngFor="let row of tarifByZones; let i=index"
+      <div class="align-items-center" fxLayout="row wrap">
+        <div *ngFor="let row of tarifByZones; let i=index" fxFlex="100" fxFlex.gt-md="100"
              style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgba(0, 0, 0, 0.12);">
           <div fxFlex="100" fxFlex.gt-md="25" style="justify-content: center; align-items: center; display: flex;">
             წონა:&nbsp;
-            <input type="string" required id="weight{{i}}" name="weight{{i}}" style="margin-right: 20px;"
-                   class="form-control" [(ngModel)]="row.weight" placeholder="მიუთითეთ წონა">
+            <input [(ngModel)]="row.weight" class="form-control" id="weight{{i}}" name="weight{{i}}" placeholder="მიუთითეთ წონა"
+                   required style="margin-right: 20px;" type="string">
           </div>
           <div fxFlex="100" fxFlex.gt-md="50"
                style="padding-left: 20px; border-left-width: 1px; padding-top: 20px; padding-bottom: 20px;
                border-left-style: solid; border-left-color: rgba(0, 0, 0, 0.12);">
             <div *ngFor="let detail of row.details; let j=index;" style="padding-left: 20px; padding-top: 20px;">
               ფასი {{detail.zone.name}}-ში:
-              <input placeholder="მიუთითეთ წონის ფასი {{detail.zone.name}} -ში"  required
-                     id="price_{{i}}_{{j}}" name="price_{{i}}_{{j}}" [(ngModel)]="detail.price" type="number"
-                     class="form-control">
+              <input [(ngModel)]="detail.price" class="form-control"
+                     id="price_{{i}}_{{j}}" name="price_{{i}}_{{j}}" placeholder="მიუთითეთ წონის ფასი {{detail.zone.name}} -ში" required
+                     type="number">
             </div>
           </div>
           <div fxFlex="100" fxFlex.gt-md="15" style="justify-content: center; align-items: center; display: flex;">
@@ -43,12 +43,12 @@
         </div>
       </div>
       <div align="center"><br/> <br/>
-        <button mat-raised-button color="primary" (click)="addQuantity()">
+        <button (click)="addQuantity()" color="primary" mat-raised-button>
           <mat-icon>plus_one</mat-icon>
           ახალი წონა
         </button>&nbsp;
-        <button mat-button bg-success (click)="onSubmit()" mat-flat-button color="warn"
-                [disabled]="!userForm.valid"> შენახვა
+        <button (click)="onSubmit()" [disabled]="!userForm.valid" bg-success color="warn" mat-button
+                mat-flat-button> შენახვა
         </button>
       </div>
     </form>

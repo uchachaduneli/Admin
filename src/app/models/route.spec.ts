@@ -1,4 +1,4 @@
-import { Route } from './route';
+import {Route} from './route';
 
 describe('Route', () => {
   it('should create an instance', () => {
