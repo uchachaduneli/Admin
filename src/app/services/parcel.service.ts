@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {VolumeWeightIndex} from '../models/volume-weight-index';
 import {Packages} from '../models/packages';
 import {ParcelStatusHistory} from '../models/parcel-status-history';
+import {DeliveryDetailParcelDTO} from '../models/delivery-detail-parcel-dto';
 
 export interface ParcelBackendApi {
   items: Parcel[];
@@ -34,6 +35,11 @@ export class ParcelService {
   // tslint:disable-next-line:ban-types
   update(obj: Parcel): Observable<Object> {
     return this.httpClient.put(`${this.BaseUrl}/${obj.id}`, obj);
+  }
+
+  // tslint:disable-next-line:ban-types
+  updateDeliveryDetailParcel(obj: DeliveryDetailParcelDTO): Observable<Object> {
+    return this.httpClient.put(`${this.BaseUrl}/deliveryDetailParcel`, obj);
   }
 
   // tslint:disable-next-line:ban-types

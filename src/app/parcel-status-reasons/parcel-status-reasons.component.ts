@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {ParcelStatusBackendApi, ParcelStatusService} from '../services/parcel-status.service';
+import {ParcelStatusService} from '../services/parcel-status.service';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
 
 @Component({

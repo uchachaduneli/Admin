@@ -33,17 +33,20 @@
           <ng-container matColumnDef="action">
             <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
             <td *matCellDef="let element" class="action-link text-center" mat-cell>
-              <a class="m-r-10 cursor-pointer" href="parcel-form/{{element.id}}" title="რედაქტირება">
+<!--              <a class="m-r-10 cursor-pointer" href="parcel-form/{{element.id}}" title="რედაქტირება">-->
+<!--                <mat-icon>create</mat-icon>-->
+<!--              </a>-->
+              <a (click)="openParcelEditDialog(element)" class="m-r-10 cursor-pointer" title=" რედაქტირება">
                 <mat-icon>create</mat-icon>
               </a>
             </td>
           </ng-container>
           <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-          <tr *matRowDef="let element; columns: displayedColumns;" mat-row></tr>
+          <tr (dblclick)="openParcelEditDialog(element)" *matRowDef="let element; columns: displayedColumns;" mat-row></tr>
         </table>
       </div>
     </div>
-    <div align="end">
+    <div align="end"><br>
       <button (click)="closeDialog()" mat-button>დახურვა</button>
     </div>
   </form>

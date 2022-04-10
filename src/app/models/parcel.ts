@@ -12,6 +12,7 @@ export class Parcel {
   status!: ParcelStatusReason;
   updatedTime!: string;
   createdTime!: string;
+  deliveryTime!: string;
 
   senderId!: number;
   senderName!: string;

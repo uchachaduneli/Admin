@@ -17,6 +17,11 @@ import {Warehouse} from '../models/warehouse';
 import {WarehouseService} from '../services/warehouse.service';
 import {RouteService} from '../services/route.service';
 import {ParcelService} from '../services/parcel.service';
+import {City} from '../models/city';
+import {ParcelStatus} from '../models/parcel-status';
+import {ParcelStatusReason} from '../models/parcel-status-reason';
+import {ParcelStatusService} from '../services/parcel-status.service';
+import {DeliveryDetailParcelDTO} from '../models/delivery-detail-parcel-dto';
 
 @Component({
   selector: 'app-delivery-details',
@@ -192,12 +197,12 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   openDialog(action: string, obj: any): void {
     obj.action = action;
     const dialogRef = this.dialog.open(DeliveryDetailsDialogContent, {
-      data: obj, width: '80%'
+      data: obj, width: '80%', disableClose: true
     });
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
-      if (!!result) {
-        //
+      if (result && result.event === 'Cancel') {
+        this.getMainData();
       }
     });
   }
@@ -289,7 +294,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
 
 }
 
-
+// ******************   Details History Row Full Info Dialog With Parcels Table ************************
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'dialog-content',
@@ -303,16 +308,18 @@ export class DeliveryDetailsDialogContent implements AfterViewInit {
   selectedObject!: Parcel;
   datasrc: Parcel[] = [];
   displayedColumns: string[] = ['barCode', 'senderName', 'receiverName', 'payerName', 'weight', 'status', 'action'];
-  resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
   constructor(public dialogRef: MatDialogRef<DeliveryDetailsDialogContent>,
               // @Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: DeliveryDetail,
-              private changeDetectorRefs: ChangeDetectorRef) {
+              private parcelService: ParcelService,
+              private notifyService: NotificationService,
+              private service: DeliveryDetailsService,
+              private changeDetectorRef: ChangeDetectorRef,
+              public dialog: MatDialog) {
     this.receivedData = {...data};
     this.datasrc = data.parcels;
-    this.resultsLength = data.parcels.length;
     this.action = this.receivedData.action;
   }
 
@@ -324,7 +331,126 @@ export class DeliveryDetailsDialogContent implements AfterViewInit {
     this.dialogRef.close({event: 'Cancel'});
   }
 
+  openParcelEditDialog(obj: any): void {
+    const dialogRef = this.dialog.open(ParcelEditDlgContent, {
+      data: obj, width: '50%'
+    });
+    // @ts-ignore
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.update(result.data);
+      }
+    });
+  }
+
+  reloadDetailsParcels(): void {
+    this.service.getById(this.receivedData.id).subscribe(det => {
+      this.datasrc = det.parcels;
+      console.log('detail with updated parcels -> ', det);
+      this.changeDetectorRef.detectChanges();
+    }, error => {
+      this.notifyService.showError('ცვლილების შემდეგ ინტერფეისის განახლება ვერ მოხერხდა', '');
+      console.log(error);
+    });
+  }
+
+  update(obj: Parcel): void {
+    this.parcelService.updateDeliveryDetailParcel(
+      new DeliveryDetailParcelDTO(obj.deliveryTime, obj.receiverName,
+        obj.receiverIdentNumber, obj.status, obj.id)).subscribe(() => {
+      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      this.reloadDetailsParcels();
+    }, error => {
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      console.log(error);
+    });
+  }
+
   ngAfterViewInit(): void {
+  }
+}
+
+
+// ******************   Details Parcels Row Edit Dialog ************************
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'parcel-edit-dialog-content',
+  templateUrl: 'parcel-edit-dialog.html',
+})
+
+// tslint:disable-next-line:component-class-suffix
+export class ParcelEditDlgContent implements AfterViewInit {
+  selectedObject!: any;
+  statuses!: ParcelStatus[];
+  selectedStatus!: ParcelStatus;
+  statusReasons!: ParcelStatusReason[];
+
+  constructor(public dialogRef: MatDialogRef<ParcelEditDlgContent>,
+              private parcelStatusService: ParcelStatusService,
+              // @Optional() is used to prevent error if no data is passed
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: Parcel) {
+    this.selectedObject = {...data};
+    // @ts-ignore
+    this.selectedStatus = {id: this.selectedObject.status?.status?.id};
+  }
+
+  doAction(): void {
+    this.dialogRef.close({data: this.selectedObject});
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({event: 'Cancel'});
+  }
+
+  ngAfterViewInit(): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.parcelStatusService.getList();
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.statuses = data;
+    });
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.parcelStatusService.getAllStatusReasons();
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.statusReasons = data;
+    });
+  }
+
+  onStatusSelect(selectedStatusId: number): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.parcelStatusService.getByParcelStatusId(selectedStatusId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.statusReasons = data;
+    });
   }
 }
 

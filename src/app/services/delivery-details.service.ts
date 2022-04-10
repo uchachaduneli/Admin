@@ -26,16 +26,12 @@ export class DeliveryDetailsService {
     return this.httpClient.post(`${this.BaseUrl}`, obj);
   }
 
-  update(obj: DeliveryDetailBackendApi): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
-  }
-
   delete(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.BaseUrl}/${id}`);
   }
 
-  getById(id: number): Observable<DeliveryDetailBackendApi> {
-    return this.httpClient.get<DeliveryDetailBackendApi>(`${this.BaseUrl}/${id}`);
+  getById(id: number): Observable<DeliveryDetail> {
+    return this.httpClient.get<DeliveryDetail>(`${this.BaseUrl}/${id}`);
   }
 
   getBarCode(): Observable<string> {
