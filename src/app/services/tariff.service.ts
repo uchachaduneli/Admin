@@ -53,15 +53,15 @@ export class TariffService {
   }
 
   // tslint:disable-next-line:ban-types
-  deleteTariffDetails(id: number): Observable<Object> {
-    return this.httpClient.delete(`${this.BaseUrl}/${id}`);
+  deleteTariffDetails(ides: string): Observable<Object> {
+    return this.httpClient.delete(`${this.BaseUrl}/details?ides=${ides}`);
   }
 
-  getByTariffId(id: number): Observable<TariffDetail[]> {
-    return this.httpClient.get<TariffDetail[]>(`${this.BaseUrl}/details/${id}`);
+  getByTariffId(id: number, serviceId: number): Observable<TariffDetail[]> {
+    return this.httpClient.get<TariffDetail[]>(`${this.BaseUrl}/details/${id}/service/${serviceId}`);
   }
 
-  getPriceFor(tariffId: number, zoneId: number, weight: number): Observable<number> {
-    return this.httpClient.get<number>(`${this.BaseUrl}/calculatePrice/${tariffId}/${zoneId}/${weight}`);
+  getPriceFor(serviceId: number, tariffId: number, zoneId: number, weight: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.BaseUrl}/calculatePrice/${serviceId}/${tariffId}/${zoneId}/${weight}`);
   }
 }

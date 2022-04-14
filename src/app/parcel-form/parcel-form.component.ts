@@ -412,7 +412,8 @@ export class ParcelFormComponent implements AfterViewInit {
             .pipe(
               startWith({}),
               switchMap(() => {
-                return this.tarrifService.getPriceFor(1, this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+                return this.tarrifService.getPriceFor(this.selectedObject.service.id, 1,
+                  this.receiverContactDto.contactAddress.city.id, calculatedWeight);
               }),
               map(data => {
                 // @ts-ignore
@@ -448,15 +449,15 @@ export class ParcelFormComponent implements AfterViewInit {
             .pipe(
               startWith({}),
               switchMap(() => {
-                return this.tarrifService.getPriceFor(this.senderContactDto.contact.tariff.id,
+                return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
                   this.receiverContactDto.contactAddress.city.id, calculatedWeight);
               }),
               map(data => {
                 // @ts-ignore
                 return data;
               }),
-              catchError(() => {
-                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა');
+              catchError(err => {
+                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა ', err);
                 this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
                 return observableOf([]);
               })

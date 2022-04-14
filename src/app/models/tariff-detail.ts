@@ -1,5 +1,6 @@
 import {Tariff} from './tariff';
 import {Zone} from './zone';
+import {Service} from './service';
 
 export class TariffDetail {
   id!: number;
@@ -8,6 +9,7 @@ export class TariffDetail {
   weight!: number;
   price!: number;
   zone!: Zone;
+  service!: Service;
   updatedTime!: string;
   createdTime!: string;
 

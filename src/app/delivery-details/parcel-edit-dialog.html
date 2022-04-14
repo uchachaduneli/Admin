@@ -46,8 +46,11 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.deliveryTime" id="deliveryTime" matInput name="deliveryTime"
+
+            <input value="{{selectedObject.deliveryTime | date :'dd-MM-yyyy HH:mm'}}" *ngIf="selectedObject.deliveryTime" matInput readonly
                    placeholder="ჩაბარების დრო" type="text">
+            <input [(ngModel)]="selectedObject.deliveryTime" *ngIf="!selectedObject.deliveryTime" id="deliveryTime" matInput name="deliveryTime"
+                   placeholder="ჩაბარების დრო" type="datetime-local">
           </mat-form-field>
         </div>
       </div>

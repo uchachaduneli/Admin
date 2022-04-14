@@ -26,7 +26,9 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   tariffDetails!: TariffDetail[];
   zones!: Zone[];
   tarifByZones: TariffByZone[] = [];
+  markedForDeletion: TariffByZone[] = [];
   servicesList: Service[] = [];
+  selectedService!: Service;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private zoneService: ZoneService, private cdr: ChangeDetectorRef,
@@ -36,6 +38,10 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.getServicesList();
+  }
+
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       this.service.getById(params.id).subscribe(tariff => {
         if (!tariff) {
@@ -43,18 +49,15 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
         }
         // @ts-ignore
         this.mainObj = tariff;
-        this.getMainData();
+        // this.getMainData();
         this.getZones();
       });
     });
   }
 
-  ngAfterViewInit(): void {
-    this.getServicesList();
-  }
-
   handleTabChanges($event: MatTabChangeEvent): void {
-    console.log(this.servicesList[$event.index]);
+    this.selectedService = this.servicesList[$event.index];
+    this.getMainData();
   }
 
   getServicesList(): void {
@@ -72,7 +75,10 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
         catchError(() => {
           return observableOf([]);
         })
-      ).subscribe(data => this.servicesList = data);
+      ).subscribe(data => {
+      this.servicesList = data;
+      this.selectedService = this.servicesList[0];
+    });
   }
 
   addQuantity(): void {
@@ -87,6 +93,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   }
 
   removeQuantity(i: number): void {
+    this.markedForDeletion.push(this.tarifByZones[i]);
     this.tarifByZones.splice(i, 1);
   }
 
@@ -111,12 +118,14 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
 
   getMainData(): void {
     this.cdr.detectChanges();
+    this.tarifByZones = [];
+    this.markedForDeletion = [];
     merge()
       .pipe(
         startWith({}),
         switchMap(() => {
           // @ts-ignore
-          return this.service.getByTariffId(this.mainObj.id);
+          return this.service.getByTariffId(this.mainObj.id, this.selectedService.id);
         }),
         map(data => {
           // @ts-ignore
@@ -146,24 +155,45 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.tarifByZones);
     // @ts-ignore
     const tariffDetailsArr: TariffDetail[] = [];
     this.tarifByZones.forEach(tz => {
       tz.details.forEach(det => {
         // @ts-ignore
-        tariffDetailsArr.push({id: det.id, tariff: {id: this.mainObj.id}, weight: tz.weight, price: det.price, zone: {id: det.zone.id}});
+        const tariffDet: TariffDetail = {id: det.id, weight: tz.weight, price: det.price};
+        // @ts-ignore
+        tariffDet.service = {id: this.selectedService.id};
+        // @ts-ignore
+        tariffDet.tariff = {id: this.mainObj.id};
+        // @ts-ignore
+        tariffDet.zone = {id: det.zone.id};
+        tariffDetailsArr.push(tariffDet);
       });
     });
-    console.log(tariffDetailsArr);
+    // console.log(tariffDetailsArr);
     const forSave = tariffDetailsArr.filter(t => t.id === undefined || t.id === 0);
     const forUpdate = tariffDetailsArr.filter(t => t.id !== undefined && t.id > 0);
     if (forSave && forSave.length > 0) {
-      this.save(forSave, !(forUpdate && forUpdate.length > 0));
+      this.save(forSave, false);
     }
     if (forUpdate && forUpdate.length > 0) {
-      this.update(forUpdate, true);
+      this.update(forUpdate, false);
     }
+    console.log('forSave ->', forSave);
+    console.log('forUpdate ->', forUpdate);
+    if (this.markedForDeletion && this.markedForDeletion.length > 0) {
+      let idesForDeletion = '';
+      this.markedForDeletion.forEach(obj => {
+        obj.details.forEach(det => {
+          idesForDeletion += det.id + ',';
+        });
+      });
+      idesForDeletion = idesForDeletion.replace(/,\s*$/, '');
+      this.delete(idesForDeletion);
+    }
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 500);
   }
 
   save(list: TariffDetail[], reload: boolean): void {
@@ -194,12 +224,12 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
     });
   }
 
-  delete(obj: TariffDetail): void {
-    this.service.deleteTariffDetails(obj.id).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის წაშლა');
-      window.location.reload();
+  delete(ides: string): void {
+    this.service.deleteTariffDetails(ides).subscribe(resp => {
+      console.log('tariff details with ides: ' + ides + ' deletion response: ', resp);
+      // this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის წაშლა');
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
+      // this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
     });
   }

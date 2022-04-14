@@ -1,20 +1,26 @@
-<div fxLayout="row wrap">
-  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
-      <mat-tab *ngFor="let serviceObj of servicesList" label="{{serviceObj.name}}">
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-</div>
+<!--<div fxLayout="row wrap">-->
+<!--  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">-->
+<!--    <mat-tab-group (selectedTabChange)="handleTabChanges($event)">-->
+<!--      <mat-tab *ngFor="let serviceObj of servicesList" label="{{serviceObj.name}}">-->
+<!--      </mat-tab>-->
+<!--    </mat-tab-group>-->
+<!--  </div>-->
+<!--</div>-->
 
 <mat-card>
   <mat-card-content>
     <mat-card-title>ტარიფი "{{mainObj.name}}" - ის ფასები ზონების მიხედვით</mat-card-title>
-    <form #userForm="ngForm">
-      <br/> <br/>
 
+    <form #userForm="ngForm">
       <br/><br/>
       <div class="align-items-center" fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+          <mat-tab-group (selectedTabChange)="handleTabChanges($event)">
+            <mat-tab *ngFor="let serviceObj of servicesList" label="{{serviceObj.name}}">
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+
         <div *ngFor="let row of tarifByZones; let i=index" fxFlex="100" fxFlex.gt-md="100"
              style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgba(0, 0, 0, 0.12);">
           <div fxFlex="100" fxFlex.gt-md="25" style="justify-content: center; align-items: center; display: flex;">
