@@ -395,78 +395,78 @@ export class ParcelFormComponent implements AfterViewInit {
     } else if (this.senderContactDto.contact.id) {
       senderContactId = this.senderContactDto.contact.id;
     }
-    merge()
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          return this.contactService.getById(senderContactId);
-        }),
-        map(data => {
-          // @ts-ignore
-          return data;
-        }),
-        catchError(() => {
-          // კონტაქტი ვერ მოიძებნა, სტანდარტული ტარიფის წამოღება
-          console.log('კონტაქტი ვერ მოიძებნა, იწყება სტანდარტული ტარიფის წამოღება');
-          merge()
-            .pipe(
-              startWith({}),
-              switchMap(() => {
-                return this.tarrifService.getPriceFor(this.selectedObject.service.id, 1,
-                  this.receiverContactDto.contactAddress.city.id, calculatedWeight);
-              }),
-              map(data => {
-                // @ts-ignore
-                return data;
-              }),
-              catchError(() => {
-                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა');
-                this.notifyService.showError('მთლიანი ფასის დათვლა ვერ მოხერხდა! (ტარიფის დეტალები ვერ მოიძებნა)', '');
-                return observableOf([]);
-              })
-            ).subscribe(r => {
-            console.log('სტანდარტული ტარიფის წამოღება დასრულდა ტარიფი: ' + r);
-            r = r as number;
-            this.notifyService.showInfo('ტარიფი ' + r, '');
-            this.selectedObject.totalPrice = r;
-          });
-          return observableOf([]);
-        })
-      ).subscribe(c => {
-      // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
-      console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს');
-      c = c as Contact;
-      console.log(c);
-      if (c) {
-
-        this.senderContactDto.contact = c;
-        if (!this.senderContactDto.contact.tariff) {
-          this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.contactService.getById(senderContactId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data;
+      }), catchError(contNotFoudErr => {
+        // კონტაქტი ვერ მოიძებნა - (ერთჯერადი გაგზავნაა და კონტაქტების სიაში არაა ან ტექნიკური პრობლემაა ძებნისას )
+        // შესაბამისად ტარიფიც არ გვაქვს და ვცდილობთ სტანდარტული ტარიფით კალკულაციას
+        console.log(contNotFoudErr, '\n ტარიფის ასაღებად გამგზავნი კონტაქტი ვერ მოიძებნა senderContactId=' + senderContactId + ', იწყება სტანდარტული ტარიფის წამოღება');
+        merge()
+          .pipe(
+            startWith({}),
+            switchMap(() => {
+              return this.tarrifService.getPriceFor(this.selectedObject.service.id, 1,
+                this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+            }),
+            map(data => {
+              // @ts-ignore
+              return data;
+            }),
+            catchError(err => {
+              console.log('სტანდარტული ტარიფის დეტალების წამოღება ვერ მოხერხდა ', err);
+              this.notifyService.showError('მთლიანი ფასის დათვლა ვერ მოხერხდა! (ტარიფის დეტალები ვერ მოიძებნა)', '');
+              return observableOf([]);
+            })
+          ).subscribe(r => {
+          console.log('სტანდარტული ტარიფის წამოღება დასრულდა ტარიფი: ' + r);
+          r = r as number;
+          this.notifyService.showSuccess('ტარიფი ' + r + ' + გადაფუთვა: ' + this.selectedObject.gadafutvisPrice, '');
+          this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
           return;
-        } else {
-          console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
-          merge()
-            .pipe(
-              startWith({}),
-              switchMap(() => {
-                return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
-                  this.receiverContactDto.contactAddress.city.id, calculatedWeight);
-              }),
-              map(data => {
-                // @ts-ignore
-                return data;
-              }),
-              catchError(err => {
-                console.log('სტანდარტული ტარიფის წამოღებაც ვერ მოხერხდა ', err);
-                this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
-                return observableOf([]);
-              })
-            ).subscribe(r => {
-            console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფი: ' + r);
-            r = r as number;
-            this.notifyService.showInfo('ტარიფი ' + r, '');
-            this.selectedObject.totalPrice = r;
-          });
+        });
+        return observableOf([]);
+      })
+    ).subscribe(c => {
+      c = c as Contact;
+      if (c.id > 0) {
+        // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
+        console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს ', c);
+        if (c) {
+          this.senderContactDto.contact = c;
+          if (!this.senderContactDto.contact.tariff) {
+            this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
+            return;
+          } else {
+            console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
+            merge()
+              .pipe(
+                startWith({}),
+                switchMap(() => {
+                  return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
+                    this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+                }),
+                map(data => {
+                  // @ts-ignore
+                  return data;
+                }),
+                catchError(err => {
+                  console.log('კონტაქტზე ტარიფის წამოღება ვერ მოხერხდა ', err);
+                  this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
+                  return observableOf([]);
+                })
+              ).subscribe(r => {
+              console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფ: ' + r);
+              r = r as number;
+              this.notifyService.showSuccess('ტარიფი ' + r + ' + გადაფუთვა: ' + this.selectedObject.gadafutvisPrice, '');
+              this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
+            });
+          }
         }
       }
     });

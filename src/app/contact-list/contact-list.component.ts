@@ -84,7 +84,7 @@ export class ContactListComponent implements AfterViewInit {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       window.location.reload();
     }, error => {
-      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }

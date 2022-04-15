@@ -530,12 +530,15 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="30">
+                <div fxFlex="100" fxFlex.gt-md="10">
+                  <button (click)="calculateTotalPrice()" mat-button bg-success color="primary" mat-flat-button>
+                    <mat-icon>exposure</mat-icon>
+                    კალკულაცია
+                  </button>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="1"></div>
+                <div fxFlex="100" fxFlex.gt-md="20">
                   <mat-form-field>
-                    <button (click)="calculateTotalPrice()" mat-button mat-stroked-button matPrefix>
-                      <mat-icon>attach_money</mat-icon>
-                      კალკულაცია
-                    </button>
                     <input [(ngModel)]="selectedObject.totalPrice" matInput name="totalPrice"
                            placeholder=" მთლიანი ფასი " type="number">
                   </mat-form-field>

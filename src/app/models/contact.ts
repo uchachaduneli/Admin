@@ -16,5 +16,4 @@ export class Contact {
   tariff!: Tariff;
   updatedTime!: string;
   createdTime!: string;
-  mainAddress = new ContactAddress();
 }
