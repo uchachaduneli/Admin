@@ -23,6 +23,7 @@ export class Parcel {
   senderPhone!: string;
   sendSmsToSender!: number;
 
+  receiverId!: number;
   receiverName!: string;
   receiverIdentNumber!: string;
   receiverContactPerson!: string;
@@ -31,6 +32,7 @@ export class Parcel {
   receiverPhone!: string;
   sendSmsToReceiver!: number;
 
+  payerId!: number;
   payerSide!: number; // 1 sender  2 receiver  3 third person
   payerName!: string;
   payerIdentNumber!: string;

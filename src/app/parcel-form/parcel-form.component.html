@@ -70,7 +70,7 @@
               <ng-template matStepLabel>გამგზავნი</ng-template>
               <div class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
-                  <div fxFlex="100" fxFlex.gt-md="20">
+                  <div fxFlex="100" fxFlex.gt-md="60">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
@@ -90,7 +90,7 @@
                              placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
-                  <div fxFlex="100" fxFlex.gt-md="60">
+                  <div fxFlex="100" fxFlex.gt-md="20">
                     <button (click)="searchContact(1)"
                             [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber"
                             align="start" bg-success color="accent"
@@ -197,7 +197,7 @@
               <ng-template matStepLabel>მიმღები</ng-template>
               <div class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
-                  <div fxFlex="100" fxFlex.gt-md="20">
+                  <div fxFlex="100" fxFlex.gt-md="60">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
@@ -217,7 +217,7 @@
                              placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
-                  <div fxFlex="100" fxFlex.gt-md="60">
+                  <div fxFlex="100" fxFlex.gt-md="20">
                     <button (click)="searchContact(2)"
                             [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber"
                             align="start" bg-success color="accent"
@@ -332,7 +332,7 @@
               <br/>
               <div *ngIf="selectedObject.payerSide === 3" class="align-items-center" fxLayout="row wrap">
                 <div fxFlex="100" fxFlex.gt-md="100">
-                  <div fxFlex="100" fxFlex.gt-md="20">
+                  <div fxFlex="100" fxFlex.gt-md="60">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
@@ -352,7 +352,7 @@
                              placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
-                  <div fxFlex="100" fxFlex.gt-md="60">
+                  <div fxFlex="100" fxFlex.gt-md="20">
                     <button (click)="searchContact(1)"
                             [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber"
                             align="start" bg-success color="accent"
@@ -515,7 +515,7 @@
                     <mat-form-field>
                       <mat-select [(ngModel)]="selectedObject.service.id" aria-placeholder="გზავნილის ტიპი"
                                   name="parcelType" placeholder="გზავნილის ტიპი">
-                        <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}} - {{c.price}}₾</mat-option>
+                        <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>

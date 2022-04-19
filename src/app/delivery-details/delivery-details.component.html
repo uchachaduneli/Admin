@@ -87,7 +87,7 @@
                   </div>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="50">
+              <div fxFlex="100" fxFlex.gt-md="33">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select (selectionChange)="onUserSelect($event.value)" [(ngModel)]="selectedUser"
@@ -99,18 +99,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="text-right" fxFlex="100" fxFlex.gt-md="30">
-                <div class="m-r-15 m-l-15">
-                  <mat-form-field>
-                    <input [(ngModel)]="selectedObject.name" id="name" matInput name="name" placeholder="დასახელება"
-                           required
-                           type="text">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="text-right" fxFlex="100" fxFlex.gt-md="10">
-              </div>
-              <div fxFlex="100" fxFlex.gt-md="50">
+              <div fxFlex="100" fxFlex.gt-md="33">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="selectedObject.warehouse.id" aria-placeholder="საწყობი" name="warehouse"
@@ -120,7 +109,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="50">
+              <div fxFlex="100" fxFlex.gt-md="33">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი" id="route"
@@ -131,6 +120,7 @@
                   </mat-form-field>
                 </div>
               </div>
+<!--              <div fxFlex="100" fxFlex.gt-md="40"></div>-->
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>

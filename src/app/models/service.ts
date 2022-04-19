@@ -3,7 +3,6 @@ export class Service {
   deleted!: number;
   name!: string;
   engName!: string;
-  price!: number;
   updatedTime!: string;
   createdTime!: string;
 }

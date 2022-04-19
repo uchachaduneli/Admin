@@ -4,7 +4,14 @@
   <!--  Add/Edit Dialog Content-->
   <form #userForm="ngForm" *ngIf="action != 'Details'">
     <div class="align-items-center" fxLayout="row wrap">
-      <div fxFlex="100" fxFlex.gt-md="100">
+      <div fxFlex="100" fxFlex.gt-md="30">
+        <div class="m-r-15 m-l-15">
+          <mat-slide-toggle [(ngModel)]="isMainAddress" name="isPayAddress"
+                            style="margin-top: 5px;">ძირითადი მისამართი
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="70">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.city.id" aria-placeholder="ქალაქი" id="city" name="city"
@@ -88,7 +95,14 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxFlex="100" fxFlex.gt-md="50">
+      <div fxFlex="100" fxFlex.gt-md="25">
+        <div class="m-r-15 m-l-15">
+          <mat-slide-toggle [(ngModel)]="isMainAddress" name="isPayAddress" disabled
+                            style="margin-top: 5px;">ძირით. მის.
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="60">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input [(ngModel)]="selectedObject.city.name" matInput name="name" placeholder="ქალაქი"
@@ -158,7 +172,7 @@
             <mat-form-field>
               <input matInput name="createdTime" placeholder="ჩანაწერის დრო" readonly
                      type="text"
-                     value="{{selectedObject.createdTime | date: 'short'}}">
+                     value="{{selectedObject.createdTime | date: 'dd/MM/yyyy HH:mm'}}">
             </mat-form-field>
           </div>
         </div>
@@ -167,7 +181,7 @@
             <mat-form-field>
               <input matInput name="updatedTime" placeholder="განახლების დრო" readonly
                      type="text"
-                     value="{{selectedObject.updatedTime | date: 'short'}}">
+                     value="{{selectedObject.updatedTime | date: 'dd/MM/yyyy HH:mm'}}">
             </mat-form-field>
           </div>
         </div>

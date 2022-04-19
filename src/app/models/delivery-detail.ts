@@ -6,7 +6,6 @@ import {Route} from './route';
 export class DeliveryDetail {
   id!: number;
   detailBarCode!: string;
-  name!: string;
   route!: Route;
   warehouse!: Warehouse;
   parcels: Parcel[] = [];

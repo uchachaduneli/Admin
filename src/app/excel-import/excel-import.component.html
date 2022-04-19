@@ -214,7 +214,7 @@
 
             <ng-container matColumnDef="createdTime">
               <th *matHeaderCellDef mat-header-cell> შეიქმნა</th>
-              <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'short'}} </td>
+              <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'dd/MM/yyyy HH:mm'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="action">

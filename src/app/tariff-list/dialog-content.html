@@ -52,7 +52,7 @@
             <mat-form-field>
               <input matInput name="createdTime" placeholder="ჩანაწერის დრო" readonly
                      type="text"
-                     value="{{selectedObject.createdTime | date: 'short'}}">
+                     value="{{selectedObject.createdTime | date: 'dd/MM/yyyy HH:mm'}}">
             </mat-form-field>
           </div>
         </div>
@@ -61,7 +61,7 @@
             <mat-form-field>
               <input matInput name="updatedTime" placeholder="განახლების დრო" readonly
                      type="text"
-                     value="{{selectedObject.updatedTime | date: 'short'}}">
+                     value="{{selectedObject.updatedTime | date: 'dd/MM/yyyy HH:mm'}}">
             </mat-form-field>
           </div>
         </div>

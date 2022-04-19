@@ -136,11 +136,13 @@ export class ContactAddressDialogContent implements OnInit {
   action: string;
   selectedObject: any;
   cities: City [] = [];
+  isMainAddress: any = false;
 
   constructor(public dialogRef: MatDialogRef<ContactAddressDialogContent>, private cityService: CityService,
               // @Optional() is used to prevent error if no data is passed
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: ContactAddress) {
     this.selectedObject = {...data};
+    this.isMainAddress = this.selectedObject.isPayAddress === 1;
     this.action = this.selectedObject.action;
     if (!this.selectedObject.city) {
       this.selectedObject.city = {};
@@ -148,6 +150,7 @@ export class ContactAddressDialogContent implements OnInit {
   }
 
   doAction(): void {
+    this.isMainAddress ? this.selectedObject.isPayAddress = 1 : this.selectedObject.isPayAddress = 2;
     this.dialogRef.close({event: this.action, data: this.selectedObject});
   }
 

@@ -209,7 +209,6 @@ export class ParcelFormComponent implements AfterViewInit {
 
     if (this.validateBeforeSave()) {
       // set senders data
-      this.selectedObject.senderId = this.senderContactDto.contact.id;
       this.selectedObject.senderName = this.senderContactDto.contact.name;
       this.selectedObject.senderIdentNumber = this.senderContactDto.contact.identNumber;
       this.selectedObject.senderAddress = this.senderAddressCtrl.value;
@@ -230,6 +229,7 @@ export class ParcelFormComponent implements AfterViewInit {
 
       // set payers data
       if (this.selectedObject.payerSide === 1) { // when sender pays
+        this.selectedObject.senderId = this.senderContactDto.contact.id;
         this.selectedObject.payerName = this.senderContactDto.contact.name;
         this.selectedObject.payerIdentNumber = this.senderContactDto.contact.identNumber;
         this.selectedObject.payerAddress = this.senderAddressCtrl.value;
@@ -237,6 +237,7 @@ export class ParcelFormComponent implements AfterViewInit {
         // @ts-ignore
         this.selectedObject.payerCity = {id: this.senderContactDto.contactAddress.city.id};
       } else if (this.selectedObject.payerSide === 2) {// when receiver pays
+        this.selectedObject.receiverId = this.receiverContactDto.contact.id;
         this.selectedObject.payerName = this.receiverContactDto.contact.name;
         this.selectedObject.payerIdentNumber = this.receiverContactDto.contact.identNumber;
         this.selectedObject.payerAddress = this.receiverAddressCtrl.value;
@@ -244,6 +245,7 @@ export class ParcelFormComponent implements AfterViewInit {
         // @ts-ignore
         this.selectedObject.payerCity = {id: this.receiverContactDto.contactAddress.city.id};
       } else if (this.selectedObject.payerSide === 3) { // when third person pays
+        this.selectedObject.payerId = this.payerContactDto.contact.id;
         this.selectedObject.payerName = this.payerContactDto.contact.name;
         this.selectedObject.payerIdentNumber = this.payerContactDto.contact.identNumber;
         this.selectedObject.payerAddress = this.payerContactDto.contactAddress.street;
@@ -366,6 +368,9 @@ export class ParcelFormComponent implements AfterViewInit {
   }
 
   calculateTotalPrice(): void {
+    if (!this.selectedObject.gadafutvisPrice) {
+      this.selectedObject.gadafutvisPrice = 0;
+    }
     let calculatedWeight = 0;
     // ამ if -ში წონის არჩევა ხდება. თუ წონა ან მოცულობითი ნალია და მეორე არაა იმის მიხედვით დათვლის ფასს
     if ((!this.selectedObject.weight || this.selectedObject.weight === 0)
@@ -389,30 +394,108 @@ export class ParcelFormComponent implements AfterViewInit {
     }
     this.notifyService.showInfo('კალკულაცია ხდება ' + calculatedWeight + 'კგ -ზე', '');
     // თუ დასეივებული კონტაქტია ბაზიდან წამოიღოს მიბმული ტარიფის აიდი
-    let senderContactId = 0;
-    if (this.selectedObject.senderId) {
-      senderContactId = this.selectedObject.senderId;
-    } else if (this.senderContactDto.contact.id) {
-      senderContactId = this.senderContactDto.contact.id;
+    let payerContactId = 0;
+    let payerCityId = 0; // გამოიყენება მხოლოდ დაუსეივებელი კონტაქტის დროს სტანდარტული ტარიფით კალკულაციისთვის
+    switch (this.selectedObject.payerSide) {
+      case 1:
+        payerContactId = this.senderContactDto.contact.id;
+        payerCityId = this.senderContactDto.contactAddress.city.id;
+        break;
+      case 2:
+        payerContactId = this.receiverContactDto.contact.id;
+        payerCityId = this.receiverContactDto.contactAddress.city.id;
+        break;
+      case 3:
+        payerContactId = this.payerContactDto.contact.id;
+        payerCityId = this.payerContactDto.contactAddress.city.id;
+        break;
+      default:
+        console.log('payer side switch default block :(');
+        this.notifyService.showError('გთხოვთ მიუთითოთ გადამხდელი მხარე', '');
+        break;
     }
-    merge().pipe(
-      startWith({}),
-      switchMap(() => {
-        return this.contactService.getById(senderContactId);
-      }),
-      map(data => {
-        // @ts-ignore
-        return data;
-      }), catchError(contNotFoudErr => {
-        // კონტაქტი ვერ მოიძებნა - (ერთჯერადი გაგზავნაა და კონტაქტების სიაში არაა ან ტექნიკური პრობლემაა ძებნისას )
-        // შესაბამისად ტარიფიც არ გვაქვს და ვცდილობთ სტანდარტული ტარიფით კალკულაციას
-        console.log(contNotFoudErr, '\n ტარიფის ასაღებად გამგზავნი კონტაქტი ვერ მოიძებნა senderContactId=' + senderContactId + ', იწყება სტანდარტული ტარიფის წამოღება');
+
+    if (payerContactId > 0) {
+      // გადამხდელი კონტაქტი ბაზაში არსებობს და იმის ტარიფი, და ქალაქი ავიღოთ კალკულაციისთვის
+      console.log('კალკულაცია გადამხდელი კონტაქტის ტარიფით - გადამხდელი კონტაქტი ბაზაში არსებობს');
+      merge().pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.contactService.getById(payerContactId);
+        }),
+        map(data => {
+          // @ts-ignore
+          return data;
+        }), catchError(contNotFoudErr => {
+          // კონტაქტის წამოღება ვერ მოხერხდა რო ამის ტარიფი და ზონა გამოგვეყენებინა კალკულაციაში
+          console.log(contNotFoudErr, '\n ტარიფის ასაღებად გადამხდელი კონტაქტი ვერ მოიძებნა payerContactId=' + payerContactId + '');
+          this.notifyService.showError('ფასის კალკულაციისთვის გადამხდელი კონტაქტის მონაცემების წამოღება ვერ მოხერხდა ', '');
+          return observableOf([]);
+        })
+      ).subscribe(c => {
+        c = c as Contact;
+        if (c.id > 0) {
+          // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
+          console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს ', c);
+          if (c) {
+            this.senderContactDto.contact = c;
+            if (!this.senderContactDto.contact.tariff) {
+              this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
+              return;
+            } else {
+              console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
+              merge()
+                .pipe(
+                  startWith({}),
+                  switchMap(() => {
+                    return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
+                      this.receiverContactDto.contactAddress.city.zone.id, calculatedWeight);
+                  }),
+                  map(data => {
+                    // @ts-ignore
+                    return data;
+                  }),
+                  catchError(err => {
+                    console.log('კონტაქტზე ტარიფის წამოღება ვერ მოხერხდა ', err);
+                    this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
+                    return observableOf([]);
+                  })
+                ).subscribe(r => {
+                console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფ: ' + r);
+                r = r as number;
+                this.notifyService.showSuccess('ტარიფი ' + r + ' + გადაფუთვა: ' + this.selectedObject.gadafutvisPrice, '');
+                this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
+              });
+            }
+          }
+        }
+      });
+    } else {
+      console.log('კალკულაცია სტანდარტული ტარიფით - გადამხდელი კონტაქტი ბაზაში დასეივებული არაა');
+      // გადამხდელი კონტაქტი ბაზაში ვერ მოიძებნა - (ერთჯერადი გაგზავნაა და კონტაქტების სიაში არაა ან ტექნიკური პრობლემაა ძებნისას )
+      // შესაბამისად ტარიფიც არ გვაქვს და ვცდილობთ სტანდარტული ტარიფით კალკულაციას
+      merge()
+        .pipe(
+          startWith({}),
+          switchMap(() => {
+            return this.cityService.getById(payerCityId);
+          }),
+          map(data => {
+            // @ts-ignore
+            return data;
+          }),
+          catchError(err => {
+            console.log('გადამხდელის ზონის წამოღება ვერ მოხერხდა ', err);
+            this.notifyService.showError('კალკულაციისთვის მითითებული ქალაქით ზონის წამოღება ვერ მოხერხდა', '');
+            return observableOf([]);
+          })
+        ).subscribe(city => {
         merge()
           .pipe(
             startWith({}),
             switchMap(() => {
-              return this.tarrifService.getPriceFor(this.selectedObject.service.id, 1,
-                this.receiverContactDto.contactAddress.city.id, calculatedWeight);
+              // @ts-ignore
+              return this.tarrifService.getPriceFor(this.selectedObject.service.id, 1, city.zone.id, calculatedWeight);
             }),
             map(data => {
               // @ts-ignore
@@ -430,46 +513,8 @@ export class ParcelFormComponent implements AfterViewInit {
           this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
           return;
         });
-        return observableOf([]);
-      })
-    ).subscribe(c => {
-      c = c as Contact;
-      if (c.id > 0) {
-        // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
-        console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს ', c);
-        if (c) {
-          this.senderContactDto.contact = c;
-          if (!this.senderContactDto.contact.tariff) {
-            this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
-            return;
-          } else {
-            console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
-            merge()
-              .pipe(
-                startWith({}),
-                switchMap(() => {
-                  return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
-                    this.receiverContactDto.contactAddress.city.id, calculatedWeight);
-                }),
-                map(data => {
-                  // @ts-ignore
-                  return data;
-                }),
-                catchError(err => {
-                  console.log('კონტაქტზე ტარიფის წამოღება ვერ მოხერხდა ', err);
-                  this.notifyService.showError('ფასის დათვლა ვერ მოხერხდა! გადაამოწმეთ ტარიფებში წონის არსებობა', '');
-                  return observableOf([]);
-                })
-              ).subscribe(r => {
-              console.log('ნაპოვნი კონტაქტის ტარიფის წამოღება დასრულდა წარმატებით, ტარიფ: ' + r);
-              r = r as number;
-              this.notifyService.showSuccess('ტარიფი ' + r + ' + გადაფუთვა: ' + this.selectedObject.gadafutvisPrice, '');
-              this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
-            });
-          }
-        }
-      }
-    });
+      });
+    }
   }
 
   onCityChange(cityId: number, senderReceiverPayer: number): void {// 1 Sender   2 Reseiver   3 Payer
@@ -537,6 +582,11 @@ export class ParcelFormComponent implements AfterViewInit {
         name: this.receiverContactDto.contact.name,
         identNumber: this.receiverContactDto.contact.identNumber
       };
+    } else if (senderReceiverPayer === 3) {
+      tmp = {
+        name: this.payerContactDto.contact.name,
+        identNumber: this.payerContactDto.contact.identNumber
+      };
     }
     merge()
       .pipe(
@@ -561,6 +611,14 @@ export class ParcelFormComponent implements AfterViewInit {
               this.receiverContactDto.contact = data.items[0];
             } else {
               this.receiverContactDto.contact.id = 0;
+            }
+          } else if (senderReceiverPayer === 3) {
+            // @ts-ignore
+            if (data.items?.length === 1) {
+              // @ts-ignore
+              this.payerContactDto.contact = data.items[0];
+            } else {
+              this.payerContactDto.contact.id = 0;
             }
           }
           // @ts-ignore
@@ -643,6 +701,7 @@ export class ParcelFormComponent implements AfterViewInit {
             // console.log(existinParcel);
             this.selectedObject = existinParcel;
             // set senders data
+            this.senderContactDto.contact.id = this.selectedObject.senderId;
             this.senderContactDto.contact.name = this.selectedObject.senderName;
             this.senderContactDto.contact.identNumber = this.selectedObject.senderIdentNumber;
             this.senderAddressCtrl.setValue(this.selectedObject.senderAddress);
@@ -651,6 +710,7 @@ export class ParcelFormComponent implements AfterViewInit {
             this.senderContactDto.sendSms = this.selectedObject.sendSmsToSender === 1 ? true : false;
             this.senderContactDto.contactAddress.contactPersonPhone = this.selectedObject.senderPhone;
             // set receiver data
+            this.receiverContactDto.contact.id = this.selectedObject.receiverId;
             this.receiverContactDto.contact.name = this.selectedObject.receiverName;
             this.receiverContactDto.contact.identNumber = this.selectedObject.receiverIdentNumber;
             this.receiverAddressCtrl.setValue(this.selectedObject.receiverAddress);
@@ -659,6 +719,7 @@ export class ParcelFormComponent implements AfterViewInit {
             this.receiverContactDto.sendSms = this.selectedObject.sendSmsToReceiver === 1 ? true : false;
             this.receiverContactDto.contactAddress.contactPersonPhone = this.selectedObject.receiverPhone;
             // set payer data
+            this.payerContactDto.contact.id = this.selectedObject.payerId;
             this.payerContactDto.contact.name = this.selectedObject.payerName;
             this.payerContactDto.contact.identNumber = this.selectedObject.payerIdentNumber;
             this.payerContactDto.contactAddress.street = this.selectedObject.payerAddress;

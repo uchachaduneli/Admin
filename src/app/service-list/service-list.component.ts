@@ -19,7 +19,7 @@ export class ServiceListComponent implements AfterViewInit {
   // @ts-ignore
   srchObj: Service = {};
   data = new MatTableDataSource<ServiceBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'engName', 'price', 'updatedTime', 'createdTime', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'engName', 'updatedTime', 'createdTime', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;

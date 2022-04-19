@@ -57,7 +57,7 @@
     <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
     <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
     <td>{{v.author?.warehouse?.abbreviature}}</td>
-    <td>{{v.createdTime | date :'short'}}</td>
+    <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
     <td>
       <a (click)="confirmFileDeletion(v.name)" class="m-r-10 cursor-pointer">
         <mat-icon>delete_outline</mat-icon>

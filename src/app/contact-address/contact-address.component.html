@@ -21,8 +21,8 @@
             <table [dataSource]="data" class="example-table striped" mat-table>
 
               <ng-container matColumnDef="isPayAddress">
-                <th *matHeaderCellDef mat-header-cell>გადახდ. მის.</th>
-                <td *matCellDef="let element" mat-cell>
+                <th *matHeaderCellDef mat-header-cell class="text-center">გადახდ. მის.</th>
+                <td *matCellDef="let element" mat-cell class="text-center">
                   <mat-icon *ngIf="element.isPayAddress == 1">check</mat-icon>
                   <mat-icon *ngIf="element.isPayAddress == 2">clear</mat-icon>
               </ng-container>

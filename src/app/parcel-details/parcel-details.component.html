@@ -17,7 +17,7 @@
                   <mat-form-field>
                     <input matInput name="createdTime" placeholder="თარიღი" readonly
                            type="text"
-                           value="{{selectedObject.createdTime | date :'short'}} ">
+                           value="{{selectedObject.createdTime | date :'dd/MM/yyyy HH:mm'}} ">
 
                   </mat-form-field>
                 </mat-card-content>
@@ -313,7 +313,7 @@
                 <td> {{v.comment}}</td>
                 <td> {{v.courierUser?.name}}&nbsp;{{v.courierUser?.lastName}}</td>
                 <td>{{v.warehouse?.name}}</td>
-                <td>{{v.createdTime | date :'short'}}</td>
+                <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
               </tr>
               </tbody>
             </table>
@@ -339,7 +339,7 @@
                 <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
                 <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
                 <td>{{v.author?.warehouse?.abbreviature}}</td>
-                <td>{{v.createdTime | date :'short'}}</td>
+                <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
               </tr>
               </tbody>
             </table>
@@ -401,7 +401,7 @@
                   <td>{{v.to?.abbreviature}}</td>
                   <td>{{v.author?.warehouse.abbreviature}}({{v.author?.name}} {{v.author?.lastName}})</td>
                   <td>{{v.msg}}</td>
-                  <td>{{v.createdTime | date :'short'}}</td>
+                  <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
                 </tbody>
               </table>
