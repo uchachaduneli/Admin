@@ -39,6 +39,10 @@ export class CityService {
     return this.httpClient.get<City>(`${this.BaseUrl}/${id}`);
   }
 
+  getHavingMaxZoneIndex(cityFromId: number, cityToId: number): Observable<City> {
+    return this.httpClient.get<City>(`${this.BaseUrl}/longestDestZone/${cityFromId}/${cityToId}`);
+  }
+
   getExcel(params: string): string {
     return `${this.BaseUrl}/excel?${params}`;
   }

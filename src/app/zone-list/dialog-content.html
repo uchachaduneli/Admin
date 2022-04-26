@@ -7,9 +7,8 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.name" id="name" matInput name="name" placeholder="სახელი"
-                   required
-                   type="text">
+            <input [(ngModel)]="selectedObject.name" id="name" matInput name="name" placeholder="ზონა #"
+                   required type="number">
           </mat-form-field>
         </div>
       </div>
@@ -24,21 +23,11 @@
   <!--  Details Dialog Content -->
   <form #detailsForm="ngForm" *ngIf="action == 'Details'">
     <div class="align-items-center" fxLayout="row wrap">
-      <div fxFlex="100" fxFlex.gt-md="15">
-        <div class="m-r-15 m-l-15">
-          <mat-form-field>
-            <input [(ngModel)]="selectedObject.id" matInput name="id" placeholder="#"
-                   readonly
-                   type="text">
-          </mat-form-field>
-        </div>
-      </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.name" matInput name="name" placeholder="სახელი"
-                   readonly
-                   type="text">
+            <input [(ngModel)]="selectedObject.name" matInput
+                   name="name" placeholder="ზონა #" readonly>
           </mat-form-field>
         </div>
       </div>

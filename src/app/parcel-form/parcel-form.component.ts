@@ -395,19 +395,15 @@ export class ParcelFormComponent implements AfterViewInit {
     this.notifyService.showInfo('კალკულაცია ხდება ' + calculatedWeight + 'კგ -ზე', '');
     // თუ დასეივებული კონტაქტია ბაზიდან წამოიღოს მიბმული ტარიფის აიდი
     let payerContactId = 0;
-    let payerCityId = 0; // გამოიყენება მხოლოდ დაუსეივებელი კონტაქტის დროს სტანდარტული ტარიფით კალკულაციისთვის
     switch (this.selectedObject.payerSide) {
       case 1:
         payerContactId = this.senderContactDto.contact.id;
-        payerCityId = this.senderContactDto.contactAddress.city.id;
         break;
       case 2:
         payerContactId = this.receiverContactDto.contact.id;
-        payerCityId = this.receiverContactDto.contactAddress.city.id;
         break;
       case 3:
         payerContactId = this.payerContactDto.contact.id;
-        payerCityId = this.payerContactDto.contactAddress.city.id;
         break;
       default:
         console.log('payer side switch default block :(');
@@ -434,22 +430,40 @@ export class ParcelFormComponent implements AfterViewInit {
         })
       ).subscribe(c => {
         c = c as Contact;
-        if (c.id > 0) {
+        if (c) {
           // მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს
           console.log('მოიძებნა ბაზაში და ტარიფსაც მოძებნილისას გამოიყენებს ', c);
-          if (c) {
-            this.senderContactDto.contact = c;
-            if (!this.senderContactDto.contact.tariff) {
-              this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
-              return;
-            } else {
-              console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
+          if (!c.tariff) {
+            this.notifyService.showError('კალკულაცია ვერ ხერხდება!!! გთხოვთ გამგზავნ კონტაქტს მიაბათ ტარიფი კონტაქტების გვერდზე', '');
+            return;
+          } else {
+            console.log('მიმდინარეობს ნაპოვნი კონტაქტის ტარიფის აიდით, ზონით და წონით ფასის წამოღება');
+            // getting city with max zone name(longest distance) by id to read city.zone.id
+            merge()
+              .pipe(
+                startWith({}),
+                switchMap(() => {
+                  return this.cityService.getHavingMaxZoneIndex(this.senderContactDto.contactAddress.city.id,
+                    this.receiverContactDto.contactAddress.city.id);
+                }),
+                map(data => {
+                  // @ts-ignore
+                  return data;
+                }),
+                catchError(err => {
+                  console.log('ქალაქის მიხედვით, ზონის წამოღება ვერ მოხერხდა ', err);
+                  this.notifyService.showError('ტარიფის მისაღებად, ზონის წამოღება ვერ მოხერხდა', '');
+                  return observableOf([]);
+                })
+              ).subscribe(city => {
+              // @ts-ignore
+              console.log('city with zone having max name ', city.zone);
               merge()
                 .pipe(
                   startWith({}),
                   switchMap(() => {
-                    return this.tarrifService.getPriceFor(this.selectedObject.service.id, this.senderContactDto.contact.tariff.id,
-                      this.receiverContactDto.contactAddress.city.zone.id, calculatedWeight);
+                    // @ts-ignore
+                    return this.tarrifService.getPriceFor(this.selectedObject.service.id, c.tariff.id, city.zone.id, calculatedWeight);
                   }),
                   map(data => {
                     // @ts-ignore
@@ -466,7 +480,7 @@ export class ParcelFormComponent implements AfterViewInit {
                 this.notifyService.showSuccess('ტარიფი ' + r + ' + გადაფუთვა: ' + this.selectedObject.gadafutvisPrice, '');
                 this.selectedObject.totalPrice = r + this.selectedObject.gadafutvisPrice;
               });
-            }
+            });
           }
         }
       });
@@ -478,7 +492,8 @@ export class ParcelFormComponent implements AfterViewInit {
         .pipe(
           startWith({}),
           switchMap(() => {
-            return this.cityService.getById(payerCityId);
+            return this.cityService.getHavingMaxZoneIndex(this.senderContactDto.contactAddress.city.id,
+              this.receiverContactDto.contactAddress.city.id);
           }),
           map(data => {
             // @ts-ignore

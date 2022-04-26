@@ -32,9 +32,9 @@
                style="padding-left: 20px; border-left-width: 1px; padding-top: 20px; padding-bottom: 20px;
                border-left-style: solid; border-left-color: rgba(0, 0, 0, 0.12);">
             <div *ngFor="let detail of row.details; let j=index;" style="padding-left: 20px; padding-top: 20px;">
-              ფასი {{detail.zone.name}}-ში:
+              წონის ფასი ზონა #{{detail.zone.name}}-ში:
               <input [(ngModel)]="detail.price" class="form-control"
-                     id="price_{{i}}_{{j}}" name="price_{{i}}_{{j}}" placeholder="მიუთითეთ წონის ფასი {{detail.zone.name}} -ში" required
+                     id="price_{{i}}_{{j}}" name="price_{{i}}_{{j}}" required
                      type="number">
             </div>
           </div>

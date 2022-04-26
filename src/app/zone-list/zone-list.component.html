@@ -14,14 +14,10 @@
           </div>
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
-              <ng-container matColumnDef="id">
-                <th *matHeaderCellDef mat-header-cell> #</th>
-                <td *matCellDef="let element" mat-cell> {{element.id}} </td>
-              </ng-container>
 
               <ng-container matColumnDef="name">
-                <th *matHeaderCellDef mat-header-cell> სახელი</th>
-                <td *matCellDef="let element" mat-cell> {{element.name}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ზონა #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="updatedTime">

@@ -152,22 +152,23 @@
                   </div>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="100">
-                  <div class="m-r-15 m-l-15">
-                    <mat-form-field>
-                      <input [formControl]="senderContactPersonCtrl" [matAutocomplete]="senderPersonAuto" matInput
-                             name="senderContactPerson"
-                             placeholder=" საკონტაქტო პირი" type="text">
-                      <mat-autocomplete #senderPersonAuto="matAutocomplete">
-                        <mat-option *ngFor="let state of filteredSenderContactPersons | async"
-                                    [value]="state.contactPerson + ' ' + state.contactPersonPhone">
-                          <span>{{state.contactPerson}}, {{state.contactPersonPhone}}</span>
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
+                  <div fxFlex="100" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                      <mat-form-field>
+                        <input [formControl]="senderContactPersonCtrl" [matAutocomplete]="senderPersonAuto" matInput
+                               name="senderContactPerson"
+                               placeholder=" საკონტაქტო პირი" type="text">
+                        <mat-autocomplete #senderPersonAuto="matAutocomplete">
+                          <mat-option *ngFor="let state of filteredSenderContactPersons | async"
+                                      [value]="state.contactPerson + ' ' + state.contactPersonPhone">
+                            <span>{{state.contactPerson}}, {{state.contactPersonPhone}}</span>
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-                <div fxFlex="100" fxFlex.gt-md="100">
-                  <div fxFlex="100" fxFlex.gt-md="20">
+                  <!--                <div fxFlex="100" fxFlex.gt-md="100">-->
+                  <div fxFlex="100" fxFlex.gt-md="30">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <input [(ngModel)]="senderContactDto.contactAddress.contactPersonPhone" matInput
@@ -271,23 +272,23 @@
                   </div>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="100">
-                  <div class="m-r-15 m-l-15">
-                    <mat-form-field>
-                      <input [formControl]="receiverContactPersonCtrl" [matAutocomplete]="receiverPersonAuto"
-                             id="senderContactPersonInputId" matInput
-                             name="receiverContactPerson"
-                             placeholder=" საკონტაქტო პირი" type="text">
-                      <mat-autocomplete #receiverPersonAuto="matAutocomplete">
-                        <mat-option *ngFor="let state of filteredReceiverContactPersons | async"
-                                    [value]="state.contactPerson + ' ' + state.contactPersonPhone">
-                          <span>{{state.contactPerson}}, {{state.contactPersonPhone}}</span>
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
+                  <div fxFlex="100" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                      <mat-form-field>
+                        <input [formControl]="receiverContactPersonCtrl" [matAutocomplete]="receiverPersonAuto"
+                               id="senderContactPersonInputId" matInput
+                               name="receiverContactPerson"
+                               placeholder=" საკონტაქტო პირი" type="text">
+                        <mat-autocomplete #receiverPersonAuto="matAutocomplete">
+                          <mat-option *ngFor="let state of filteredReceiverContactPersons | async"
+                                      [value]="state.contactPerson + ' ' + state.contactPersonPhone">
+                            <span>{{state.contactPerson}}, {{state.contactPersonPhone}}</span>
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-                <div fxFlex="100" fxFlex.gt-md="100">
-                  <div fxFlex="100" fxFlex.gt-md="20">
+                  <div fxFlex="100" fxFlex.gt-md="30">
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <input [(ngModel)]="receiverContactDto.contactAddress.contactPersonPhone" matInput
@@ -510,7 +511,7 @@
               <br><br>
 
               <div fxFlex="100" fxFlex.gt-md="100">
-                <div fxFlex="100" fxFlex.gt-md="40">
+                <div fxFlex="100" fxFlex.gt-md="20">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select [(ngModel)]="selectedObject.service.id" aria-placeholder="გზავნილის ტიპი"
@@ -520,38 +521,29 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="30">
+                <div fxFlex="100" fxFlex.gt-md="15">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
                       <input [(ngModel)]="selectedObject.gadafutvisPrice" matInput name="gadaputvisPasi"
-                             placeholder="გადაფუთვის ფასი"
+                             placeholder="გადაფ. ფასი"
                              type="number">
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="10">
+                <div fxFlex="100" fxFlex.gt-md="20">
                   <button (click)="calculateTotalPrice()" mat-button bg-success color="primary" mat-flat-button>
                     <mat-icon>exposure</mat-icon>
                     კალკულაცია
                   </button>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="1"></div>
-                <div fxFlex="100" fxFlex.gt-md="20">
+                <div fxFlex="100" fxFlex.gt-md="10">
                   <mat-form-field>
                     <input [(ngModel)]="selectedObject.totalPrice" matInput name="totalPrice"
                            placeholder=" მთლიანი ფასი " type="number">
                   </mat-form-field>
                 </div>
-                <!--                <div fxFlex="100" fxFlex.gt-md="50">-->
-                <!--                  <mat-form-field>-->
-                <!--                    <input matInput type="number" name="totalPrice" [(ngModel)]="selectedObject.totalPrice"-->
-                <!--                           placeholder="მთლიანი ფასი">-->
-                <!--                    <button matSuffix mat-icon-button aria-label="კალკულაცია" (click)="calculateTotalPrice()">-->
-                <!--                      <mat-icon>attach_money</mat-icon>-->
-                <!--                    </button>-->
-                <!--                  </mat-form-field>-->
-                <!--                </div>-->
               </div>
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div fxFlex="100" fxFlex.gt-md="50">
@@ -602,28 +594,28 @@
               </div>
 
               <div fxFlex="100" fxFlex.gt-md="100">
-<!--                <div fxFlex="100" fxFlex.gt-md="50">-->
-                  <div class="m-r-15 m-l-15">
-                    <mat-form-field>
-                      <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი"
-                                  name="route" placeholder="მარშრუტი">
-                        <mat-option *ngFor="let c of routes" [value]="c.id">{{c.name}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                </div>
-
                 <!--                <div fxFlex="100" fxFlex.gt-md="50">-->
-                <!--                  <div class="m-r-15 m-l-15">-->
-                <!--                    <mat-form-field>-->
-                <!--                      <mat-select name="sticker" [(ngModel)]="selectedObject.sticker.id" placeholder="სტიკერი"-->
-                <!--                                  aria-placeholder="სტიკერი">-->
-                <!--                        <mat-option *ngFor="let c of docTypes" [value]="c.id">{{c.name}}</mat-option>-->
-                <!--                      </mat-select>-->
-                <!--                    </mat-form-field>-->
-                <!--                  </div>-->
-                <!--                </div>-->
-<!--              </div>-->
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი"
+                                name="route" placeholder="მარშრუტი">
+                      <mat-option *ngFor="let c of routes" [value]="c.id">{{c.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--                <div fxFlex="100" fxFlex.gt-md="50">-->
+              <!--                  <div class="m-r-15 m-l-15">-->
+              <!--                    <mat-form-field>-->
+              <!--                      <mat-select name="sticker" [(ngModel)]="selectedObject.sticker.id" placeholder="სტიკერი"-->
+              <!--                                  aria-placeholder="სტიკერი">-->
+              <!--                        <mat-option *ngFor="let c of docTypes" [value]="c.id">{{c.name}}</mat-option>-->
+              <!--                      </mat-select>-->
+              <!--                    </mat-form-field>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div fxFlex="100" fxFlex.gt-md="100">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
