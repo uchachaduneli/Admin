@@ -84,6 +84,11 @@ export class ParcelService {
     return this.httpClient.get<Packages>(`${this.BaseUrl}/package/${id}`);
   }
 
+  // tslint:disable-next-line:ban-types
+  preGeneration(count: number): Observable<Object> {
+    return this.httpClient.post(`${this.BaseUrl}/prePrint/${count}`, {});
+  }
+
   getStatusHistoryByParceId(id: number): Observable<ParcelStatusHistory> {
     return this.httpClient.get<ParcelStatusHistory>(`${this.BaseUrl}/statusHistory/${id}`);
   }

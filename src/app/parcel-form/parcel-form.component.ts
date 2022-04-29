@@ -63,6 +63,7 @@ export class ParcelFormComponent implements AfterViewInit {
   dynamicArray: Array<Packages> = [];
   slctedVolumeWeightIndex: VolumeWeightIndex = new VolumeWeightIndex();
   packagesCount!: number;
+  preGenerationCount!: number;
   currentUser!: User;
 
   constructor(private formBuilder: FormBuilder, private cityService: CityService, private utilService: UtilService,
@@ -127,6 +128,28 @@ export class ParcelFormComponent implements AfterViewInit {
         stepper.next();
       }
     }
+  }
+
+  prePrintParcelBarCode(): void {
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.service.preGeneration(this.preGenerationCount);
+        }),
+        map(data => {
+          // @ts-ignore
+          return data;
+        }),
+        catchError(error => {
+          this.notifyService.showError('ბარკოდების გენერაცია ვერ მოხერხდა', '');
+          console.log(error);
+          return observableOf([]);
+        })
+      ).subscribe(data => {
+      this.notifyService.showInfo(this.preGenerationCount + ' ბარკოდის გენერაცია დასრულდა წარმატებით', '');
+      this.preGenerationCount = 0;
+    });
   }
 
   validateBeforeSave(): boolean {
