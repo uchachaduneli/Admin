@@ -40,6 +40,7 @@ const MENUITEMS = [
   {icon: 'people_outline', state: 'users', name: 'თანამშრომლები', type: 'link'},
   {icon: 'place', state: 'cities', name: 'ქალაქები', type: 'link'},
   {icon: 'event_note', state: 'delivery-details', name: 'ჩაბარ. დეტალები', type: 'link'},
+  {icon: 'device_hub', state: 'bags', name: 'ტვირთ. განაწილ.', type: 'link'},
   {icon: 'perm_contact_calendar', state: 'contacts', name: 'კონტაქტები', type: 'link'},
   {icon: 'map', state: 'routes', name: 'მარშრუტები', type: 'link'},
   {icon: 'bubble_chart', state: 'services', name: 'სერვისები', type: 'link'},

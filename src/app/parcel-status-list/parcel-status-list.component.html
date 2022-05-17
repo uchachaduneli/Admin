@@ -9,12 +9,12 @@
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
 
-          <!--          <div class="button-row m-b-15 m-t-15">-->
-          <!--            <button mat-raised-button color="primary" (click)="openDialog('Add',{})">-->
-          <!--              <mat-icon>plus_one</mat-icon>-->
-          <!--              დამატება-->
-          <!--            </button>-->
-          <!--          </div>-->
+          <div class="button-row m-b-15 m-t-15">
+            <button mat-raised-button color="primary" (click)="openDialog('Add',{})">
+              <mat-icon>plus_one</mat-icon>
+              დამატება
+            </button>
+          </div>
 
           <a (click)="downloadExcel()" class="m-r-10 cursor-pointer" style="float: right; height: 70px;"
              title="Export To Excel">
@@ -33,7 +33,7 @@
               </ng-container>
 
               <ng-container matColumnDef="code">
-                <th *matHeaderCellDef mat-header-cell>საიდენტ. #</th>
+                <th *matHeaderCellDef mat-header-cell>კოდი</th>
                 <td *matCellDef="let element" mat-cell> {{element.code}} </td>
               </ng-container>
 
@@ -54,15 +54,15 @@
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
                     </a>
-                    <!--                    <a *ngIf="element.id != 1" (click)="openDialog('Update',element)" class="m-r-10 cursor-pointer">-->
-                    <!--                      <mat-icon>create</mat-icon>-->
-                    <!--                    </a>-->
+<!--                    <a *ngIf="element.id != 1" (click)="openDialog('Update',element)" class="m-r-10 cursor-pointer">-->
+<!--                      <mat-icon>create</mat-icon>-->
+<!--                    </a>-->
                     <a class="m-r-10 cursor-pointer" href="parcelStatus-reasons/{{element.id}}" title="ქვე-სტატუსები">
                       <mat-icon>linear_scale</mat-icon>
                     </a>
-                    <!--                    <a *ngIf="element.id != 1" (click)="openDialog('Delete',element)" class="m-r-10 cursor-pointer">-->
-                    <!--                      <mat-icon>delete_outline</mat-icon>-->
-                    <!--                    </a>-->
+<!--                    <a *ngIf="element.id != 1" (click)="openDialog('Delete',element)" class="m-r-10 cursor-pointer">-->
+<!--                      <mat-icon>delete_outline</mat-icon>-->
+<!--                    </a>-->
                   </div>
                 </td>
               </ng-container>

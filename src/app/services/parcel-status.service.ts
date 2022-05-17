@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
+import {ParcelBackendApi} from "./parcel.service";
 
 export interface ParcelStatusBackendApi {
   items: ParcelStatus[];
@@ -25,8 +26,12 @@ export class ParcelStatusService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getList(): Observable<ParcelStatusBackendApi[]> {
-    return this.httpClient.get<ParcelStatusBackendApi[]>(`${this.BaseUrl}`);
+  // getList(): Observable<ParcelStatusBackendApi[]> {
+  //   return this.httpClient.get<ParcelStatusBackendApi[]>(`${this.BaseUrl}`);
+  // }
+
+  getList(rowcount: number, page: number, srchParams: string): Observable<ParcelStatusBackendApi[]> {
+    return this.httpClient.get<ParcelStatusBackendApi[]>(`${this.BaseUrl}?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
   // tslint:disable-next-line:ban-types

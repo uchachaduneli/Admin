@@ -9,7 +9,6 @@ import {NotificationService} from '../services/notification.service';
 import {ContactAddress} from '../models/contact-address';
 import {merge, of as observableOf, pipe} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {Contact} from '../models/contact';
 import {UtilService} from '../services/util.service';
 import {CityService} from '../services/city.service';
 import {City} from '../models/city';
@@ -55,7 +54,8 @@ export class ContactAddressComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           // @ts-ignore
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
+          return this.service.getList(this.paginator.pageSize,
+            this.paginator.pageIndex, 'contact.id=' + this.srchObj.contact.id);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

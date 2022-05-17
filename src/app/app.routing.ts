@@ -23,6 +23,7 @@ import {DoctypesComponent} from './doctypes/doctypes.component';
 import {ParcelDetailsComponent} from './parcel-details/parcel-details.component';
 import {ExcelImportComponent} from './excel-import/excel-import.component';
 import {DeliveryDetailsComponent} from './delivery-details/delivery-details.component';
+import {BagListComponent} from "./bag-list/bag-list.component";
 
 export const AppRoutes: Routes = [
   {
@@ -38,6 +39,12 @@ export const AppRoutes: Routes = [
       {
         path: 'parcels',
         component: ParcelListComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'bags',
+        component: BagListComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
       },

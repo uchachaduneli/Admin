@@ -1,0 +1,93 @@
+<div id="printBagDivId" style="size: A4; display: none;">
+  <div style="margin: 0 auto; width: 100%; align-content: center; text-align: center;">
+    <ngx-barcode *ngFor="let bcValue of barcodeToStrArray()" [bc-display-value]="true"
+                 [bc-height]="50" [bc-value]="bcValue"></ngx-barcode>
+  </div>
+  <br>
+  <hr style="width: 100%">
+  <br>
+  საწყისი ლოკაცია - {{selectedObject?.from?.city.name}} ( {{selectedObject?.from?.name}})
+  <br/>
+  <hr style="width: 100%">
+  <br>
+  დანიშნულების ადგილი - {{selectedObject?.to?.city.name}} ( {{selectedObject?.to?.name}})
+
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>ტვირთის განაწილება</mat-card-title>
+        <div class="example-container m-t-20">
+          <div *ngIf="isLoadingResults" class="example-loading-shade">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+
+          <div class="button-row m-b-15 m-t-15">
+            <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
+              <mat-icon>plus_one</mat-icon>
+              დამატება
+            </button>
+            <button align="end" (click)="openDialog('statusManager',{})" color="accent" mat-raised-button>
+              <mat-icon>done_all</mat-icon>
+              სტატუს მენეჯერი
+            </button>
+          </div>
+
+          <div class="example-table-container responsive-table">
+            <table [dataSource]="data" class="example-table striped" mat-table>
+              <ng-container matColumnDef="barCode">
+                <th *matHeaderCellDef mat-header-cell> ბარკოდი #</th>
+                <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+              </ng-container>
+              <ng-container matColumnDef="from">
+                <th *matHeaderCellDef mat-header-cell> გამგზავნი საწყ.</th>
+                <td *matCellDef="let element" mat-cell> {{element.from.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="to">
+                <th *matHeaderCellDef mat-header-cell> მიმღები საწყ.</th>
+                <td *matCellDef="let element" mat-cell> {{element.to.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef mat-header-cell width="15%"> სტატუსი</th>
+                <td *matCellDef="let element" mat-cell> {{element.status?.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="createdTime">
+                <th *matHeaderCellDef mat-header-cell> თარიღი</th>
+                <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'dd/MM/yyyy HH:mm'}} </td>
+              </ng-container>
+
+              <ng-container class="text-center" matColumnDef="action">
+                <th *matHeaderCellDef mat-header-cell> მოქმედება</th>
+                <td *matCellDef="let element" class="action-link" mat-cell>
+                  <div>
+                    <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
+                      <mat-icon>content_paste</mat-icon>
+                    </a>
+                    <a (click)="openDialog('Update',element)" class="m-r-10 cursor-pointer">
+                      <mat-icon>create</mat-icon>
+                    </a>
+                    <a (click)="openDialog('Delete',element)" class="m-r-10 cursor-pointer">
+                      <mat-icon>delete_outline</mat-icon>
+                    </a>
+                    <a (click)="print(element)" class="m-r-10 cursor-pointer" title="ბეჭდვა">
+                      <mat-icon>local_printshop</mat-icon>
+                    </a>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr (dblclick)="openDialog('Details', row)" *matRowDef="let row; columns: displayedColumns;"
+                  mat-row title="ჩანაწერის დეტალების სანახავად დაკლიკეთ ორჯერ"></tr>
+            </table>
+          </div>
+
+          <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
+                         showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

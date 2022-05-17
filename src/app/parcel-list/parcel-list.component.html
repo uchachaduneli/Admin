@@ -26,14 +26,22 @@
                 <th *matHeaderCellDef mat-header-cell> გამგზავნი</th>
                 <td *matCellDef="let element" mat-cell> {{element.senderName}} </td>
               </ng-container>
+              <ng-container matColumnDef="senderCity">
+                <th *matHeaderCellDef mat-header-cell> გამ. ქალ.</th>
+                <td *matCellDef="let element" mat-cell> {{element.senderCity?.name}} </td>
+              </ng-container>
               <ng-container matColumnDef="receiverName">
                 <th *matHeaderCellDef mat-header-cell> მიმღები</th>
                 <td *matCellDef="let element" mat-cell> {{element.receiverName}} </td>
               </ng-container>
-              <ng-container matColumnDef="payerName">
-                <th *matHeaderCellDef mat-header-cell> გადამხდელი</th>
-                <td *matCellDef="let element" mat-cell> {{element.payerName}} </td>
+              <ng-container matColumnDef="receiverCity">
+                <th *matHeaderCellDef mat-header-cell> მიმ. ქალ.</th>
+                <td *matCellDef="let element" mat-cell> {{element.receiverCity?.name}} </td>
               </ng-container>
+              <!--              <ng-container matColumnDef="payerName">-->
+              <!--                <th *matHeaderCellDef mat-header-cell> გადამხდელი</th>-->
+              <!--                <td *matCellDef="let element" mat-cell> {{element.payerName}} </td>-->
+              <!--              </ng-container>-->
               <ng-container matColumnDef="weight">
                 <th *matHeaderCellDef mat-header-cell> წონა</th>
                 <td *matCellDef="let element" mat-cell> {{element.weight}} </td>
@@ -44,13 +52,13 @@
               </ng-container>
               <ng-container matColumnDef="status">
                 <th *matHeaderCellDef mat-header-cell> სტატუსი</th>
-                <td *matCellDef="let element" mat-cell> {{element.status.name}} </td>
+                <td *matCellDef="let element" mat-cell> {{element.status.status.code}} </td>
               </ng-container>
 
-              <ng-container matColumnDef="createdTime">
-                <th *matHeaderCellDef mat-header-cell> შეიქმნა</th>
-                <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'dd/MM/yyyy HH:mm'}} </td>
-              </ng-container>
+              <!--              <ng-container matColumnDef="createdTime">-->
+              <!--                <th *matHeaderCellDef mat-header-cell> შეიქმნა</th>-->
+              <!--                <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'dd/MM/yyyy HH:mm'}} </td>-->
+              <!--              </ng-container>-->
 
               <ng-container matColumnDef="action">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
@@ -59,10 +67,10 @@
                     <a class="m-r-10 cursor-pointer" href="parcel-details/{{element.id}}" title="დეტალურად">
                       <mat-icon>content_paste</mat-icon>
                     </a>
-                    <a (click)="openDialog('statusChange',element)" class="m-r-10 cursor-pointer"
-                       title="ჩექპოინტის ცვლილება">
-                      <mat-icon>linear_scale</mat-icon>
-                    </a>
+                    <!--                    <a (click)="openDialog('statusChange',element)" class="m-r-10 cursor-pointer"-->
+                    <!--                       title="ჩექპოინტის ცვლილება">-->
+                    <!--                      <mat-icon>linear_scale</mat-icon>-->
+                    <!--                    </a>-->
                     <a (click)="openDialog('fileUpload',element)" class="m-r-10 cursor-pointer" title="ფაილები">
                       <mat-icon>attach_file</mat-icon>
                     </a>

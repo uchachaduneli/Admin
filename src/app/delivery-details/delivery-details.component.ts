@@ -29,7 +29,7 @@ import {DeliveryDetailParcelDTO} from '../models/delivery-detail-parcel-dto';
   styleUrls: ['./delivery-details.component.scss']
 })
 export class DeliveryDetailsComponent implements AfterViewInit {
-  srchObj = new Parcel();
+  srchObj = new DeliveryDetail();
   selectedObject!: DeliveryDetail;
   data = new MatTableDataSource<DeliveryDetailBackendApi>();
   displayedColumns: string[] = ['detailBarCode', 'name', 'user', 'createdTime', 'action'];
@@ -79,7 +79,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   }
 
   barcodeToStrArray(): string[] {
-    return this.selectedObject.detailBarCode ? [this.selectedObject.detailBarCode] : [];
+    return this.selectedObject && this.selectedObject.detailBarCode ? [this.selectedObject.detailBarCode] : [];
   }
 
   bindParcelToDetail(): void {
@@ -204,6 +204,16 @@ export class DeliveryDetailsComponent implements AfterViewInit {
       if (result && result.event === 'Cancel') {
         this.getMainData();
       }
+    });
+  }
+
+  deleteImportedRow(obj: DeliveryDetail): void {
+    this.service.delete(obj.id).subscribe(() => {
+      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      window.location.reload();
+    }, error => {
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
+      console.log(error);
     });
   }
 
@@ -406,7 +416,7 @@ export class ParcelEditDlgContent implements AfterViewInit {
     merge().pipe(
       startWith({}),
       switchMap(() => {
-        return this.parcelStatusService.getList();
+        return this.parcelStatusService.getList(1000, 0, '');
       }),
       map(data => {
         // @ts-ignore

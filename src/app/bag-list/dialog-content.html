@@ -1,0 +1,194 @@
+<h2 class="font-medium" mat-dialog-title>
+  <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : action === 'statusManager' ? 'სტატუს მენეჯერი' : ''}}</strong>
+</h2>
+<mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
+  <!--  Add/Edit Dialog Content-->
+  <form #userForm="ngForm" *ngIf="action === 'Add' || action === 'Update'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="20">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.barCode" id="barCode" matInput
+                   name="barCode" placeholder="ბარკოდი"
+                   required readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100"></div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.from.id" aria-placeholder="საწყობიდან" id="from" name="from"
+                        placeholder="საწყობიდან" required>
+              <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.to.id" aria-placeholder="საწყობში" id="to" name="to"
+                        placeholder="საწყობში" required>
+              <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="20">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input [(ngModel)]="parcelBarCode" id="parcelBarCode" matInput name="parcelBarCode"
+                     placeholder="ამანათის ბარკოდი" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="40">
+          <button (click)="bindParcelToBag()" color="accent"
+                  mat-raised-button title="ამანათის ჩამატება">
+            <mat-icon>playlist_add_check</mat-icon>
+            სიაში ამანათის დამატება
+          </button>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="40">
+        &nbsp; &nbsp; სიაში არსებული ამანათები:
+        <ol>
+          <li *ngFor="let p of selectedObject.parcels">{{p.barCode}} &nbsp;
+            <a (click)="removeFromList(p)" class="m-r-10 cursor-pointer">
+              <mat-icon>delete_outline</mat-icon>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div align="end">
+      <button (click)="doAction()" [disabled]="!userForm.valid" bg-success color="warn" mat-button
+              mat-flat-button> შენახვა
+      </button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
+    </div>
+  </form>
+  <!--  status manager Dialog Content-->
+  <form #statusesForm="ngForm" *ngIf="action === 'statusManager'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="multiplesStatus" aria-placeholder="სტატუსი"
+                        name="status" placeholder="სტატუსი" required>
+              <mat-option *ngFor="let c of statuses" [value]="c.id">{{c.status.name}} ({{c.name}})</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input [(ngModel)]="parcelBarCode" matInput id="barcodeInpForMultStatus" name="parcelBarCode"
+                     placeholder=" ბარკოდი" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <button (click)="addForMultipleStatusChange()" color="accent"
+                  mat-raised-button title=" ჩამატება">
+            <mat-icon>playlist_add_check</mat-icon>
+            სიაში დამატება
+          </button>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        &nbsp; &nbsp; სიაში არსებული:
+        <ol>
+          <li *ngFor="let p of markedForStatusChanges">{{p}} &nbsp;
+            <a (click)="removeFromStatusList(p)" class="m-r-10 cursor-pointer">
+              <mat-icon>delete_outline</mat-icon>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div align="end">
+      <button (click)="doAction()" [disabled]="!statusesForm.valid" bg-success color="warn" mat-button
+              mat-flat-button> შენახვა
+      </button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
+    </div>
+  </form>
+  <!--  Details Dialog Content -->
+  <form #detailsForm="ngForm" *ngIf="action === 'Details'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="20">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.barCode" matInput
+                   name="barCoder" placeholder="ბარკოდი"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100"></div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.from.id" aria-placeholder="საწყობიდან" name="fromr"
+                        placeholder="საწყობიდან" disabled>
+              <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.to.id" aria-placeholder="საწყობში" name="tor"
+                        placeholder="საწყობში" disabled>
+              <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input matInput name="createdTime" placeholder="ჩანაწერის დრო" readonly
+                     type="text" value="{{selectedObject.createdTime | date: 'dd/MM/yyyy HH:mm'}}">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50">
+          <div class="m-r-15 m-l-15">
+            <mat-form-field>
+              <input matInput name="updatedTime" placeholder="განახლების დრო" readonly
+                     type="text" value="{{selectedObject.updatedTime | date: 'dd/MM/yyyy HH:mm'}}">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100"><br><br>
+        <mat-divider></mat-divider>
+        <br><br></div>
+      <div fxFlex="100" fxFlex.gt-md="40">
+        &nbsp;&nbsp;სიაში არსებული ამანათები:
+        <ul>
+          <li *ngFor="let p of selectedObject.parcels">#{{p.barCode}}</li>
+        </ul>
+      </div>
+
+    </div>
+    <div align="end">
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <p>დაადასტურეთ წაშლა <b>{{selectedObject.name}}</b> ?</p>
+  <div align="end" class="pt-3" mat-dialog-actions>
+    <button (click)="doAction()" color="warn" mat-button mat-flat-button>წაშლა</button>
+    <button (click)="closeDialog()" mat-button>გაუქმება</button>
+  </div>
+</ng-template>

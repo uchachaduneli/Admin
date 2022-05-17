@@ -338,6 +338,7 @@ import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component'
 import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-import.component';
 import {PrintComponent} from './print/print.component';
 import {DeliveryDetailsComponent, DeliveryDetailsDialogContent, ParcelEditDlgContent} from './delivery-details/delivery-details.component';
+import {BagDialogContent, BagListComponent} from './bag-list/bag-list.component';
 
 
 // tslint:disable-next-line:typedef
@@ -658,6 +659,7 @@ const icons = {
     ExcelRowDialogContent,
     ServiceDialogContent,
     WarehouseDialogContent,
+    BagDialogContent,
     ParcelFormPrintDialogContent,
     ParcelDC,
     DocTypeDC,
@@ -687,7 +689,8 @@ const icons = {
     ConfirmDialogComponent,
     ExcelImportComponent,
     PrintComponent,
-    DeliveryDetailsComponent
+    DeliveryDetailsComponent,
+    BagListComponent
   ],
   imports: [
     NgxBarcodeModule,

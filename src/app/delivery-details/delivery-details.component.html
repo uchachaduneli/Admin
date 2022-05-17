@@ -133,7 +133,7 @@
                 <button (click)="bindParcelToDetail()" color="accent"
                         mat-raised-button title="ამანათის მიბმა">
                   <mat-icon>playlist_add_check</mat-icon>
-                  ამანათის სიაში დამატება
+                  სიაში ამანათის დამატება
                 </button>
               </div>
               <div class="text-right" fxFlex="100" fxFlex.gt-md="40">
@@ -189,6 +189,9 @@
                     </a>
                     <a (click)="printDetails(element)" class="m-r-10 cursor-pointer" title=" ბეჭდვა">
                       <mat-icon>local_printshop</mat-icon>
+                    </a>
+                    <a (click)="deleteImportedRow(element)" class="m-r-10 cursor-pointer" title=" წაშლა">
+                      <mat-icon>delete_outline</mat-icon>
                     </a>
                   </div>
                 </td>

@@ -12,6 +12,8 @@ import {UtilService} from '../services/util.service';
 import {Tariff} from '../models/tariff';
 import {TariffByZone} from '../models/tariff-by-zone';
 import {TariffService} from '../services/tariff.service';
+import {User} from '../models/user';
+import {TokenStorageService} from '../services/token-storage.service';
 
 
 @Component({
@@ -139,20 +141,23 @@ export class ContactDialogContent implements OnInit {
   action: string;
   selectedObject: any;
   tariffs!: Tariff[];
+  currentUser!: User;
 
   constructor(public dialogRef: MatDialogRef<ContactDialogContent>, private tariffService: TariffService,
               // @Optional() is used to prevent error if no data is passed
+              private tokenStorageService: TokenStorageService,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: Contact) {
     this.selectedObject = {...data};
     console.log(this.selectedObject);
+    this.currentUser = this.tokenStorageService.getUser();
     if (!this.selectedObject.type) {
       this.selectedObject.type = 1;
     }
     if (!this.selectedObject.deReGe) {
       this.selectedObject.deReGe = 1;
     }
-    if (!this.selectedObject.user) { // es droebitaa da mere daloginebuli uzeri unda aigos avtomaturad
-      this.selectedObject.user = {id: 1};
+    if (!this.selectedObject.user) {
+      this.selectedObject.user = {id: this.currentUser.id};
     }
     if (!this.selectedObject.tariff) {
       this.selectedObject.tariff = new Tariff();

@@ -77,7 +77,7 @@
                         <input (keyup.enter)="searchContact(1)" [(ngModel)]="senderContactDto.contact.name"
                                class="search-input"
                                id="senderContactNameSrch" matInput
-                               name="senderContactNameSrch" placeholder="კონტაქტის სახელი"
+                               name="senderContactNameSrch" placeholder="კომპანიის სახელი"
                                type="text">
                       </mat-form-field>
                     </div>
@@ -114,8 +114,8 @@
                       <mat-select (selectionChange)="onContactSelect($event.value, 1)"
                                   [(ngModel)]="senderContactDto.contact.id"
                                   [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი"
-                                  name="senderContact" placeholder="მოძებნილი კონტაქტი"
+                                  aria-placeholder="მოძებნილი კომპანია"
+                                  name="senderContact" placeholder="მოძებნილი კომპანია"
                                   required>
                         <mat-option *ngFor="let c of searchedSenderContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
@@ -124,7 +124,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="51">
+                <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select (selectionChange)="onCityChange($event.value, 1)"
@@ -205,7 +205,7 @@
                         <input (keyup.enter)="searchContact(2)" [(ngModel)]="receiverContactDto.contact.name"
                                class="search-input"
                                id="receiverContactNameSrch" matInput
-                               name="receiverContactNameSrch" placeholder="კონტაქტის სახელი"
+                               name="receiverContactNameSrch" placeholder="კომპანიის სახელი"
                                type="text">
                       </mat-form-field>
                     </div>
@@ -235,8 +235,8 @@
                       <mat-select (selectionChange)="onContactSelect($event.value, 2)"
                                   [(ngModel)]="receiverContactDto.contact.id"
                                   [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი"
-                                  name="receiverContact" placeholder="მოძებნილი კონტაქტი"
+                                  aria-placeholder="მოძებნილი კომპანია"
+                                  name="receiverContact" placeholder="მოძებნილი კომპანია"
                                   required>
                         <mat-option *ngFor="let c of searchedReceiverContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
@@ -245,7 +245,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="51">
+                <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select (selectionChange)="onCityChange($event.value, 2)"
@@ -340,7 +340,7 @@
                         <input (keyup.enter)="searchContact(1)" [(ngModel)]="payerContactDto.contact.name"
                                class="search-input"
                                id="payerContactNameSrch" matInput
-                               name="payerContactNameSrch" placeholder="კონტაქტის სახელი"
+                               name="payerContactNameSrch" placeholder="კომპანიის სახელი"
                                type="text">
                       </mat-form-field>
                     </div>
@@ -377,8 +377,8 @@
                       <mat-select (selectionChange)="onContactSelect($event.value, 3)"
                                   [(ngModel)]="payerContactDto.contact.id"
                                   [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კონტაქტი"
-                                  name="payerContact" placeholder="მოძებნილი კონტაქტი"
+                                  aria-placeholder="მოძებნილი კომპანია"
+                                  name="payerContact" placeholder="მოძებნილი კომპანია"
                                   required>
                         <mat-option *ngFor="let c of searchedPayerContacts" [value]="c.id">{{c.name}}
                           ({{c.identNumber}})
@@ -387,7 +387,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div fxFlex="100" fxFlex.gt-md="51">
+                <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select (selectionChange)="onCityChange($event.value, 3)"

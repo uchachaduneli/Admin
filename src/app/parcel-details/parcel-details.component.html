@@ -34,7 +34,8 @@
                            type="text">
                   </mat-form-field>
                   <mat-form-field>
-                    <input [(ngModel)]="selectedObject.payerIdentNumber" matInput name="payerIdentNumber" placeholder="საიდენტიფიკაციო #"
+                    <input [(ngModel)]="selectedObject.payerIdentNumber" matInput name="payerIdentNumber"
+                           placeholder="საიდენტიფიკაციო #"
                            readonly
                            type="text">
                   </mat-form-field>
@@ -47,7 +48,8 @@
                   <mat-card-title>მიმდინარე სტატუსი</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input [(ngModel)]="selectedObject.status?.status.name" matInput name="statusName" placeholder="სტატუსი "
+                    <input [(ngModel)]="selectedObject.status?.status.name" matInput name="statusName"
+                           placeholder="სტატუსი "
                            readonly
                            type="text">
                   </mat-form-field>
@@ -167,7 +169,8 @@
                                type="number"/>
                       </td>
                       <td>
-                        <input [(ngModel)]="dynamic.volumeWeight" matInput name="volumeWeight{{i}}" placeholder="მოც.წონა"
+                        <input [(ngModel)]="dynamic.volumeWeight" matInput name="volumeWeight{{i}}"
+                               placeholder="მოც.წონა"
                                readonly type="number"/>
                       </td>
                       <!--                      <td>-->
@@ -193,11 +196,11 @@
                       <input [ngModel]="packages?.length" matInput name="packagesLength" placeholder="რაოდენობა">
                     </mat-form-field> &nbsp; &nbsp;
                     <mat-form-field>
-                      <input matInput style="display: none">
                       <input *ngIf="selectedObject.paymentType === 1" matInput name="paymentType"
                              placeholder="გადახდ. ტიპი"
                              value="ინვოისი">
-                      <input *ngIf="selectedObject.paymentType === 2" matInput name="paymentType" placeholder="გადახდ. ტიპი"
+                      <input *ngIf="selectedObject.paymentType === 2" matInput name="paymentType"
+                             placeholder="გადახდ. ტიპი"
                              value="ნაღდი">
                       <input *ngIf="selectedObject.paymentType === 3" matInput name="paymentType"
                              placeholder="გადახდ. ტიპი"
@@ -214,38 +217,42 @@
                   </div>
                   <div fxLayout="row">
                     <mat-form-field>
+                      <input [ngModel]="selectedObject.gadafutvisPrice" matInput placeholder="გადაფუთვის ფასი">
+                    </mat-form-field>
+                    <mat-form-field>
                       <input [ngModel]="selectedObject.totalPrice" matInput placeholder="ფასი">
                     </mat-form-field>&nbsp; &nbsp;
                     <mat-form-field>
-                      <input matInput placeholder="ტრანსპ. სახე" value="_">
+                      <input value="{{selectedObject.gadafutvisPrice + selectedObject.totalPrice}}" matInput
+                             placeholder="ჯამი">
+                    </mat-form-field>
+                    <!--                    <mat-form-field>-->
+                    <!--                      <input matInput placeholder="ტრანსპ. სახე" value="_">-->
+                    <!--                    </mat-form-field>-->
+                  </div>
+                  <div fxLayout="row">
+                    <!--                    <mat-form-field>-->
+                    <!--                      <input matInput placeholder="ტრანსპორტირების ფასი" value="_">-->
+                    <!--                    </mat-form-field>&nbsp; &nbsp;-->
+                    <mat-form-field>
+                      <input matInput placeholder="მომხმარებელი"
+                             value="{{selectedObject.author.name}} {{selectedObject.author.lastName}}">
                     </mat-form-field>
                   </div>
                   <div fxLayout="row">
                     <mat-form-field>
-                      <input matInput placeholder="ტრანსპორტირების ფასი" value="_">
-                    </mat-form-field>&nbsp; &nbsp;
-                    <mat-form-field>
-                      <input matInput placeholder="მომხმარებელი" value="_">
-                    </mat-form-field>
-                  </div>
-                  <div fxLayout="row">
-                    <mat-form-field>
-                      <input matInput style="display: none">
                       <input *ngIf="selectedObject.deliveryType === 1" matInput placeholder="ჩაბარების ტიპი"
                              value="მიტანა მისამართზე">
                       <input *ngIf="selectedObject.deliveryType === 2" matInput placeholder="ჩაბარების ტიპი"
                              value="მიკითხვა">
                     </mat-form-field>&nbsp; &nbsp;
-                    <mat-form-field>
-                      <input [ngModel]="selectedObject.gadafutvisPrice" matInput placeholder="გადაფუთვის ფასი">
-                    </mat-form-field>
+
                   </div>
                   <div fxLayout="row">
                     <mat-form-field>
                       <input matInput placeholder="ჩაბარების ტიპი" value="{{selectedObject.route.name}}">
                     </mat-form-field>&nbsp; &nbsp;
                     <mat-form-field>
-                      <input matInput style="display: none">
                       <input *ngIf="selectedObject.packageType === 1" matInput placeholder="პაკეტის ტიპი"
                              value="ამანათი">
                       <input *ngIf="selectedObject.packageType === 2" matInput placeholder="პაკეტის ტიპი"
