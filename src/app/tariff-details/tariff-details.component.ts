@@ -29,6 +29,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
   markedForDeletion: TariffByZone[] = [];
   servicesList: Service[] = [];
   selectedService!: Service;
+  isLoadingResults = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private zoneService: ZoneService, private cdr: ChangeDetectorRef,
@@ -113,11 +114,15 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
         catchError(() => {
           return observableOf([]);
         })
-      ).subscribe(data => this.zones = data);
+      ).subscribe(data => {
+      this.zones = data;
+      this.isLoadingResults = true;
+      this.getMainData();
+    });
   }
 
   getMainData(): void {
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
     this.tarifByZones = [];
     this.markedForDeletion = [];
     merge()
@@ -132,6 +137,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
           return data;
         }),
         catchError(() => {
+          this.isLoadingResults = false;
           return observableOf([]);
         })
       ).subscribe(data => {
@@ -150,6 +156,7 @@ export class TariffDetailsComponent implements AfterViewInit, OnInit {
         });
         console.log(this.tarifByZones);
       }
+      this.isLoadingResults = false;
     });
     this.cdr.detectChanges();
   }

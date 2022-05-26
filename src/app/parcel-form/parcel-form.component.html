@@ -1,7 +1,11 @@
 <form class="doNotPrint">
+  <button style="display: none"></button>
   <div fxLayout="row wrap">
     <!-- Card column -->
     <div fxFlex="100" fxFlex.gt-sm="100%">
+      <div *ngIf="isLoadingResults" class="example-loading-shade">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
       <mat-card>
         <mat-card-content>
           <mat-card-title class="p-b-20">
@@ -25,7 +29,7 @@
                           </div>
                           <div fxFlex="100" fxFlex.gt-md="50">
                             <button align="start" bg-success color="warn" mat-button mat-flat-button
-                                   (click)="prePrintParcelBarCode()" style="margin-top: 1.5%;margin-left: 2%;">
+                                    (click)="prePrintParcelBarCode()" style="margin-top: 1.5%;margin-left: 2%;">
                               ბეჭდვა
                             </button>
                           </div>
@@ -112,7 +116,7 @@
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select (selectionChange)="onContactSelect($event.value, 1)"
-                                  [(ngModel)]="senderContactDto.contact.id"
+                                  [(ngModel)]="senderContactDto.contact.id" #searchedSenderContactsSelect
                                   [disabled]="!this.senderContactDto.contact.name && !this.senderContactDto.contact.identNumber"
                                   aria-placeholder="მოძებნილი კომპანია"
                                   name="senderContact" placeholder="მოძებნილი კომპანია"
@@ -124,14 +128,24 @@
                     </mat-form-field>
                   </div>
                 </div>
+                <!--                <div fxFlex="100" fxFlex.gt-md="100">-->
+                <!--                  <mat-select placeholder="Using array of objects">-->
+                <!--                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="cities" (filteredReturn)="filteredSenderCitiesList =$event"></mat-select-filter>-->
+                <!--                    <mat-option *ngFor="let item of filteredList5" [value]="item">-->
+                <!--                      {{item.name}}-->
+                <!--                    </mat-option>-->
+                <!--                  </mat-select>-->
+                <!--                  </mat-form-field>-->
+                <!--                </div>-->
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <mat-select (selectionChange)="onCityChange($event.value, 1)"
-                                  [(ngModel)]="senderContactDto.contactAddress.city.id"
-                                  aria-placeholder="ქალაქი" name="senderContactCity"
-                                  placeholder="ქალაქი" required>
-                        <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                                  [(ngModel)]="senderContactDto.contactAddress.city.id" name="senderContactCity"
+                                  aria-placeholder="ქალაქი" placeholder="ქალაქი" required>
+                        <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="cities"
+                                           (filteredReturn)="filteredSenderCitiesList =$event"></mat-select-filter>
+                        <mat-option *ngFor="let c of filteredSenderCitiesList" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -235,7 +249,7 @@
                       <mat-select (selectionChange)="onContactSelect($event.value, 2)"
                                   [(ngModel)]="receiverContactDto.contact.id"
                                   [disabled]="!this.receiverContactDto.contact.name && !this.receiverContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კომპანია"
+                                  aria-placeholder="მოძებნილი კომპანია" #searchedReceiverContactsSelect
                                   name="receiverContact" placeholder="მოძებნილი კომპანია"
                                   required>
                         <mat-option *ngFor="let c of searchedReceiverContacts" [value]="c.id">{{c.name}}
@@ -252,7 +266,9 @@
                                   [(ngModel)]="receiverContactDto.contactAddress.city.id"
                                   aria-placeholder="ქალაქი" name="receiverContactCity"
                                   placeholder="ქალაქი" required>
-                        <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                        <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="cities"
+                                           (filteredReturn)="filteredReceiverCitiesList =$event"></mat-select-filter>
+                        <mat-option *ngFor="let c of filteredReceiverCitiesList" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -394,7 +410,9 @@
                                   [(ngModel)]="payerContactDto.contactAddress.city.id"
                                   aria-placeholder="ქალაქი" name="payerContactCity"
                                   placeholder="ქალაქი" required>
-                        <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                        <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="cities"
+                                           (filteredReturn)="filteredPayerCitiesList =$event"></mat-select-filter>
+                        <mat-option *ngFor="let c of filteredPayerCitiesList" [value]="c.id">{{c.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>

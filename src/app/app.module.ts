@@ -339,6 +339,7 @@ import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-
 import {PrintComponent} from './print/print.component';
 import {DeliveryDetailsComponent, DeliveryDetailsDialogContent, ParcelEditDlgContent} from './delivery-details/delivery-details.component';
 import {BagDialogContent, BagListComponent} from './bag-list/bag-list.component';
+import {MatSelectFilterModule} from 'mat-select-filter';
 
 
 // tslint:disable-next-line:typedef
@@ -693,6 +694,7 @@ const icons = {
     BagListComponent
   ],
   imports: [
+    MatSelectFilterModule,
     NgxBarcodeModule,
     BrowserModule,
     BrowserAnimationsModule,
