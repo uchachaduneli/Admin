@@ -1,5 +1,5 @@
 <h2 class="font-medium" mat-dialog-title>
-  <strong>ჩაბარების დეტალლში ამანათის მონაცემების რედაქტირება</strong></h2>
+  <strong>ჩაბარების დეტალში ამანათის მონაცემების რედაქტირება</strong></h2>
 <mat-dialog-content class="pb-3">
   <!--  Details Dialog Content -->
   <form #detailsParcelEditForm="ngForm">
@@ -28,7 +28,9 @@
             <mat-select (selectionChange)="onStatusSelect($event.value)" [(ngModel)]="selectedStatus.id"
                         aria-placeholder="სტატუსი" id="parcelStatus"
                         name="parcelStatus" placeholder="სტატუსი">
-              <mat-option *ngFor="let c of statuses" [value]="c.id">{{c.name}}</mat-option>
+              <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statuses"
+                                 (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
+              <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -37,19 +39,31 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.status.id" required aria-placeholder="ქვე სტატუსი"
-                        name="subStatus" placeholder="ქვე სტატუსი">
-              <mat-option *ngFor="let z of statusReasons" [value]="z.id">{{z.name}}</mat-option>
+                        name="subStatus" placeholder="ქვე სტატუსი" (selectionChange)="onSubStatusSet($event.value)">
+              <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statusReasons"
+                                 (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
+              <mat-option *ngFor="let z of filteredStatusReasons" [value]="z.id">{{z.name}}</mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100" *ngIf="showStatusNoteInput">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input matInput style="display: none" *ngIf="!showStatusNoteInput">
+            <input [(ngModel)]="selectedObject.statusNote" id="statusNote" matInput name="statusNote"
+                   placeholder="{{whatToWrite}}" type="text" required>
           </mat-form-field>
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-
-            <input value="{{selectedObject.deliveryTime | date :'dd-MM-yyyy HH:mm'}}" *ngIf="selectedObject.deliveryTime" matInput readonly
+            <input value="{{selectedObject.deliveryTime | date :'dd-MM-yyyy HH:mm'}}"
+                   *ngIf="selectedObject.deliveryTime" matInput readonly
                    placeholder="ჩაბარების დრო" type="text">
-            <input [(ngModel)]="selectedObject.deliveryTime" *ngIf="!selectedObject.deliveryTime" id="deliveryTime" matInput name="deliveryTime"
+            <input [(ngModel)]="selectedObject.deliveryTime" *ngIf="!selectedObject.deliveryTime" id="deliveryTime"
+                   matInput name="deliveryTime"
                    placeholder="ჩაბარების დრო" type="datetime-local">
           </mat-form-field>
         </div>

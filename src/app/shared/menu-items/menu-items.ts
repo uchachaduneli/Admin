@@ -36,6 +36,7 @@ export interface Menu {
 const MENUITEMS = [
   {icon: 'redeem', state: 'parcels', name: 'გზავნილი', type: 'link'},
   {icon: 'file_upload', state: 'excel-import', name: 'გზ. იმპორტი', type: 'link'},
+  {icon: 'done_all', state: 'status-manager', name: 'სტატუს მენეჯერი', type: 'link'},
   {icon: 'directions_car', state: 'cars', name: 'ავტოპარკი', type: 'link'},
   {icon: 'people_outline', state: 'users', name: 'თანამშრომლები', type: 'link'},
   {icon: 'place', state: 'cities', name: 'ქალაქები', type: 'link'},

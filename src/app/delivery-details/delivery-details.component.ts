@@ -367,7 +367,7 @@ export class DeliveryDetailsDialogContent implements AfterViewInit {
   update(obj: Parcel): void {
     this.parcelService.updateDeliveryDetailParcel(
       new DeliveryDetailParcelDTO(obj.deliveryTime, obj.receiverName,
-        obj.receiverIdentNumber, obj.status, obj.id)).subscribe(() => {
+        obj.receiverIdentNumber, obj.status, obj.id, obj.statusNote)).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       this.reloadDetailsParcels();
     }, error => {
@@ -392,8 +392,12 @@ export class DeliveryDetailsDialogContent implements AfterViewInit {
 export class ParcelEditDlgContent implements AfterViewInit {
   selectedObject!: any;
   statuses!: ParcelStatus[];
+  public filteredStatuses: ParcelStatus[] = [];
   selectedStatus!: ParcelStatus;
   statusReasons!: ParcelStatusReason[];
+  public filteredStatusReasons: ParcelStatusReason[] = [];
+  showStatusNoteInput = false;
+  whatToWrite = '';
 
   constructor(public dialogRef: MatDialogRef<ParcelEditDlgContent>,
               private parcelStatusService: ParcelStatusService,
@@ -427,22 +431,11 @@ export class ParcelEditDlgContent implements AfterViewInit {
       })
     ).subscribe(data => {
       this.statuses = data;
+      this.filteredStatuses = this.statuses.slice();
     });
-    merge().pipe(
-      startWith({}),
-      switchMap(() => {
-        return this.parcelStatusService.getAllStatusReasons();
-      }),
-      map(data => {
-        // @ts-ignore
-        return data.items;
-      }),
-      catchError(() => {
-        return observableOf([]);
-      })
-    ).subscribe(data => {
-      this.statusReasons = data;
-    });
+    if (this.selectedStatus) {
+      this.onStatusSelect(this.selectedStatus.id);
+    }
   }
 
   onStatusSelect(selectedStatusId: number): void {
@@ -460,7 +453,23 @@ export class ParcelEditDlgContent implements AfterViewInit {
       })
     ).subscribe(data => {
       this.statusReasons = data;
+      this.filteredStatusReasons = this.statusReasons.slice();
+      if (this.selectedObject.status) {
+        this.onSubStatusSet(this.selectedObject.status.id);
+      }
     });
+  }
+
+  onSubStatusSet(selectedStatusId: number): void {
+    const selectedStatusReason: ParcelStatusReason = this.statusReasons.filter(s => s.id === selectedStatusId)[0];
+    if (selectedStatusReason && (selectedStatusReason.name.includes('<') || selectedStatusReason.name.includes('/'))) {
+      this.showStatusNoteInput = true;
+      this.whatToWrite = '< ' + selectedStatusReason.name.substring(selectedStatusReason.name.indexOf('<') + 1,
+        selectedStatusReason.name.lastIndexOf('>')) + ' >';
+    } else {
+      this.showStatusNoteInput = false;
+      this.whatToWrite = '';
+    }
   }
 }
 

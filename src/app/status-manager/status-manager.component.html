@@ -1,0 +1,75 @@
+<form #statusesForm="ngForm">
+  <div class="align-items-center align-self-center" fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="60">
+      <div class="m-r-15 m-l-15">
+        <mat-form-field>
+          <mat-select (selectionChange)="onStatusSelect($event.value)" [(ngModel)]="selectedStatus.id"
+                      aria-placeholder="სტატუსი" id="parcelStatus"
+                      name="parcelStatus" placeholder="სტატუსი">
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statuses"
+                               (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
+            <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="60">
+      <div class="m-r-15 m-l-15">
+        <mat-form-field>
+          <mat-select [(ngModel)]="multiplesStatus" required aria-placeholder="ქვე სტატუსი"
+                      name="subStatus" placeholder="ქვე სტატუსი" (selectionChange)="onSubStatusSet($event.value)">
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statusReasons"
+                               (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
+            <mat-option *ngFor="let z of filteredStatusReasons" [value]="z.id">{{z.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="60" *ngIf="showStatusNoteInput">
+      <div class="m-r-15 m-l-15">
+        <mat-form-field>
+          <input matInput style="display: none" *ngIf="!showStatusNoteInput">
+          <input [(ngModel)]="statusNote" id="statusNote" matInput name="statusNote"
+                 placeholder="{{whatToWrite}}" type="text" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="100">
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="parcelBarCode" matInput id="barcodeInpForMultStatus" name="parcelBarCode"
+                   placeholder=" ბარკოდი" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <button (click)="addForMultipleStatusChange()" color="accent"
+                mat-raised-button title=" ჩამატება">
+          <mat-icon>playlist_add_check</mat-icon>
+          სიაში დამატება
+        </button>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="100">
+      &nbsp; &nbsp; სიაში არსებული:
+      <ol>
+        <li *ngFor="let p of markedForStatusChanges">{{p}} &nbsp;
+          <a (click)="removeFromStatusList(p)" class="m-r-10 cursor-pointer">
+            <mat-icon>delete_outline</mat-icon>
+          </a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div align="center">
+    <button (click)="changeStatuses()" [disabled]="!statusesForm.valid" bg-success color="warn" mat-button mat-flat-button>
+      <mat-icon>save</mat-icon>
+      შენახვა
+    </button> &nbsp;&nbsp;
+    <button (click)="resetVariables()" mat-button mat-flat-button>
+      <mat-icon>delete_outline</mat-icon>
+      გაუქმება/გასუფთავება
+    </button>
+  </div>
+</form>

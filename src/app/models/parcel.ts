@@ -10,6 +10,7 @@ export class Parcel {
   barCode!: string;
   deleted!: number;
   status!: ParcelStatusReason;
+  statusNote!: string;
   updatedTime!: string;
   createdTime!: string;
   deliveryTime!: string;

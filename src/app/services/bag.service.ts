@@ -37,10 +37,7 @@ export class BagService {
     return this.httpClient.put(`${this.BaseUrl}`, obj);
   }
 
-  // tslint:disable-next-line:ban-types
-  changeMultiplesStatuses(obj: any): Observable<Object> {
-    return this.httpClient.put(`${this.BaseUrl}/multipleStatusUpdate/${obj.statusId}`,  obj.barCodes);
-  }
+
 
   getById(id: number): Observable<Bag> {
     return this.httpClient.get<Bag>(`${this.BaseUrl}/${id}`);

@@ -92,4 +92,9 @@ export class ParcelService {
   getStatusHistoryByParceId(id: number): Observable<ParcelStatusHistory> {
     return this.httpClient.get<ParcelStatusHistory>(`${this.BaseUrl}/statusHistory/${id}`);
   }
+
+  // tslint:disable-next-line:ban-types
+  changeMultiplesStatuses(obj: any): Observable<Object> {
+    return this.httpClient.put(`${this.BaseUrl}/multipleStatusUpdate/${obj.statusId}/${obj.note}`, obj.barCodes);
+  }
 }

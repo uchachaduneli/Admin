@@ -340,6 +340,7 @@ import {PrintComponent} from './print/print.component';
 import {DeliveryDetailsComponent, DeliveryDetailsDialogContent, ParcelEditDlgContent} from './delivery-details/delivery-details.component';
 import {BagDialogContent, BagListComponent} from './bag-list/bag-list.component';
 import {MatSelectFilterModule} from 'mat-select-filter';
+import { StatusManagerComponent } from './status-manager/status-manager.component';
 
 
 // tslint:disable-next-line:typedef
@@ -691,7 +692,8 @@ const icons = {
     ExcelImportComponent,
     PrintComponent,
     DeliveryDetailsComponent,
-    BagListComponent
+    BagListComponent,
+    StatusManagerComponent
   ],
   imports: [
     MatSelectFilterModule,

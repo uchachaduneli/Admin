@@ -79,9 +79,6 @@ export class BagListComponent implements AfterViewInit {
         this.update(result.data);
       } else if (result.event === 'Delete') {
         this.delete(result.data);
-      } else if (result.event === 'statusManager') {
-        console.log(result.data);
-        this.changeMultiplesStatuses(result.data);
       }
     });
   }
@@ -102,16 +99,6 @@ export class BagListComponent implements AfterViewInit {
       window.location.reload();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
-      console.log(error);
-    });
-  }
-
-  changeMultiplesStatuses(obj: any): void {
-    this.service.changeMultiplesStatuses(obj).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
-    }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'სტატუსების განახლება');
       console.log(error);
     });
   }
@@ -251,29 +238,6 @@ export class BagDialogContent {
     document.getElementById('parcelBarCode').focus();
   }
 
-  addForMultipleStatusChange(): void {
-    if (!this.parcelBarCode || this.parcelBarCode.length < 1) {
-      this.notifyService.showError('გთხოვთ მიუთითოთ ბარკოდი!', '');
-      return;
-    }
-    // @ts-ignore
-    if (this.markedForStatusChanges.filter(ex => ex === this.parcelBarCode).length > 0) {
-      this.notifyService.showSuccess(' მითითებული ბარკოდი უკვე სიაშია', '');
-      return;
-    }
-    this.service.getByBarCode(this.parcelBarCode).subscribe(p => {
-      this.parcelBarCode = '';
-      this.notifyService.showSuccess(' ბარკოდი ' + this.parcelBarCode + 'დამატებულია სიაში', '');
-      console.log(p);
-      // @ts-ignore
-      this.markedForStatusChanges.push(p.barCode);
-    }, error => {
-      this.notifyService.showError('ბარკოდი ბაზაში ვერ მოიძებნა !!!', '');
-      console.log(error);
-    });
-    // @ts-ignore
-    document.getElementById('barcodeInpForMultStatus').focus();
-  }
 
   removeFromList(parcel: Parcel): void {
     // @ts-ignore
@@ -284,14 +248,7 @@ export class BagDialogContent {
     });
   }
 
-  removeFromStatusList(barcode: string): void {
-    // @ts-ignore
-    this.markedForStatusChanges.forEach((element, index) => {
-      if (element === barcode) {
-        this.markedForStatusChanges.splice(index, 1);
-      }
-    });
-  }
+
 
   getNewBarcode(): void {
     merge().pipe(
