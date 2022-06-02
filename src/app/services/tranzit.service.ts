@@ -28,7 +28,12 @@ export class TranzitService {
   }
 
   update(obj: Tranzit): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}`, obj);
+    return this.httpClient.put(`${this.BaseUrl}`, obj);
+  }
+
+  // tslint:disable-next-line:ban-types
+  statusChange(obj: Tranzit): Observable<Object> {
+    return this.httpClient.put(`${this.BaseUrl}/status`, obj);
   }
 
   delete(id: number): Observable<Object> {

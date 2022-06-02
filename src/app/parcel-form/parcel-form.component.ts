@@ -302,9 +302,6 @@ export class ParcelFormComponent implements AfterViewInit {
                     }),
                     map(data => {
                         this.notifyService.showSuccess('ამანათის ინფორმაცია შენახულია', '');
-                        if (moveAndPrint) {
-                            this.openDialog('Print', this.selectedObject);
-                        }
                         // @ts-ignore
                         this.saveParcelPackages(data.id);
                         this.router.navigate(['parcels']);
@@ -317,6 +314,9 @@ export class ParcelFormComponent implements AfterViewInit {
                         return observableOf([]);
                     })
                 ).subscribe(data => {
+              if (moveAndPrint) {
+                this.openDialog('Print', data);
+              }
             });
         } else {
             console.log('fields validation failed During Saving Parcel');

@@ -2,6 +2,8 @@ import {Car} from './car';
 import {City} from './city';
 import {User} from './user';
 import {Warehouse} from './warehouse';
+import {Bag} from './bag';
+import {ParcelStatusReason} from './parcel-status-reason';
 
 export class Tranzit {
   id!: number;
@@ -16,4 +18,7 @@ export class Tranzit {
   tranzitDate!: string;
   updatedTime!: string;
   createdTime!: string;
+  bags: Bag[] = [];
+  status!: ParcelStatusReason;
+
 }

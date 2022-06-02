@@ -95,6 +95,6 @@ export class ParcelService {
 
   // tslint:disable-next-line:ban-types
   changeMultiplesStatuses(obj: any): Observable<Object> {
-    return this.httpClient.put(`${this.BaseUrl}/multipleStatusUpdate/${obj.statusId}/${obj.note}`, obj.barCodes);
+    return this.httpClient.put(`${this.BaseUrl}/multipleStatusUpdate`, obj);
   }
 }

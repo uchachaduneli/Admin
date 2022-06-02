@@ -4,7 +4,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
-import {ParcelBackendApi} from "./parcel.service";
 
 export interface ParcelStatusBackendApi {
   items: ParcelStatus[];
