@@ -6,9 +6,9 @@
           <mat-select (selectionChange)="onStatusSelect($event.value)" [(ngModel)]="selectedStatus.id"
                       aria-placeholder="სტატუსი" id="parcelStatus"
                       name="parcelStatus" placeholder="სტატუსი">
-            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statuses"
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statuses"
                                (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
-            <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}</mat-option>
+            <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}({{c.code}})</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -18,7 +18,7 @@
         <mat-form-field>
           <mat-select [(ngModel)]="multiplesStatus" required aria-placeholder="ქვე სტატუსი"
                       name="subStatus" placeholder="ქვე სტატუსი" (selectionChange)="onSubStatusSet($event.value)">
-            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statusReasons"
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statusReasons"
                                (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
             <mat-option *ngFor="let z of filteredStatusReasons" [value]="z.id">{{z.name}}</mat-option>
           </mat-select>
@@ -31,6 +31,15 @@
           <input matInput style="display: none" *ngIf="!showStatusNoteInput">
           <input [(ngModel)]="statusNote" id="statusNote" matInput name="statusNote"
                  placeholder="{{whatToWrite}}" type="text" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="60" >
+      <div class="m-r-15 m-l-15">
+        <mat-form-field>
+          <input [(ngModel)]="statusDateTime" id="statusDateStr" matInput name="statusDateStr"
+                 placeholder="თარიღი" type="text" required>
+          <time-picker [(ngModel)]="statusDateTime"></time-picker>
         </mat-form-field>
       </div>
     </div>

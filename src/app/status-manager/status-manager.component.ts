@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Warehouse} from '../models/warehouse';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
 import {ParcelStatusService} from '../services/parcel-status.service';
 import {ParcelService} from '../services/parcel.service';
@@ -18,6 +17,7 @@ export class StatusManagerComponent implements OnInit {
   whatToWrite = '';
   parcelBarCode!: string;
   statusNote!: string;
+  statusDateTime!: string;
   markedForStatusChanges: string [] = [];
   multiplesStatus!: number;
   statuses!: ParcelStatus[];
@@ -74,6 +74,7 @@ export class StatusManagerComponent implements OnInit {
     this.service.changeMultiplesStatuses({
       barCodes: this.markedForStatusChanges,
       note: this.statusNote,
+      statusDateTime: this.statusDateTime,
       statusId: this.multiplesStatus
     }).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');

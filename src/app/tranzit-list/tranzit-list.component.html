@@ -17,30 +17,30 @@
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
 
-              <ng-container matColumnDef="number">
-                <th *matHeaderCellDef mat-header-cell> რეისის #</th>
-                <td *matCellDef="let element" mat-cell> {{element.number}} </td>
-              </ng-container>
+<!--              <ng-container matColumnDef="number">-->
+<!--                <th *matHeaderCellDef mat-header-cell class="text-center" > რეისის #</th>-->
+<!--                <td *matCellDef="let element" mat-cell class="text-center"> {{element.number}} </td>-->
+<!--              </ng-container>-->
 
               <ng-container matColumnDef="car">
                 <th *matHeaderCellDef mat-header-cell> ტრანსპორტი</th>
                 <td *matCellDef="let element" mat-cell> {{element.car.name}} &nbsp;({{element.car.carNumber}})</td>
               </ng-container>
 
-              <ng-container matColumnDef="driver">
-                <th *matHeaderCellDef mat-header-cell>მძღოლი</th>
-                <td *matCellDef="let element"
-                    mat-cell>{{element.driver.name}} {{element.driver.lastName}} {{element.driver.personalNumber}} </td>
-              </ng-container>
+<!--              <ng-container matColumnDef="driver">-->
+<!--                <th *matHeaderCellDef mat-header-cell width="15%">მძღოლი</th>-->
+<!--                <td *matCellDef="let element"-->
+<!--                    mat-cell>{{element.driver.name}} {{element.driver.lastName}} {{element.driver.personalNumber}} </td>-->
+<!--              </ng-container>-->
 
               <ng-container matColumnDef="senderWarehouse">
-                <th *matHeaderCellDef mat-header-cell>საწყობიდან</th>
+                <th *matHeaderCellDef mat-header-cell width="15%">საწყობიდან</th>
                 <td *matCellDef="let element" mat-cell> {{element.senderWarehouse.city.name}}
                   - {{element.senderWarehouse.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="destWarehouse">
-                <th *matHeaderCellDef mat-header-cell>საწყობისკენ</th>
+                <th *matHeaderCellDef mat-header-cell width="15%">საწყობისკენ</th>
                 <td *matCellDef="let element" mat-cell> {{element.destWarehouse.city.name}}
                   - {{element.destWarehouse.name}} </td>
               </ng-container>
@@ -57,6 +57,9 @@
                   <div *ngIf="element.deleted != 1">
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
+                    </a>
+                    <a (click)="openDialog('StatusChange',element)" class="m-r-10 cursor-pointer">
+                      <mat-icon>done_all</mat-icon>
                     </a>
                     <a (click)="openDialog('Update',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>create</mat-icon>

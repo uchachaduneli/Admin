@@ -11,6 +11,7 @@ export class Parcel {
   deleted!: number;
   status!: ParcelStatusReason;
   statusNote!: string;
+  statusDateTime!: string;
   updatedTime!: string;
   createdTime!: string;
   deliveryTime!: string;

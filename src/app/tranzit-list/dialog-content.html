@@ -1,16 +1,45 @@
 <h2 class="font-medium" mat-dialog-title>
-  <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : ''}}</strong></h2>
+  <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ?
+    'რედაქტირება' : action === 'StatusChange' ? 'სტატუსის ცვლილება' : ''}}</strong></h2>
 <mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
+  <div *ngIf="isLoadingResults" class="example-loading-shade">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <form #userForm="ngForm" *ngIf="action === 'StatusChange'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.status.id"
+                        aria-placeholder="სტატუსი"
+                        id="statusSelectId" name="statusSelectName"
+                        placeholder="სტატუსი" required>
+              <mat-option *ngFor="let z of statuses" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button (click)="doAction()" [disabled]="!userForm.valid" bg-success color="warn" mat-button
+              mat-flat-button> შეცვლა
+      </button>
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
+    </div>
+  </form>
   <!--  Add/Edit Dialog Content-->
-  <form #userForm="ngForm" *ngIf="action != 'Details'">
+  <form #userForm="ngForm" *ngIf="action === 'Add'">
     <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select (selectionChange)="onFromCitySelect($event.value)" [(ngModel)]="selectedObject.routeFrom.id" aria-placeholder="ქალაქიდან"
+            <mat-select (selectionChange)="onFromCitySelect($event.value)" [(ngModel)]="selectedObject.routeFrom.id"
+                        aria-placeholder="ქალაქიდან"
                         id="routeFrom" name="routeFrom"
                         placeholder="ქალაქიდან" required>
-              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+              <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="cityList"
+                                 (filteredReturn)="filteredSenderCitiesList =$event"></mat-select-filter>
+              <mat-option *ngFor="let z of filteredSenderCitiesList" [value]="z.id">{{z.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -18,9 +47,12 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select (selectionChange)="onToCitySelect($event.value)" [(ngModel)]="selectedObject.routeTo.id" aria-placeholder="ქალაქისკენ" id="routeTo"
+            <mat-select (selectionChange)="onToCitySelect($event.value)" [(ngModel)]="selectedObject.routeTo.id"
+                        aria-placeholder="ქალაქისკენ" id="routeTo"
                         name="routeTo" placeholder="ქალაქისკენ" required>
-              <mat-option *ngFor="let z of cityList" [value]="z.id">{{z.name}}</mat-option>
+              <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="cityList"
+                                 (filteredReturn)="filteredReceiverCitiesList =$event"></mat-select-filter>
+              <mat-option *ngFor="let z of filteredReceiverCitiesList" [value]="z.id">{{z.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -28,7 +60,8 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.senderWarehouse.id" aria-placeholder="საწყობიდან" id="senderWarehouse"
+            <mat-select [(ngModel)]="selectedObject.senderWarehouse.id" aria-placeholder="საწყობიდან"
+                        id="senderWarehouse"
                         name="senderWarehouse"
                         placeholder="საწყობიდან" required>
               <mat-option *ngFor="let z of senderWarehouseList" [value]="z.id">{{z.name}}</mat-option>
@@ -47,7 +80,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxFlex="100" fxFlex.gt-md="50">
+      <div fxFlex="100" fxFlex.gt-md="33">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.driver.id" aria-placeholder="მძღოლი" id="driver" name="driver"
@@ -57,25 +90,50 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxFlex="100" fxFlex.gt-md="50">
+      <div fxFlex="100" fxFlex.gt-md="33">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <mat-select [(ngModel)]="selectedObject.car.id" aria-placeholder="ტრანსპორტი" id="car" name="car"
                         placeholder="ტრანსპორტი" required>
-              <mat-option *ngFor="let z of carsList" [value]="z.id">{{z.name}} &nbsp;({{z.carNumber}})</mat-option>
+              <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'carNumber'" [array]="carsList"
+                                 (filteredReturn)="filteredCarsList =$event"></mat-select-filter>
+              <mat-option *ngFor="let z of filteredCarsList" [value]="z.id">{{z.name}} &nbsp;({{z.carNumber}})
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
-      <div fxFlex="100" fxFlex.gt-md="50">
+      <div fxFlex="100" fxFlex.gt-md="33">
         <div class="m-r-15 m-l-15">
           <mat-form-field appearance="fill">
-            <input [(ngModel)]="selectedObject.tranzitDate" [matDatepicker]="picker" id="tranzitDate" matInput name="tranzitDate"
+            <input [(ngModel)]="selectedObject.tranzitDate" [matDatepicker]="picker" id="tranzitDate" matInput
+                   name="tranzitDate"
                    placeholder="მიუთითეთ თარიღი" required>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="60">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="bagBarCode" id="bagBarCode" matInput name="bagBarCode"
+                   placeholder="ტომრის ბარკოდი" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="40">
+        <button (click)="bindBagToDetail()" color="accent"
+                mat-raised-button title="ტომრის მიბმა">
+          <mat-icon>playlist_add_check</mat-icon>
+          სიაში დამატება
+        </button>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        &nbsp;დამატებული ტომრები:
+        <ol>
+          <li *ngFor="let p of selectedObject.bags">{{p.barCode}}</li>
+        </ol>
       </div>
     </div>
     <div align="end">
@@ -161,6 +219,18 @@
         </div>
       </div>
       <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <mat-select [(ngModel)]="selectedObject.status.id"
+                        aria-placeholder="სტატუსი"
+                         name="statusSelectName"
+                        placeholder="სტატუსი" disabled>
+              <mat-option *ngFor="let z of statuses" [value]="z.id">{{z.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
@@ -179,6 +249,12 @@
             </mat-form-field>
           </div>
         </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        &nbsp; დამატებული ტომრები:
+        <ol>
+          <li *ngFor="let p of selectedObject.bags">{{p.barCode}}</li>
+        </ol>
       </div>
     </div>
     <div align="end">
