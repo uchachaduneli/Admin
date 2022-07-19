@@ -1,0 +1,78 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="example-container m-t-20">
+          <div *ngIf="isLoadingResults" class="example-loading-shade">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="example-table-container responsive-table">
+            <table [dataSource]="data" class="example-table striped" mat-table>
+              <ng-container matColumnDef="rsCreateDate">
+                <th *matHeaderCellDef mat-header-cell> თარიღი</th>
+                <td *matCellDef="let element" mat-cell> {{element.rsCreateDate | date :'dd.MM.yyyy'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="buyerName">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მყიდ.</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.buyerName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="buyerTin">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მყიდ. საიდენტ.</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.buyerTin}} </td>
+              </ng-container>
+              <ng-container matColumnDef="carNumber">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მანქანა</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.carNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="driverName">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მძღოლი</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.driverName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="driverTin">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მძღ. პირ. #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.driverTin}} </td>
+              </ng-container>
+              <ng-container matColumnDef="endAddress">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ტრ. დასრ. მისამ.</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.endAddress}} </td>
+              </ng-container>
+              <ng-container matColumnDef="startAddress">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ტრ. დაწყ. მისამ.</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.startAddress}} </td>
+              </ng-container>
+              <ng-container matColumnDef="waybillComment">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> კომენტარი</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.waybillComment}} </td>
+              </ng-container>
+              <ng-container matColumnDef="waybillNumber">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ზედნადების #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.waybillNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="syncStatus">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> სინქრ. სტატუსი</th>
+                <td *matCellDef="let element" class="text-center"
+                    mat-cell> {{element.syncStatus}}</td>
+              </ng-container>
+
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr (dblclick)="openDialog('Details', row)" *matRowDef="let row; columns: displayedColumns;"
+                  style="background-color:{{row.syncStatus == IsProcessing?'cyan': row.syncStatus == NoBarCodeIntoComment?'#e1e1e1':
+                  row.syncStatus == NoParcesFound?'#fff8ec':''}}"
+                  title="WayBill Id --> {{row.id}}" mat-row></tr>
+            </table>
+          </div>
+
+          <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
+                         showFirstLastButtons></mat-paginator>
+          <table style="right: 1%;" cellpadding="5" cellspacing="5">
+            <tr>
+              <td style="background-color: cyan;">1. {{IsProcessing}}</td>
+              <td style="background-color: #e1e1e1">2. {{NoBarCodeIntoComment}}</td>
+              <td style="background-color: #fff8ec">3. {{NoParcesFound}}</td>
+            </tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -25,6 +25,7 @@ import {ExcelImportComponent} from './excel-import/excel-import.component';
 import {DeliveryDetailsComponent} from './delivery-details/delivery-details.component';
 import {BagListComponent} from "./bag-list/bag-list.component";
 import {StatusManagerComponent} from './status-manager/status-manager.component';
+import {WaybillListComponent} from './waybill-list/waybill-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -64,6 +65,12 @@ export const AppRoutes: Routes = [
       {
         path: 'status-manager',
         component: StatusManagerComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'waybills',
+        component: WaybillListComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
       },
