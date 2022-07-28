@@ -23,7 +23,7 @@ import {DoctypesComponent} from './doctypes/doctypes.component';
 import {ParcelDetailsComponent} from './parcel-details/parcel-details.component';
 import {ExcelImportComponent} from './excel-import/excel-import.component';
 import {DeliveryDetailsComponent} from './delivery-details/delivery-details.component';
-import {BagListComponent} from "./bag-list/bag-list.component";
+import {BagListComponent} from './bag-list/bag-list.component';
 import {StatusManagerComponent} from './status-manager/status-manager.component';
 import {WaybillListComponent} from './waybill-list/waybill-list.component';
 
