@@ -6,7 +6,6 @@ import {NotificationService} from '../services/notification.service';
 import {UtilService} from '../services/util.service';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {Contact} from '../models/contact';
 import {Role} from '../models/role';
 import {RoleService} from '../services/role.service';
 import {User} from '../models/user';
@@ -68,7 +67,7 @@ export class UserListComponent implements AfterViewInit {
   save(obj: User): void {
     this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის დამატება');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
       console.log(error);
@@ -78,7 +77,7 @@ export class UserListComponent implements AfterViewInit {
   update(obj: User): void {
     this.service.update(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის განახლება');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
@@ -88,7 +87,7 @@ export class UserListComponent implements AfterViewInit {
   delete(obj: User): void {
     this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის წაშლა');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
@@ -168,10 +167,18 @@ export class UserDialogContent implements OnInit {
   }
 
   doAction(): void {
+    let isCustomerAddition = false;
     // @ts-ignore
     this.selectedRoles.forEach((r) => {
+      if (r === 'CUSTOMER') {
+        isCustomerAddition = true;
+      }
       this.selectedObject.role.push({name: r});
     });
+    if (isCustomerAddition) {
+      this.selectedObject.route = null;
+      this.selectedObject.warehouse = null;
+    }
     this.dialogRef.close({event: this.action, data: this.selectedObject});
   }
 

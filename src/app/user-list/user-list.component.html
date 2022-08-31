@@ -53,7 +53,7 @@
 
               <ng-container matColumnDef="route">
                 <th *matHeaderCellDef mat-header-cell>მარშრუტი</th>
-                <td *matCellDef="let element" mat-cell> {{element.route.name}} </td>
+                <td *matCellDef="let element" mat-cell> {{element.route?.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="action">

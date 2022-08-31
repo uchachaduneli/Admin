@@ -17,7 +17,8 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.userName" id="userName" matInput name="userName" placeholder="მომხმარებელი"
+            <input [(ngModel)]="selectedObject.userName" id="userName" matInput name="userName"
+                   placeholder="მომხმარებელი"
                    required title="მომხმარებლის უზერნეიმი"
                    type="text">
           </mat-form-field>
@@ -33,7 +34,8 @@
       <div *ngIf="action === 'Add' || selectedObject.changePass" fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.password" [minLength]="5" id="password" matInput name="password" placeholder="პაროლი"
+            <input [(ngModel)]="selectedObject.password" [minLength]="5" id="password" matInput name="password"
+                   placeholder="პაროლი"
                    required title="მომხმარებლის პაროლი, მინ. 5 სიმბოლო"
                    type="password">
           </mat-form-field>
@@ -60,9 +62,8 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.personalNumber" id="personalNumber" matInput name="personalNumber" placeholder="პირადი #"
-                   required
-                   type="text">
+            <input [(ngModel)]="selectedObject.personalNumber" id="personalNumber" matInput name="personalNumber"
+                   placeholder="პირადი# მინ 9 სიმბ." required minlength="9" type="text">
           </mat-form-field>
         </div>
       </div>
@@ -78,7 +79,8 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="selectedObject.city.id" aria-placeholder="ქალაქი" id="city"
+            <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="selectedObject.city.id"
+                        aria-placeholder="ქალაქი" id="city"
                         name="city" placeholder="ქალაქი" required>
               <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
@@ -184,7 +186,8 @@
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
-              <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="selectedObject.city.id" aria-placeholder="ქალაქი" disabled
+              <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="selectedObject.city.id"
+                          aria-placeholder="ქალაქი" disabled
                           name="city" placeholder="ქალაქი" required>
                 <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
               </mat-select>
