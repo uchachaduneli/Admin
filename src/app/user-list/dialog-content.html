@@ -2,7 +2,7 @@
   <strong>{{action === 'Add' ? 'დამატება' : action === 'Update' ? 'რედაქტირება' : ''}}</strong></h2>
 <mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
   <!--  Add/Edit Dialog Content-->
-  <form #userForm="ngForm" *ngIf="action != 'Details'">
+  <form autocomplete="off" #userForm="ngForm" *ngIf="action != 'Details'">
     <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
@@ -63,7 +63,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input [(ngModel)]="selectedObject.personalNumber" id="personalNumber" matInput name="personalNumber"
-                   placeholder="პირადი# მინ 9 სიმბ." required minlength="9" type="text">
+                   placeholder="საიდენტიფიკაციო# (მინ 9 სიმბ.)" required minlength="9" type="text">
           </mat-form-field>
         </div>
       </div>
@@ -167,7 +167,8 @@
       <div fxFlex="100" fxFlex.gt-md="50">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <input [(ngModel)]="selectedObject.personalNumber" matInput name="personalNumber" placeholder="პირადი #"
+            <input [(ngModel)]="selectedObject.personalNumber"
+                   matInput name="personalNumber" placeholder="საიდენტიფიკაციო #"
                    readonly
                    type="text">
           </mat-form-field>

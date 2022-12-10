@@ -39,7 +39,7 @@ const MENUITEMS = [
   {icon: 'done_all', state: 'status-manager', name: 'სტატუს მენეჯერი', type: 'link'},
   {icon: 'business', state: 'waybills', name: 'RS', type: 'link'},
   {icon: 'directions_car', state: 'cars', name: 'ავტოპარკი', type: 'link'},
-  {icon: 'people_outline', state: 'users', name: 'თანამშრომლები', type: 'link'},
+  {icon: 'people_outline', state: 'users', name: 'მომხმარებლები', type: 'link'},
   {icon: 'place', state: 'cities', name: 'ქალაქები', type: 'link'},
   {icon: 'event_note', state: 'delivery-details', name: 'ჩაბარ. დეტალები', type: 'link'},
   {icon: 'device_hub', state: 'bags', name: 'ტვირთ. განაწილ.', type: 'link'},
