@@ -300,7 +300,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
           // result.data.printStikerOrZednadebi - 1 print sticker, 2 print zednadebi
           console.log('printCopiesCount ', dialogResult.data);
         } else {
-          this.service.moveToMainTable(this.currentUser.id).subscribe(res => {
+          this.service.moveToMainTable(this.identNumber).subscribe(res => {
             this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
             // concatenate ides for printing case
             // console.log('res', res);

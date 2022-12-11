@@ -47,8 +47,8 @@ export class ExcelService {
   }
 
 
-  moveToMainTable(id: number): Observable<Object> {
-    return this.httpClient.post(`${this.BaseUrl}/move-to-main?authorId=${id}`, null);
+  moveToMainTable(senderIdentNum: string): Observable<Object> {
+    return this.httpClient.post(`${this.BaseUrl}/move-to-main?senderIdentNum=${senderIdentNum}`, null);
   }
 
   getExcel(userId: number): string {

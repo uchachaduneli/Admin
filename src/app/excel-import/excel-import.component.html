@@ -11,9 +11,10 @@
                    value="არჩეულია კომპანია: {{foundedSenderContact.name}} - #{{foundedSenderContact.identNumber}}">
           </div>
           <div align="end" fxFlex="100" fxFlex.gt-md="10">
-            <a class="m-r-10 cursor-pointer" href="./assets/parcelTemplate.xlsx" style="float: right; height: 70px;"
+            <a class="m-r-10 cursor-pointer" href="Portal/assets/parcelTemplate.xlsx"
+               style="float: right; height: 70px;"
                title="Export To Excel">
-              <img src="./assets/images/excel.png" style="height: 30px;">&nbsp;&nbsp;
+              <img src="Portal/assets/images/excel.png" style="height: 30px;">&nbsp;&nbsp;
               <span style="margin-top: 0.2%; position: absolute;">შაბლონი</span>
             </a>
           </div>
@@ -171,7 +172,7 @@
 
         <a (click)="downloadExcel()" *ngIf="resultsLength != 0" class="m-r-10 cursor-pointer"
            style="float: right; height: 70px;" title="Export To Excel">
-          <img src="./assets/images/excel.png" style="height: 30px;">
+          <img src="Portal/assets/images/excel.png" style="height: 30px;">
         </a>
         <div class="example-table-container responsive-table">
           <table [dataSource]="data" class="example-table striped" mat-table>
