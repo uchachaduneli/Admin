@@ -24,7 +24,12 @@ import {Warehouse} from '../models/warehouse';
 })
 export class UserListComponent implements AfterViewInit {
   // @ts-ignore
-  srchObj: User = {};
+  srchObj: User = {city: {}, warehouse: {}, route: {}};
+  cities: City [] = [];
+  routes: Route [] = [];
+  roles: Role [] = [];
+  warehouseList: Warehouse [] = [];
+  public filteredSenderCitiesList: City[] = [];
   data = new MatTableDataSource<UserBackendApi>();
   displayedColumns: string[] = ['id', 'userName', 'name', 'lastName', 'personalNumber', 'phone', 'city', 'route', 'action'];
 
@@ -33,11 +38,54 @@ export class UserListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
   constructor(public dialog: MatDialog, private service: UserService,
+              private roleSrvice: RoleService,
+              private warehouseService: WarehouseService,
+              private cityService: CityService,
+              private routeService: RouteService,
               private notifyService: NotificationService, private utilService: UtilService) {
   }
 
   ngAfterViewInit(): void {
     this.getMainData();
+  }
+
+  onCitySelect(selectedCityId: number): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.routeService.getByCityId(selectedCityId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.routes = data;
+    });
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.warehouseService.getByCityId(selectedCityId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.warehouseList = data;
+    });
+  }
+
+  clearFilters(): void {
+    // @ts-ignore
+    this.srchObj = {city: {}, warehouse: {}, route: {}};
   }
 
   getMainData(): void {
@@ -62,6 +110,42 @@ export class UserListComponent implements AfterViewInit {
           return observableOf([]);
         })
       ).subscribe(data => this.data = data);
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.roleSrvice.getList();
+      }),
+      map(data => {
+        // @ts-ignore
+        this.roles = data;
+        // @ts-ignore
+        return data;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.roles = data;
+    });
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.cityService.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        this.cities = data.items;
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.cities = data;
+      this.filteredSenderCitiesList = this.cities.slice();
+    });
   }
 
   save(obj: User): void {
