@@ -86,6 +86,7 @@ export class UserListComponent implements AfterViewInit {
   clearFilters(): void {
     // @ts-ignore
     this.srchObj = {city: {}, warehouse: {}, route: {}};
+    this.getMainData();
   }
 
   getMainData(): void {

@@ -67,8 +67,8 @@ export class PrintComponent implements AfterViewInit {
   }
 
   multiplyPages(): void {
-    this.copies = [...Array(this.copiesCount).keys()];
-    if (this.excelImportedPrint && this.copiesCount > 1) {
+    this.copies = [...Array(this.selectedObject.count).keys()];
+    if (this.excelImportedPrint && this.copies?.length > 1) {
       // @ts-ignore
       const tmpImportedParcels: ParcelWithPackagesDTO = [];
       this.excelImportedParcels.forEach((p) => {

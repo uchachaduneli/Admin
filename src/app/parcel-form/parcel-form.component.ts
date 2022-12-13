@@ -70,7 +70,7 @@ export class ParcelFormComponent implements AfterViewInit {
   receiverAddressCtrl: FormControl = new FormControl();
   dynamicArray: Array<Packages> = [];
   slctedVolumeWeightIndex: VolumeWeightIndex = new VolumeWeightIndex();
-  packagesCount!: number;
+  packagesCount = 1;
   preGenerationCount!: number;
   currentUser!: User;
 
