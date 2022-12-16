@@ -61,4 +61,5 @@ export class Parcel {
   tariff!: number;
   prePrinted!: number; // 1 - pre inserted with empty values, will be filled after some time
   author!: User;
+  addedFromGlobal!: boolean;
 }

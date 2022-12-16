@@ -330,7 +330,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj, ''));
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj));
         }),
         map(data => {
           // @ts-ignore

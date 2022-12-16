@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {ContactAddress} from '../models/contact-address';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +8,32 @@ export class UtilService {
   constructor() {
   }
 
-  // encode(queryObj: Object, nesting = ''): string {
-  //   const pairs = Object.entries(queryObj).map(([key, val]) => {
-  //     if (typeof val === 'object') {
-  //       return this.encode(val, nesting + `${key}.`);
-  //     } else {
-  //       return [nesting + key, val].map(escape).join('=');
-  //     }
-  //   });
-  //   return pairs.join('&');
-  // }
-
   // tslint:disable-next-line:ban-types
-  encode(queryObj: Object, nesting = ''): string {
-    const pairs = Object.entries(queryObj).map(([key, val]) => {
-      if (typeof val === 'object') {
-        return this.encode(val, `${key}.`);
+  encode(queryObj: any): string {
+    let encodedStr = '';
+    Object.keys(queryObj).map((key) => {
+      // console.log('started for: ', key, ' = ', queryObj[key]);
+      if (Array.isArray(queryObj[key]) && Array.from(queryObj[key]).length > 0) {
+        // prop is array
+        encodedStr += '&' + key + '=';
+        for (const r of Array.from(queryObj[key])) {
+          encodedStr += r + ',';
+        }
+        encodedStr = encodedStr.replace(/,\s*$/, '');
+      } else if (typeof queryObj[key] === 'object') {
+        // prop is nested obj
+        const subObj = queryObj[key];
+        Object.keys(subObj).map((subKey) => {
+          // sub object must be just ordinary prop type not object or array
+          if (typeof subObj[subKey] !== 'object' && !Array.isArray(subObj[subKey])) {
+            encodedStr += '&' + key + '.' + subKey + '=' + subObj[subKey];
+          }
+        });
       } else {
-        return [key, val].join('=');
+        // prop has simple type
+        encodedStr += '&' + [key, queryObj[key]].join('=');
       }
     });
-    return pairs.join('&');
+    return encodedStr;
   }
 }
