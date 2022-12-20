@@ -205,6 +205,9 @@
                       <input *ngIf="selectedObject.paymentType === 3" matInput name="paymentType"
                              placeholder="გადახდ. ტიპი"
                              value="ბარათი">
+                      <input *ngIf="!selectedObject.paymentType" matInput name="paymentType"
+                             placeholder="გადახდ. ტიპი"
+                             value="განსაზღვრული არაა">
                     </mat-form-field>
                   </div>
                   <div fxLayout="row">
@@ -245,6 +248,8 @@
                              value="მიტანა მისამართზე">
                       <input *ngIf="selectedObject.deliveryType === 2" matInput placeholder="ჩაბარების ტიპი"
                              value="მიკითხვა">
+                      <input *ngIf="!selectedObject.deliveryType" matInput placeholder="ჩაბარების ტიპი"
+                             value="განსაზღვრული არაა">
                     </mat-form-field>&nbsp; &nbsp;
 
                   </div>
@@ -257,6 +262,8 @@
                              value="ამანათი">
                       <input *ngIf="selectedObject.packageType === 2" matInput placeholder="პაკეტის ტიპი"
                              value="პაკეტი">
+                      <input *ngIf="!selectedObject.packageType" matInput placeholder="პაკეტის ტიპი"
+                             value="განსაზღვრული არაა">
                     </mat-form-field>
                   </div>
 
@@ -362,12 +369,12 @@
                        required
                        type="text">
               </mat-form-field>
-              <mat-form-field>
+              <mat-form-field *ngIf="selectedMessage.to">
                 <mat-select [(ngModel)]="selectedMessage.to" name="to" placeholder="ადრესატი" required>
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field>
+              <mat-form-field *ngIf="selectedCCList">
                 <mat-select [(ngModel)]="selectedCCList" multiple name="cc" placeholder="CC">
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>

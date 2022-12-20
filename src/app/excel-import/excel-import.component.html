@@ -143,13 +143,13 @@
       </form>
       <br><br>
       <div class="align-items-center" fxLayout="row wrap">
-        <div fxFlex="100" fxFlex.gt-md="10">
+        <div fxFlex="100" fxFlex.gt-md="15">
           <button (click)="moveToMainTable(false, false)" [disabled]="resultsLength === 0" bg-primary color="warn" mat-button
                   mat-flat-button> გადატანა
             <mat-icon>playlist_add_check</mat-icon>
           </button>
         </div>
-        <div fxFlex="100" fxFlex.gt-md="20">
+        <div fxFlex="100" fxFlex.gt-md="30">
           <button (click)="moveToMainTable(false, true)" [disabled]="resultsLength === 0" bg-primary color="warn" mat-button
                   mat-flat-button> გადატანა & კურიერთან გაგზავნა
             <mat-icon>directions_bike</mat-icon>
@@ -161,7 +161,7 @@
             <mat-icon>local_printshop</mat-icon>
           </button>
         </div>
-        <div fxFlex="100" fxFlex.gt-md="55"></div>
+        <div fxFlex="100" fxFlex.gt-md="25"></div>
       </div>
       <br>
       <mat-header-row></mat-header-row>
