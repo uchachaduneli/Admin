@@ -343,6 +343,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
       ).subscribe(data => {
       this.data = data;
       this.isLoadingResults = false;
+      this.identNumber = data[0]?.sender?.identNumber;
     });
   }
 
