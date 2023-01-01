@@ -17,6 +17,13 @@ import {ParcelStatusService} from '../services/parcel-status.service';
 import {Router} from '@angular/router';
 import {User} from '../models/user';
 import {TokenStorageService} from '../services/token-storage.service';
+import {ParcelDTO} from '../models/parcel-dto';
+import {City} from '../models/city';
+import {CityService} from '../services/city.service';
+import {ParcelStatus} from '../models/parcel-status';
+import {RouteService} from '../services/route.service';
+import {Route} from '../models/route';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-parcel-list',
@@ -25,7 +32,7 @@ import {TokenStorageService} from '../services/token-storage.service';
 })
 export class ParcelListComponent implements AfterViewInit, OnInit {
   // @ts-ignore
-  srchObj: Parcel = {};
+  srchObj: ParcelDTO = {};
   data = new MatTableDataSource<ParcelBackendApi>();
   displayedColumns: string[] = ['barCode', 'senderName', 'senderCity', 'receiverName', 'receiverCity', 'weight', 'totalPrice', 'status', 'action'];
 
@@ -33,10 +40,23 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
   currentUser!: User;
+  public filteredSenderCitiesList: City[] = [];
+  public filteredReceiverCitiesList: City[] = [];
+  public filteredPayerCitiesList: City[] = [];
+  cities: City [] = [];
+  routes!: Route[];
+  couriers!: User[];
+  statuses!: ParcelStatus[];
+  public filteredStatuses: ParcelStatus[] = [];
+  statusReasons!: ParcelStatusReason[];
+  public filteredStatusReasons: ParcelStatusReason[] = [];
+  services!: Service[];
 
-  constructor(public dialog: MatDialog, private service: ParcelService, private router: Router,
-              private tokenStorageService: TokenStorageService,
+  constructor(public dialog: MatDialog, private service: ParcelService, private companyServices: CompanyServicesService,
+              private router: Router, private tokenStorageService: TokenStorageService, private routeService: RouteService,
+              private cityService: CityService, private statusService: ParcelStatusService, private userService: UserService,
               private notifyService: NotificationService, private utilService: UtilService) {
+    this.initSubParams();
   }
 
   ngOnInit(): void {
@@ -46,7 +66,141 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     this.isLoadingResults = false;
     this.resultsLength = 0;
+    this.initSubParams();
     this.getMainData();
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.cityService.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        this.cities = data.items;
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.cities = data;
+      this.filteredSenderCitiesList = this.cities.slice();
+      this.filteredReceiverCitiesList = this.cities.slice();
+      this.filteredPayerCitiesList = this.cities.slice();
+    });
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.statusService.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.statuses = data;
+      this.filteredStatuses = this.statuses.slice();
+    });
+
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.companyServices.getList(1000, 0, '');
+        }),
+        map(data => {
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(() => {
+          return observableOf([]);
+        })
+      ).subscribe(data => this.services = data);
+
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.routeService.getList(1000, 0, '');
+        }),
+        map(data => {
+          // @ts-ignore
+          return data.items;
+        }),
+        catchError(() => {
+          return observableOf([]);
+        })
+      ).subscribe(data => this.routes = data);
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.userService.getList(1000, 0, '&srchRoleName=COURIER');
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.couriers = data;
+    });
+  }
+
+  onStatusSelect(selectedStatusId: number): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.statusService.getByParcelStatusId(this.srchObj.statusId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.statusReasons = data;
+      this.filteredStatusReasons = this.statusReasons.slice();
+      this.getMainData();
+    });
+  }
+
+  passChangeEnableDisable(event: any): void {
+    this.srchObj.prePrinted = event.checked;
+  }
+
+  clearFilters(): void {
+    this.initSubParams();
+    this.getMainData();
+  }
+
+  initSubParams(): void {
+    // @ts-ignore
+    this.srchObj = {};
+  //   // @ts-ignore
+  //   this.srchObj.senderCity = {};
+  //   // @ts-ignore
+  //   this.srchObj.route = {};
+  //   // @ts-ignore
+  //   this.srchObj.author = {};
+  //   // @ts-ignore
+  //   this.srchObj.courier = {};
+  //   // @ts-ignore
+  //   this.srchObj.payerCity = {};
+  //   // @ts-ignore
+  //   this.srchObj.receiverCity = {};
+  //   // @ts-ignore
+  //   this.srchObj.status = {};
+  //   // @ts-ignore
+  //   this.srchObj.service = {};
   }
 
   getMainData(): void {
@@ -58,7 +212,6 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
           return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj));
         }),
         map(data => {
-          console.log(data);
           this.isLoadingResults = false;
           // @ts-ignore
           this.resultsLength = data.total_count;

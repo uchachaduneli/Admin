@@ -2,21 +2,441 @@
   <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
     <mat-card>
       <mat-card-content>
-        <mat-card-title>ამანათი</mat-card-title>
         <div class="example-container m-t-20">
           <div *ngIf="isLoadingResults" class="example-loading-shade">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
-
-          <div class="button-row m-b-15 m-t-15">
-            <a class="m-r-10 cursor-pointer" color="primary" href="parcel-form/0" mat-raised-button>
-              <mat-icon>plus_one</mat-icon>
-              დამატება
-            </a>
+          <div class="align-items-center" fxLayout="row wrap">
+            <div fxFlex="100" fxFlex.gt-md="15">
+              <div class="button-row m-b-15 m-t-15">
+                <a class="m-r-10 cursor-pointer" color="primary" href="parcel-form/0" mat-raised-button>
+                  <mat-icon>plus_one</mat-icon>
+                  დამატება</a>
+              </div>
+            </div>
+            <div fxFlex="100" fxFlex.gt-md="25">
+              <div class="m-r-15 m-l-15">
+                <mat-form-field>
+                  <input [(ngModel)]="srchObj.barCode" matInput (keydown.enter)="getMainData()"
+                         name="barCode" placeholder="საიდენტ. #" type="number">
+                </mat-form-field>
+              </div>
+            </div>
           </div>
+          <form #filterForm="ngForm" autocomplete="off" style="font-size: 10px">
+            <div class="align-items-center" fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-md="100">
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        ადრესატების დეტალებით ფილტრი
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="align-items-center" fxLayout="row wrap">
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.senderName" matInput (keydown.enter)="getMainData()"
+                                   name="senderName" placeholder="გამგზ. დასახელება" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.senderIdentNumber" matInput minlength="9" (keyup.enter)="getMainData()"
+                                   name="senderIdentNumber" placeholder="გამგზ. საიდენტიფიკაციო #" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="srchObj.senderCityId" (selectionChange)="getMainData()"
+                                        aria-placeholder="გამგზ. ქალაქი" name="senderCity" placeholder="გამგზ. ქალაქი">
+                              <mat-select-filter (filteredReturn)="filteredSenderCitiesList =$event" [array]="cities"
+                                                 [displayMember]="'name'" [placeholder]="'ძებნა'"></mat-select-filter>
+                              <mat-option *ngFor="let c of filteredSenderCitiesList"
+                                          [value]="c.id">{{c.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.senderContactPerson" matInput (keydown.enter)="getMainData()"
+                                   name="senderContactPerson" placeholder="გამგზ. საკონტ. პირი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.senderPhone" matInput (keydown.enter)="getMainData()"
+                                   name="senderPhone" placeholder="გამგზ. საკონტ. ტელ." type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.senderAddress" matInput (keydown.enter)="getMainData()"
+                                   name="senderAddress" placeholder="გამგზ. მისამართი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.receiverName" matInput (keydown.enter)="getMainData()"
+                                   name="receiverName" placeholder="მიმღ. დასახელება" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.receiverIdentNumber" matInput minlength="9" (keydown.enter)="getMainData()"
+                                   name="receiverIdentNumber" placeholder="მიმღ. საიდენტიფიკაციო #" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="srchObj.receiverCityId" (selectionChange)="getMainData()"
+                                        aria-placeholder="მიმღ. ქალაქი" name="receiverCity" placeholder="მიმღ. ქალაქი">
+                              <mat-select-filter (filteredReturn)="filteredReceiverCitiesList =$event" [array]="cities"
+                                                 [displayMember]="'name'" [placeholder]="'ძებნა'"></mat-select-filter>
+                              <mat-option *ngFor="let c of filteredReceiverCitiesList"
+                                          [value]="c.id">{{c.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.receiverContactPerson" matInput (keydown.enter)="getMainData()"
+                                   name="receiverContactPerson" placeholder="მიმღ. საკონტ. პირი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.receiverPhone" matInput (keydown.enter)="getMainData()"
+                                   name="receiverPhone" placeholder="მიმღ. საკონტ. ტელ." type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.receiverAddress" matInput (keydown.enter)="getMainData()"
+                                   name="receiverAddress" placeholder="მიმღ. მისამართი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.payerName" matInput (keydown.enter)="getMainData()"
+                                   name="payerName" placeholder="გადამხ. დასახელება" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.payerIdentNumber" matInput minlength="9" (keydown.enter)="getMainData()"
+                                   name="payerIdentNumber" placeholder="გადამხ. საიდენტიფიკაციო #" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="srchObj.payerCityId" (selectionChange)="getMainData()"
+                                        aria-placeholder="გადამხ. ქალაქი" name="payerCity" placeholder="გადამხ. ქალაქი">
+                              <mat-select-filter (filteredReturn)="filteredPayerCitiesList =$event" [array]="cities"
+                                                 [displayMember]="'name'" [placeholder]="'ძებნა'"></mat-select-filter>
+                              <mat-option *ngFor="let c of filteredPayerCitiesList"
+                                          [value]="c.id">{{c.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.payerContactPerson" matInput (keydown.enter)="getMainData()"
+                                   name="payerContactPerson" placeholder="გადამხ. საკონტ. პირი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.payerPhone" matInput (keydown.enter)="getMainData()"
+                                   name="payerPhone" placeholder="გადამხ. საკონტ. ტელ." type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.payerAddress" matInput (keydown.enter)="getMainData()"
+                                   name="payerAddress" placeholder="გადამხ. მისამართი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.deliveredToPers" matInput (keydown.enter)="getMainData()"
+                                   name="deliveredToPers" placeholder="ჩამბარებლის დასახ." type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.deliveredToPersIdent" matInput (keydown.enter)="getMainData()"
+                                   name="deliveredToPersIdent" placeholder="ჩამბარებლის საიდენტ. #" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="85">
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        ამანათის დეტალებით ფილტრი
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="align-items-center" fxLayout="row wrap">
+                      <div fxFlex="100" fxFlex.gt-md="40">
+                        <div class="m-r-15 m-l-15">
+                          <mat-radio-group [(ngModel)]="srchObj.deliveryType" aria-label="ჩაბარების ტიპი: "
+                                           (ngModelChange)="getMainData()" name="deilveryType">
+                            <mat-label>ჩაბარების ტიპი &nbsp;</mat-label>
+                            <mat-radio-button [value]="1"> მიტანა მისამართზე &nbsp;</mat-radio-button>
+                            <mat-radio-button [value]="2"> მიკითხვა &nbsp;</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="40">
+                        <div class="m-r-15 m-l-15">
+                          <mat-radio-group [(ngModel)]="srchObj.paymentType" aria-label="გადახდის ტიპი: "
+                                           (ngModelChange)="getMainData()" name="paymentType">
+                            <mat-label>გადახდის ტიპი &nbsp;</mat-label>
+                            <mat-radio-button [value]="1"> ინვოისი &nbsp;</mat-radio-button>
+                            <mat-radio-button [value]="2"> ნაღდი &nbsp;</mat-radio-button>
+                            <mat-radio-button [value]="3"> ბარათი &nbsp;</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </div>
+
+                      <div fxFlex="100" fxFlex.gt-md="20">
+                        <div class="m-r-15 m-l-15">
+                          <mat-radio-group [(ngModel)]="srchObj.packageType" aria-label="პაკეტის ტიპი: "
+                                          (ngModelChange)="getMainData()" name="packageType">
+                            <mat-label>პაკეტის ტიპი &nbsp;</mat-label>
+                            <mat-radio-button [value]="1"> ამანათი &nbsp;</mat-radio-button>
+                            <mat-radio-button [value]="2"> პაკეტი &nbsp;</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="srchObj.serviceId" aria-placeholder="გზავნილის ტიპი"
+                                      (selectionChange)="getMainData()"  name="serviceId" placeholder="გზავნილის ტიპი">
+                              <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="srchObj.courierId" aria-placeholder="კურიერი"
+                                       (selectionChange)="getMainData()" name="courierId" placeholder="კურიერი">
+                              <mat-option *ngFor="let c of couriers" [value]="c.id">{{c.name}} {{c.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field>
+                            <input [(ngModel)]="srchObj.content" matInput (keydown.enter)="getMainData()"
+                                   name="content" placeholder="შიგთავსი" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <mat-select (selectionChange)="onStatusSelect($event.value)"
+                                          [(ngModel)]="srchObj.statusId"
+                                          aria-placeholder="სტატუსი" id="parcelStatus"
+                                          name="parcelStatus" placeholder="სტატუსი">
+                                <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statuses"
+                                                   (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
+                                <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}({{c.code}})
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <mat-select [(ngModel)]="srchObj.statusReasonId" required aria-placeholder="ქვე სტატუსი"
+                                         (selectionChange)="getMainData()" name="subStatus" placeholder="ქვე სტატუსი">
+                                <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'"
+                                                   [array]="statusReasons"
+                                                   (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
+                                <mat-option *ngFor="let z of filteredStatusReasons"
+                                            [value]="z.id">{{z.name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.weight" matInput (keydown.enter)="getMainData()"
+                                     name="weight" placeholder="წონა დან-" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.weightTo" matInput (keydown.enter)="getMainData()"
+                                     name="weightTo" placeholder="-მდე" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.volumeWeight" matInput (keydown.enter)="getMainData()"
+                                     name="volumeWeight" placeholder="მოცულობითი წონა დან-" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.volumeWeightTo" matInput (keydown.enter)="getMainData()"
+                                     name="volumeWeightTo" placeholder="-მდე" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.totalPrice" matInput (keydown.enter)="getMainData()"
+                                     name="totalPrice" placeholder="ფასი დან-" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.totalPriceTo" matInput (keydown.enter)="getMainData()"
+                                     name="totalPriceTo" placeholder="-მდე" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.deliveryTime" matInput (keydown.enter)="getMainData()"
+                                     name="deliveryTime" placeholder="ჩაბარების დრო -დან" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.deliveryTimeTo" matInput (keydown.enter)="getMainData()"
+                                     name="deliveryTimeTo" placeholder="-მდე" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="30">
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.createdTime" matInput (keydown.enter)="getMainData()"
+                                     name="createdTime" placeholder="შექმნის დრო -დან" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-md="50">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                              <input [(ngModel)]="srchObj.createdTimeTo" matInput (keydown.enter)="getMainData()"
+                                     name="createdTimeTo" placeholder="-მდე" type="number">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-slide-toggle (change)="passChangeEnableDisable($event)"
+                                            [checked]="srchObj.prePrinted">Pre Printed
+                          </mat-slide-toggle>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="getMainData()" style="height: 32px; margin-top: 3px;"
+                            color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="clearFilters()" style="height: 32px; margin-top: 3px;"
+                            color="accent" mat-raised-button>
+                      <mat-icon>close_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <br>
 
           <div class="example-table-container responsive-table">
-
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="barCode">
                 <th *matHeaderCellDef mat-header-cell> #</th>
