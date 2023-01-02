@@ -11,8 +11,10 @@ export class ParcelStatusHistory {
   parcel!: Parcel;
   author!: User;
   courierUser!: User;
+  operUSer!: User;
   warehouse!: Warehouse;
   comment!: string;
   updatedTime!: string;
   createdTime!: string;
+  statusDateTime!: string;
 }

@@ -27,6 +27,13 @@ import {SpinnerComponent} from './shared/spinner.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+
+
 import {FeatherModule} from 'angular-feather';
 import {
   Camera,
@@ -342,6 +349,8 @@ import {BagDialogContent, BagListComponent} from './bag-list/bag-list.component'
 import {MatSelectFilterModule} from 'mat-select-filter';
 import { StatusManagerComponent } from './status-manager/status-manager.component';
 import { WaybillListComponent } from './waybill-list/waybill-list.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 // tslint:disable-next-line:typedef
@@ -713,6 +722,10 @@ const icons = {
     HttpClientModule,
     FeatherModule.pick(icons),
     FeatherModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatNativeDateModule,
+    NgxMatDatetimePickerModule, NgxMatTimepickerModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -729,7 +742,9 @@ const icons = {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
-    DatePipe
+    DatePipe,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent]
 })

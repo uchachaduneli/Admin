@@ -6,11 +6,14 @@ import {NotificationService} from '../services/notification.service';
 import {ParcelStatus} from '../models/parcel-status';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-status-manager',
   templateUrl: './status-manager.component.html',
-  styleUrls: ['./status-manager.component.scss']
+  styleUrls: ['./status-manager.component.scss'],
+  providers: [DatePipe]
 })
 export class StatusManagerComponent implements OnInit {
   showStatusNoteInput = false;
@@ -18,6 +21,7 @@ export class StatusManagerComponent implements OnInit {
   parcelBarCode!: string;
   statusNote!: string;
   statusDateTime!: string;
+  public dateControl = new FormControl(new Date());
   markedForStatusChanges: string [] = [];
   multiplesStatus!: number;
   statuses!: ParcelStatus[];
@@ -28,7 +32,7 @@ export class StatusManagerComponent implements OnInit {
   public filteredStatusReasons: ParcelStatusReason[] = [];
 
   constructor(private statusService: ParcelStatusService,
-              private service: ParcelService,
+              private service: ParcelService, private datePipe: DatePipe,
               private notifyService: NotificationService) {
   }
 
@@ -70,11 +74,14 @@ export class StatusManagerComponent implements OnInit {
     });
   }
 
-  changeStatuses(): void {
+  save(): void {
+    // @ts-ignore
+    this.statusDateTime = this.datePipe.transform(new Date(this.dateControl.value), 'yyyy-MM-ddTHH:mm:ss');
+    console.log(this.statusDateTime);
     this.service.changeMultiplesStatuses({
       barCodes: this.markedForStatusChanges,
       note: this.statusNote,
-      statusDateTime: this.statusDateTime,
+      strStatusDateTime: this.statusDateTime,
       statusId: this.multiplesStatus
     }).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
