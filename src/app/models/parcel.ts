@@ -59,7 +59,7 @@ export class Parcel {
   service: Service = new Service();
   content!: string;
   tariff!: number;
-  prePrinted!: number; // 1 - pre inserted with empty values, will be filled after some time
+  prePrinted!: boolean; // 1 - pre inserted with empty values, will be filled after some time
   author!: User;
   addedFromGlobal!: boolean;
 }

@@ -39,6 +39,7 @@ export class ParcelDTO {
   payerContactPerson!: string;
   payerCityId!: number;
 
+  addedFromGlobal!: boolean;
 
   statusId!: number;
   statusReasonId!: number;

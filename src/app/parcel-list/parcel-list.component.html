@@ -45,7 +45,8 @@
                       <div fxFlex="100" fxFlex.gt-md="25">
                         <div class="m-r-15 m-l-15">
                           <mat-form-field>
-                            <input [(ngModel)]="srchObj.senderIdentNumber" matInput minlength="9" (keyup.enter)="getMainData()"
+                            <input [(ngModel)]="srchObj.senderIdentNumber" matInput minlength="9"
+                                   (keyup.enter)="getMainData()"
                                    name="senderIdentNumber" placeholder="გამგზ. საიდენტიფიკაციო #" type="text">
                           </mat-form-field>
                         </div>
@@ -98,7 +99,8 @@
                       <div fxFlex="100" fxFlex.gt-md="25">
                         <div class="m-r-15 m-l-15">
                           <mat-form-field>
-                            <input [(ngModel)]="srchObj.receiverIdentNumber" matInput minlength="9" (keydown.enter)="getMainData()"
+                            <input [(ngModel)]="srchObj.receiverIdentNumber" matInput minlength="9"
+                                   (keydown.enter)="getMainData()"
                                    name="receiverIdentNumber" placeholder="მიმღ. საიდენტიფიკაციო #" type="text">
                           </mat-form-field>
                         </div>
@@ -151,7 +153,8 @@
                       <div fxFlex="100" fxFlex.gt-md="25">
                         <div class="m-r-15 m-l-15">
                           <mat-form-field>
-                            <input [(ngModel)]="srchObj.payerIdentNumber" matInput minlength="9" (keydown.enter)="getMainData()"
+                            <input [(ngModel)]="srchObj.payerIdentNumber" matInput minlength="9"
+                                   (keydown.enter)="getMainData()"
                                    name="payerIdentNumber" placeholder="გადამხ. საიდენტიფიკაციო #" type="text">
                           </mat-form-field>
                         </div>
@@ -247,7 +250,7 @@
                       <div fxFlex="100" fxFlex.gt-md="20">
                         <div class="m-r-15 m-l-15">
                           <mat-radio-group [(ngModel)]="srchObj.packageType" aria-label="პაკეტის ტიპი: "
-                                          (ngModelChange)="getMainData()" name="packageType">
+                                           (ngModelChange)="getMainData()" name="packageType">
                             <mat-label>პაკეტის ტიპი &nbsp;</mat-label>
                             <mat-radio-button [value]="1"> ამანათი &nbsp;</mat-radio-button>
                             <mat-radio-button [value]="2"> პაკეტი &nbsp;</mat-radio-button>
@@ -258,7 +261,7 @@
                         <div class="m-r-15 m-l-15">
                           <mat-form-field>
                             <mat-select [(ngModel)]="srchObj.serviceId" aria-placeholder="გზავნილის ტიპი"
-                                      (selectionChange)="getMainData()"  name="serviceId" placeholder="გზავნილის ტიპი">
+                                        (selectionChange)="getMainData()" name="serviceId" placeholder="გზავნილის ტიპი">
                               <mat-option *ngFor="let c of services" [value]="c.id">{{c.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -268,7 +271,7 @@
                         <div class="m-r-15 m-l-15">
                           <mat-form-field>
                             <mat-select [(ngModel)]="srchObj.courierId" aria-placeholder="კურიერი"
-                                       (selectionChange)="getMainData()" name="courierId" placeholder="კურიერი">
+                                        (selectionChange)="getMainData()" name="courierId" placeholder="კურიერი">
                               <mat-option *ngFor="let c of couriers" [value]="c.id">{{c.name}} {{c.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -282,7 +285,7 @@
                           </mat-form-field>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
@@ -302,7 +305,7 @@
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
                               <mat-select [(ngModel)]="srchObj.statusReasonId" required aria-placeholder="ქვე სტატუსი"
-                                         (selectionChange)="getMainData()" name="subStatus" placeholder="ქვე სტატუსი">
+                                          (selectionChange)="getMainData()" name="subStatus" placeholder="ქვე სტატუსი">
                                 <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'"
                                                    [array]="statusReasons"
                                                    (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
@@ -313,7 +316,7 @@
                           </div>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
@@ -331,7 +334,7 @@
                           </div>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
@@ -349,7 +352,7 @@
                           </div>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
@@ -367,38 +370,58 @@
                           </div>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
-                              <input [(ngModel)]="srchObj.deliveryTime" matInput (keydown.enter)="getMainData()"
-                                     name="deliveryTime" placeholder="ჩაბარების დრო -დან" type="number">
+                              <input [ngxMatDatetimePicker]="picker1" [formControl]="dateControl1"
+                                     matInput (keydown.enter)="getMainData()" name="deliveryTime"
+                                     placeholder="ჩაბარების დრო -დან" type="text">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <ngx-mat-datetime-picker #picker1 [showSpinners]="true" [showSeconds]="false"
+                                                       [touchUi]="false" [enableMeridian]="false">
+                              </ngx-mat-datetime-picker>
                             </mat-form-field>
                           </div>
                         </div>
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
-                              <input [(ngModel)]="srchObj.deliveryTimeTo" matInput (keydown.enter)="getMainData()"
-                                     name="deliveryTimeTo" placeholder="-მდე" type="number">
+                              <input [ngxMatDatetimePicker]="picker2" [formControl]="dateControl2"
+                                     matInput (keydown.enter)="getMainData()" name="deliveryTimeTo" placeholder="-მდე"
+                                     type="text">
+                              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                              <ngx-mat-datetime-picker #picker2 [showSpinners]="true" [showSeconds]="false"
+                                                       [touchUi]="false" [enableMeridian]="false">
+                              </ngx-mat-datetime-picker>
                             </mat-form-field>
                           </div>
                         </div>
                       </div>
-                      <div fxFlex="100" fxFlex.gt-md="30">
+                      <div fxFlex="100" fxFlex.gt-md="50">
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
-                              <input [(ngModel)]="srchObj.createdTime" matInput (keydown.enter)="getMainData()"
-                                     name="createdTime" placeholder="შექმნის დრო -დან" type="number">
+                              <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
+                                     matInput (keydown.enter)="getMainData()" name="createdTime"
+                                     placeholder="შექმნის დრო -დან" type="text">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
+                                                       [touchUi]="false" [enableMeridian]="false">
+                              </ngx-mat-datetime-picker>
                             </mat-form-field>
                           </div>
                         </div>
                         <div fxFlex="100" fxFlex.gt-md="50">
                           <div class="m-r-15 m-l-15">
                             <mat-form-field>
-                              <input [(ngModel)]="srchObj.createdTimeTo" matInput (keydown.enter)="getMainData()"
-                                     name="createdTimeTo" placeholder="-მდე" type="number">
+                              <input [ngxMatDatetimePicker]="picker4" [formControl]="dateControl4"
+                                     matInput (keydown.enter)="getMainData()" name="createdTimeTo" placeholder="-მდე"
+                                     type="text">
+                              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                              <ngx-mat-datetime-picker #picker4 [showSpinners]="true" [showSeconds]="false"
+                                                       [touchUi]="false" [enableMeridian]="false">
+                              </ngx-mat-datetime-picker>
                             </mat-form-field>
                           </div>
                         </div>
@@ -407,6 +430,13 @@
                         <div class="m-r-15 m-l-15">
                           <mat-slide-toggle (change)="passChangeEnableDisable($event)"
                                             [checked]="srchObj.prePrinted">Pre Printed
+                          </mat-slide-toggle>
+                        </div>
+                      </div>
+                      <div fxFlex="100" fxFlex.gt-md="25">
+                        <div class="m-r-15 m-l-15">
+                          <mat-slide-toggle (change)="addedFromGlobalHandler($event)"
+                                            [checked]="srchObj.addedFromGlobal">Added From Global
                           </mat-slide-toggle>
                         </div>
                       </div>

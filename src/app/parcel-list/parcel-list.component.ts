@@ -24,6 +24,8 @@ import {ParcelStatus} from '../models/parcel-status';
 import {RouteService} from '../services/route.service';
 import {Route} from '../models/route';
 import {UserService} from '../services/user.service';
+import {FormControl} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-parcel-list',
@@ -52,9 +54,15 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
   public filteredStatusReasons: ParcelStatusReason[] = [];
   services!: Service[];
 
+  public dateControl1 = new FormControl();
+  public dateControl2 = new FormControl();
+  public dateControl3 = new FormControl();
+  public dateControl4 = new FormControl();
+
   constructor(public dialog: MatDialog, private service: ParcelService, private companyServices: CompanyServicesService,
               private router: Router, private tokenStorageService: TokenStorageService, private routeService: RouteService,
               private cityService: CityService, private statusService: ParcelStatusService, private userService: UserService,
+              private datePipe: DatePipe,
               private notifyService: NotificationService, private utilService: UtilService) {
     this.initSubParams();
   }
@@ -175,6 +183,11 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
 
   passChangeEnableDisable(event: any): void {
     this.srchObj.prePrinted = event.checked;
+    console.log(event.checked);
+  }
+
+  addedFromGlobalHandler(event: any): void {
+    this.srchObj.addedFromGlobal = event.checked;
   }
 
   clearFilters(): void {
@@ -185,25 +198,50 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
   initSubParams(): void {
     // @ts-ignore
     this.srchObj = {};
-  //   // @ts-ignore
-  //   this.srchObj.senderCity = {};
-  //   // @ts-ignore
-  //   this.srchObj.route = {};
-  //   // @ts-ignore
-  //   this.srchObj.author = {};
-  //   // @ts-ignore
-  //   this.srchObj.courier = {};
-  //   // @ts-ignore
-  //   this.srchObj.payerCity = {};
-  //   // @ts-ignore
-  //   this.srchObj.receiverCity = {};
-  //   // @ts-ignore
-  //   this.srchObj.status = {};
-  //   // @ts-ignore
-  //   this.srchObj.service = {};
+    this.dateControl1 = new FormControl();
+    this.dateControl2 = new FormControl();
+    this.dateControl3 = new FormControl();
+    this.dateControl4 = new FormControl();
+    //   // @ts-ignore
+    //   this.srchObj.senderCity = {};
+    //   // @ts-ignore
+    //   this.srchObj.route = {};
+    //   // @ts-ignore
+    //   this.srchObj.author = {};
+    //   // @ts-ignore
+    //   this.srchObj.courier = {};
+    //   // @ts-ignore
+    //   this.srchObj.payerCity = {};
+    //   // @ts-ignore
+    //   this.srchObj.receiverCity = {};
+    //   // @ts-ignore
+    //   this.srchObj.status = {};
+    //   // @ts-ignore
+    //   this.srchObj.service = {};
+  }
+
+  prepareDatesForSearch(): void {
+    if (this.dateControl1.value) {
+      // @ts-ignore
+      this.srchObj.strDeliveryTime = this.datePipe.transform(new Date(this.dateControl1.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    if (this.dateControl2.value) {
+      // @ts-ignore
+      this.srchObj.strDeliveryTimeTo = this.datePipe.transform(new Date(this.dateControl2.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    if (this.dateControl3.value) {
+      // @ts-ignore
+      this.srchObj.strCreatedTime = this.datePipe.transform(new Date(this.dateControl3.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    if (this.dateControl4.value) {
+      // @ts-ignore
+      this.srchObj.strCreatedTimeTo = this.datePipe.transform(new Date(this.dateControl4.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    console.log(this.srchObj);
   }
 
   getMainData(): void {
+    this.prepareDatesForSearch();
     merge(this.paginator.page)
       .pipe(
         startWith({}),
