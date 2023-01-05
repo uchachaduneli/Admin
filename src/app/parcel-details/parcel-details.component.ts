@@ -165,6 +165,8 @@ export class ParcelDetailsComponent implements OnInit {
         })
       ).subscribe(data => {
       this.statusHistoryList = data as ParcelStatusHistory[];
+      console.log(data);
+      console.log(this.statusHistoryList);
     });
   }
 
