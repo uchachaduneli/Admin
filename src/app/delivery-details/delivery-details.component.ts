@@ -32,7 +32,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   srchObj = new DeliveryDetail();
   selectedObject!: DeliveryDetail;
   data = new MatTableDataSource<DeliveryDetailBackendApi>();
-  displayedColumns: string[] = ['detailBarCode', 'name', 'user', 'createdTime', 'action'];
+  displayedColumns: string[] = ['detailBarCode', 'user', 'createdTime', 'action'];
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);

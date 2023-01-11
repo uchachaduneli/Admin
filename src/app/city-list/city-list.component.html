@@ -9,12 +9,72 @@
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
 
-          <div class="button-row m-b-15 m-t-15">
-            <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
-              <mat-icon>plus_one</mat-icon>
-              დამატება
-            </button>
-          </div>
+          <form #filterForm="ngForm" autocomplete="off">
+            <div class="align-items-center" fxLayout="row wrap">
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <a class="m-r-10 cursor-pointer" (click)="openDialog('Add',{})" color="primary" mat-raised-button>
+                    <mat-icon>plus_one</mat-icon>
+                    დამატება</a>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.id" matInput name="id" placeholder="#" (keydown.enter)="getMainData()"
+                           type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.code" matInput name="code" placeholder="Code"
+                           (keydown.enter)="getMainData()"
+                           type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი"
+                           (keydown.enter)="getMainData()" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.zone.id" (selectionChange)="getMainData()"
+                                aria-placeholder="ზონა" name="zoneId" placeholder="ზონა">
+                      <mat-option *ngFor="let c of zones" [value]="c.id">ზონა {{c.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="getMainData()" color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="clearFilters()" color="accent" mat-raised-button>
+                      <mat-icon>close_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
 
           <a (click)="downloadExcel()" class="m-r-10 cursor-pointer" style="float: right; height: 70px;"
              title="Export To Excel">

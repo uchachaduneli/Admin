@@ -60,10 +60,12 @@ export class ParcelDetailsComponent implements OnInit {
     this.selectedMessage.parcel = {id: this.selectedObject.id};
     // @ts-ignore
     this.selectedMessage.author = {id: this.currentUser.id};
-    this.selectedCCList.forEach(w => {
-      // @ts-ignore
-      this.selectedMessage.cc.push({cc: {id: w.id}});
-    });
+    if (this.selectedCCList) {
+      this.selectedCCList.forEach(w => {
+        // @ts-ignore
+        this.selectedMessage.cc.push({cc: {id: w.id}});
+      });
+    }
     console.log(this.selectedMessage);
     this.messageService.create(this.selectedMessage).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');

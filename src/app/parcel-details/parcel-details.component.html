@@ -360,15 +360,14 @@
             <mat-card-content>
               <mat-form-field>
                 <input [(ngModel)]="selectedMessage.subject" id="subject" matInput name="subject" placeholder="თემა"
-                       required
-                       type="text">
+                       required type="text">
               </mat-form-field>
-              <mat-form-field *ngIf="selectedMessage.to">
+              <mat-form-field>
                 <mat-select [(ngModel)]="selectedMessage.to" name="to" placeholder="ადრესატი" required>
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field *ngIf="selectedCCList">
+              <mat-form-field >
                 <mat-select [(ngModel)]="selectedCCList" multiple name="cc" placeholder="CC">
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>

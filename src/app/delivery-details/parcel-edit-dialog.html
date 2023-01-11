@@ -17,8 +17,7 @@
         <div class="m-r-15 m-l-15">
           <mat-form-field>
             <input [(ngModel)]="selectedObject.receiverIdentNumber" id="receiverIdentNumber" matInput
-                   name="receiverIdentNumber" placeholder="საიდენტ. #"
-                   required type="text">
+                   name="receiverIdentNumber" placeholder="საიდენტ. #" type="text">
           </mat-form-field>
         </div>
       </div>
@@ -30,7 +29,7 @@
                         name="parcelStatus" placeholder="სტატუსი">
               <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statuses"
                                  (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
-              <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}</mat-option>
+              <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}({{c.code}})</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

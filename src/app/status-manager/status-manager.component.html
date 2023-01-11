@@ -17,7 +17,7 @@
           <mat-select (selectionChange)="onStatusSelect($event.value)" [(ngModel)]="selectedStatus.id"
                       aria-placeholder="სტატუსი" id="parcelStatus"
                       name="parcelStatus" placeholder="სტატუსი">
-            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statuses"
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statuses"
                                (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
             <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}({{c.code}})</mat-option>
           </mat-select>
@@ -29,7 +29,7 @@
         <mat-form-field>
           <mat-select [(ngModel)]="multiplesStatus" required aria-placeholder="ქვე სტატუსი"
                       name="subStatus" placeholder="ქვე სტატუსი" (selectionChange)="onSubStatusSet($event.value)">
-            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statusReasons"
+            <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'name'" [array]="statusReasons"
                                (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
             <mat-option *ngFor="let z of filteredStatusReasons" [value]="z.id">{{z.name}}</mat-option>
           </mat-select>

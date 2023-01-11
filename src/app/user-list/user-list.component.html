@@ -9,7 +9,7 @@
           <form #filterForm="ngForm" autocomplete="off">
             <div class="align-items-center" fxLayout="row wrap">
 
-              <div fxFlex="100" fxFlex.gt-md="10">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
                     <mat-icon>plus_one</mat-icon>
@@ -18,7 +18,7 @@
                 </div>
               </div>
 
-              <div fxFlex="100" fxFlex.gt-md="21">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="srchObj.role" aria-placeholder="დაშვების დონე"
@@ -29,14 +29,14 @@
                 </div>
               </div>
 
-              <div fxFlex="100" fxFlex.gt-md="22">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი" type="text">
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="22">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <input [(ngModel)]="srchObj.lastName" matInput name="srchlastName" placeholder="გვარი"
@@ -44,7 +44,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="25">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <input [(ngModel)]="srchObj.personalNumber" matInput minlength="9"
@@ -60,7 +60,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="25">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="srchObj.city.id"
@@ -73,7 +73,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="25">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="srchObj.warehouse.id" aria-placeholder="ფილიალი"
@@ -84,7 +84,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="25">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="srchObj.route.id" aria-placeholder="მარშრუტი" name="srchroute"
@@ -96,7 +96,7 @@
                 </div>
               </div>
 
-              <div fxFlex="100" fxFlex.gt-md="10">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <button (click)="getMainData()" color="primary" mat-raised-button>

@@ -1,7 +1,7 @@
 export class Zone {
   id!: number;
   deleted!: number;
-  name!: number;
+  name!: string;
   updatedTime!: string;
   createdTime!: string;
 

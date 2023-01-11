@@ -9,6 +9,7 @@ import {CityBackendApi, CityService} from '../services/city.service';
 import {City} from '../models/city';
 import {Zone} from '../models/zone';
 import {ZoneService} from '../services/zone.service';
+import {UtilService} from '../services/util.service';
 
 @Component({
   selector: 'app-city-list',
@@ -17,7 +18,8 @@ import {ZoneService} from '../services/zone.service';
 })
 export class CityListComponent implements AfterViewInit {
 
-
+// @ts-ignore
+  srchObj: City = {zone: {}};
   data = new MatTableDataSource<CityBackendApi>();
   displayedColumns: string[] = ['id', 'name', 'code', 'zone', 'updatedTime', 'createdTime', 'action'];
 
@@ -25,13 +27,40 @@ export class CityListComponent implements AfterViewInit {
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
   filter: City = new City();
+  zones: Zone[] = [];
 
-  constructor(public dialog: MatDialog, private service: CityService, private notifyService: NotificationService) {
+  constructor(public dialog: MatDialog,
+              private service: CityService,
+              private zoneService: ZoneService,
+              private utilService: UtilService,
+              private notifyService: NotificationService) {
   }
 
   ngAfterViewInit(): void {
     this.isLoadingResults = false;
     this.resultsLength = 0;
+    this.getMainData();
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.zoneService.getList(10000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.zones = data;
+      console.log(data);
+    });
+  }
+
+  clearFilters(): void {
+    // @ts-ignore
+    this.srchObj = {zone: {}};
     this.getMainData();
   }
 
@@ -55,7 +84,7 @@ export class CityListComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, '');
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj));
         }),
         map(data => {
           // Flip flag to show that loading has finished.

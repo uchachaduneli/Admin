@@ -140,7 +140,7 @@
                 <button (click)="saveDeliveryDetail()" [disabled]="!detailsForm.valid" color="warn"
                         mat-raised-button title="შენახვა">
                   <mat-icon>save</mat-icon>
-                  შენახვა & ბეჭდვა
+                  შენახვა
                 </button>
               </div>
 
@@ -166,10 +166,6 @@
               <ng-container matColumnDef="detailBarCode">
                 <th *matHeaderCellDef mat-header-cell> ბარკოდი #</th>
                 <td *matCellDef="let element" mat-cell> {{element.detailBarCode}} </td>
-              </ng-container>
-              <ng-container matColumnDef="name">
-                <th *matHeaderCellDef mat-header-cell> დასახელება</th>
-                <td *matCellDef="let element" mat-cell> {{element.name}} </td>
               </ng-container>
               <ng-container matColumnDef="user">
                 <th *matHeaderCellDef mat-header-cell> მომხმარებელი</th>
