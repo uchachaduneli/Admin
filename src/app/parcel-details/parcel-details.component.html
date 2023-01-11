@@ -308,7 +308,6 @@
                 <th>კოდი</th>
                 <th>სტატუსი</th>
                 <th>განმარტება</th>
-                <th>კომენტარი</th>
                 <th>ავტორი</th>
                 <th>თარიღი</th>
               </tr>
@@ -318,8 +317,7 @@
                 <td> {{v.id}}</td>
                 <td style="padding-left: 5px; padding-right: 5px;word-break:break-all; "> {{v.code}}</td>
                 <td style="padding-left: 5px; padding-right: 5px;word-break:break-all;width: 20%;"> {{v.name}}</td>
-                <td> {{v.reason}}</td>
-                <td style="padding-left: 5px; padding-right: 5px;word-break:break-all;width: 20%;"> {{v.comment}}</td>
+                <td style="padding-left: 5px; padding-right: 5px;word-break:break-all;width: 20%;"> {{v.reason}}</td>
                 <td> {{v.operUSer?.name}}&nbsp;{{v.operUSer?.lastName}}</td>
                 <td>{{v.statusDateTime | date :'dd/MM/yyyy HH:mm'}}</td>
               </tr>
