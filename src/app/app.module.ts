@@ -351,6 +351,8 @@ import { StatusManagerComponent } from './status-manager/status-manager.componen
 import { WaybillListComponent } from './waybill-list/waybill-list.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { InvoiceGeneraationComponent } from './invoice-generaation/invoice-generaation.component';
 
 
 // tslint:disable-next-line:typedef
@@ -704,7 +706,9 @@ const icons = {
     DeliveryDetailsComponent,
     BagListComponent,
     StatusManagerComponent,
-    WaybillListComponent
+    WaybillListComponent,
+    InvoiceListComponent,
+    InvoiceGeneraationComponent
   ],
   imports: [
     MatSelectFilterModule,

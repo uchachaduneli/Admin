@@ -26,6 +26,8 @@ import {DeliveryDetailsComponent} from './delivery-details/delivery-details.comp
 import {BagListComponent} from './bag-list/bag-list.component';
 import {StatusManagerComponent} from './status-manager/status-manager.component';
 import {WaybillListComponent} from './waybill-list/waybill-list.component';
+import {InvoiceGeneraationComponent} from './invoice-generaation/invoice-generaation.component';
+import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -65,6 +67,18 @@ export const AppRoutes: Routes = [
       {
         path: 'status-manager',
         component: StatusManagerComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'invoice-generation',
+        component: InvoiceGeneraationComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'invoices',
+        component: InvoiceListComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
       },

@@ -62,4 +62,5 @@ export class Parcel {
   prePrinted!: boolean; // 1 - pre inserted with empty values, will be filled after some time
   author!: User;
   addedFromGlobal!: boolean;
+  invoiced!: boolean; // parcel has been added to invoice
 }
