@@ -6,6 +6,8 @@ export class InvoiceDTO {
   identNumber!: string;
   status!: string;
   payStatus!: string;
+  payedAmount!: number;
+  amount!: number;
   pdf!: string;
   operationDate!: string;
   operationDateTo!: string;

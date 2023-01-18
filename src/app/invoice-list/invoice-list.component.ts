@@ -8,6 +8,8 @@ import {UtilService} from '../services/util.service';
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-invoice-list',
@@ -18,15 +20,19 @@ export class InvoiceListComponent implements AfterViewInit {
 // @ts-ignore
   srchObj: InvoiceDTO = {};
   data = new MatTableDataSource<InvoiceDTOBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'identNumber', 'status', 'payStatus', 'payedAmount', 'operationDate', 'pdf', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
+  public dateControl3 = new FormControl();
+  public dateControl4 = new FormControl();
+
   constructor(public dialog: MatDialog,
               private utilService: UtilService,
               private service: InvoiceService,
+              private datePipe: DatePipe,
               private notifyService: NotificationService) {
   }
 
@@ -39,10 +45,25 @@ export class InvoiceListComponent implements AfterViewInit {
   clearFilters(): void {
     // @ts-ignore
     this.srchObj = {zone: {}};
+    this.dateControl3 = new FormControl();
+    this.dateControl4 = new FormControl();
     this.getMainData();
   }
 
+  prepareDatesForSearch(): void {
+    if (this.dateControl3.value) {
+      // @ts-ignore
+      this.srchObj.operationDate = this.datePipe.transform(new Date(this.dateControl3.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    if (this.dateControl4.value) {
+      // @ts-ignore
+      this.srchObj.operationDateTo = this.datePipe.transform(new Date(this.dateControl4.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    console.log(this.srchObj);
+  }
+
   getMainData(): void {
+    this.prepareDatesForSearch();
     merge(this.paginator.page)
       .pipe(
         startWith({}),

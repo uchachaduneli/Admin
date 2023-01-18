@@ -12,66 +12,76 @@
           <form #filterForm="ngForm" autocomplete="off">
             <div class="align-items-center" fxLayout="row wrap">
 
-              <div fxFlex="100" fxFlex.gt-md="20">
-                <div class="m-r-15 m-l-15">
-                  <a class="m-r-10 cursor-pointer" (click)="openDialog('Add',{})" color="primary" mat-raised-button>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                  <a class="m-r-10 cursor-pointer" color="primary" href="invoice-generation" mat-raised-button>
                     <mat-icon>plus_one</mat-icon>
                     დამატება</a>
-                </div>
               </div>
 
-<!--              <div fxFlex="100" fxFlex.gt-md="10">-->
-<!--                <div class="m-r-15 m-l-15">-->
-<!--                  <mat-form-field>-->
-<!--                    <input [(ngModel)]="srchObj.id" matInput name="id" placeholder="#" (keydown.enter)="getMainData()"-->
-<!--                           type="text">-->
-<!--                  </mat-form-field>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div fxFlex="100" fxFlex.gt-md="10">-->
-<!--                <div class="m-r-15 m-l-15">-->
-<!--                  <mat-form-field>-->
-<!--                    <input [(ngModel)]="srchObj.code" matInput name="code" placeholder="Code"-->
-<!--                           (keydown.enter)="getMainData()"-->
-<!--                           type="text">-->
-<!--                  </mat-form-field>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div fxFlex="100" fxFlex.gt-md="20">-->
-<!--                <div class="m-r-15 m-l-15">-->
-<!--                  <mat-form-field>-->
-<!--                    <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი"-->
-<!--                           (keydown.enter)="getMainData()" type="text">-->
-<!--                  </mat-form-field>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <div fxFlex="100" fxFlex.gt-md="20">-->
-<!--                <div class="m-r-15 m-l-15">-->
-<!--                  <mat-form-field>-->
-<!--                    <mat-select [(ngModel)]="srchObj.zone.id" (selectionChange)="getMainData()"-->
-<!--                                aria-placeholder="ზონა" name="zoneId" placeholder="ზონა">-->
-<!--                      <mat-option *ngFor="let c of zones" [value]="c.id">ზონა {{c.name}}</mat-option>-->
-<!--                    </mat-select>-->
-<!--                  </mat-form-field>-->
-<!--                </div>-->
-<!--              </div>-->
-
-              <div fxFlex="100" fxFlex.gt-md="20">
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.id" matInput name="id" placeholder="#" (keydown.enter)="getMainData()"
+                           type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი"
+                           (keydown.enter)="getMainData()" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.identNumber" matInput name="identNumber" placeholder="საიდენტ #"
+                           (keydown.enter)="getMainData()" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="30">
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
-                    <button (click)="getMainData()" color="primary" mat-raised-button>
-                      <mat-icon>search</mat-icon>
-                    </button>
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
+                             matInput (keydown.enter)="getMainData()" name="createdTime"
+                             placeholder="შექმნის დრო -დან" type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
                   </div>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker4" [formControl]="dateControl4"
+                             matInput (keydown.enter)="getMainData()" name="createdTimeTo" placeholder="-მდე"
+                             type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker4 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                    <button (click)="getMainData()" color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
                     <button (click)="clearFilters()" color="accent" mat-raised-button>
                       <mat-icon>close_outline</mat-icon>
                     </button>
                   </div>
-                </div>
               </div>
             </div>
           </form>
@@ -88,25 +98,36 @@
                 <td *matCellDef="let element" mat-cell> {{element.name}} </td>
               </ng-container>
 
-<!--              <ng-container matColumnDef="code">-->
-<!--                <th *matHeaderCellDef mat-header-cell>კოდი</th>-->
-<!--                <td *matCellDef="let element" mat-cell> {{element.code}} </td>-->
-<!--              </ng-container>-->
+              <ng-container matColumnDef="identNumber">
+                <th *matHeaderCellDef mat-header-cell>საიდენტ #</th>
+                <td *matCellDef="let element" mat-cell> {{element.identNumber}} </td>
+              </ng-container>
 
-<!--              <ng-container matColumnDef="zone">-->
-<!--                <th *matHeaderCellDef mat-header-cell>ზონა</th>-->
-<!--                <td *matCellDef="let element" mat-cell> {{element.zone.name}} </td>-->
-<!--              </ng-container>-->
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef mat-header-cell>სტატუსი</th>
+                <td *matCellDef="let element" mat-cell> {{element.status}} </td>
+              </ng-container>
 
-<!--              <ng-container matColumnDef="updatedTime">-->
-<!--                <th *matHeaderCellDef mat-header-cell> განახლდა</th>-->
-<!--                <td *matCellDef="let element" mat-cell> {{element.updatedTime | date :'dd/MM/yyyy HH:mm'}} </td>-->
-<!--              </ng-container>-->
+              <ng-container matColumnDef="payStatus">
+                <th *matHeaderCellDef mat-header-cell>გადახდ. სტატუსი</th>
+                <td *matCellDef="let element" mat-cell> {{element.payStatus}} </td>
+              </ng-container>
 
-<!--              <ng-container matColumnDef="createdTime">-->
-<!--                <th *matHeaderCellDef mat-header-cell> შეიქმნა</th>-->
-<!--                <td *matCellDef="let element" mat-cell> {{element.createdTime | date :'dd/MM/yyyy HH:mm'}} </td>-->
-<!--              </ng-container>-->
+              <ng-container matColumnDef="payedAmount">
+                <th *matHeaderCellDef mat-header-cell>თანხა</th>
+                <td *matCellDef="let element" mat-cell> {{element.payedAmount}}/{{element.amount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="operationDate">
+                <th *matHeaderCellDef mat-header-cell>ოპერაციის დრო</th>
+                <td *matCellDef="let element" mat-cell> {{element.operationDate | date :'dd/MM/yyyy HH:mm'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pdf">
+                <th *matHeaderCellDef mat-header-cell> PDF</th>
+                <td *matCellDef="let element" mat-cell><a href="{{element.pdf}}" target="_blank">{{element.pdf}}</a>
+                </td>
+              </ng-container>
 
               <ng-container matColumnDef="action">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
@@ -114,9 +135,6 @@
                   <div *ngIf="element.deleted != 1">
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
-                    </a>
-                    <a (click)="openDialog('Update',element)" class="m-r-10 cursor-pointer">
-                      <mat-icon>create</mat-icon>
                     </a>
                     <a (click)="openDialog('Delete',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>delete_outline</mat-icon>
