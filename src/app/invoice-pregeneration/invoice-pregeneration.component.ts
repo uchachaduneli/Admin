@@ -11,18 +11,18 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {Parcel} from '../models/parcel';
 
 @Component({
-  selector: 'app-invoice-generaation',
-  templateUrl: './invoice-generaation.component.html',
-  styleUrls: ['./invoice-generaation.component.scss']
+  selector: 'app-invoice-pregeneration',
+  templateUrl: './invoice-pregeneration.component.html',
+  styleUrls: ['./invoice-pregeneration.component.scss']
 })
-export class InvoiceGeneraationComponent implements AfterViewInit {
+export class InvoicePregenerationComponent implements AfterViewInit {
 
   // @ts-ignore
   srchObj: InvoiceDTO = {};
   // @ts-ignore
   selectedObject: InvoiceDTO = {};
   data = new MatTableDataSource<InvoiceDTOBackendApi>();
-  displayedColumns: string[] = ['id', 'name', 'action'];
+  displayedColumns: string[] = ['name', 'identNumber', 'parcelsCount', 'amount', 'action'];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -72,23 +72,6 @@ export class InvoiceGeneraationComponent implements AfterViewInit {
       ).subscribe(data => this.data = data);
   }
 
-  getPayersUnInvoicedParcelsList(): void {
-    merge().pipe(
-      startWith({}),
-      switchMap(() => {
-        return this.service.getPayersUnInvoicedParcelsList(this.selectedObject.identNumber);
-      }), map(data => {
-        // @ts-ignore
-        return data.items;
-      }), catchError(() => {
-        return observableOf([]);
-      })
-    ).subscribe(data => {
-      this.parcels = data;
-      console.log(data);
-    });
-  }
-
   save(obj: InvoiceDTO): void {
     this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
@@ -119,24 +102,5 @@ export class InvoiceGeneraationComponent implements AfterViewInit {
     });
   }
 
-  openDialog(action: string, obj: any): void {
-    // obj.action = action;
-    // const dialogRef = this.dialog.open(CityDialogContent, {
-    //   data: obj,
-    // });
-    // // @ts-ignore
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (!!result) {
-    //     if (result.event === 'Add') {
-    //       console.log(result);
-    //       this.save(result.data);
-    //     } else if (result.event === 'Update') {
-    //       this.update(result.data);
-    //     } else if (result.event === 'Delete') {
-    //       this.delete(result.data);
-    //     }
-    //   }
-    // });
-  }
-
 }
+

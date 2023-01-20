@@ -7,12 +7,12 @@ export class InvoiceDTO {
   status!: string;
   payStatus!: string;
   payedAmount!: number;
-  amount!: number;
+  amount!: number; // calculated during select
+  parcelsCount!: number; // parcels count - calculated during select
   pdf!: string;
   operationDate!: string;
   operationDateTo!: string;
   strOperationDate!: string;
   strOperationDateTo!: string;
   parcels: Parcel[] = [];
-  parcelsCount!: number;
 }

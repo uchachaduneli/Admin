@@ -1,0 +1,38 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>ინვოისის შექმნა, გადამხდელი: {{payer?.name}}({{payer?.identNumber}})</mat-card-title>
+        <div class="example-container m-t-20">
+          <div *ngIf="isLoadingResults" class="example-loading-shade">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="example-table-container responsive-table">
+            <table [dataSource]="data" class="example-table striped" mat-table>
+              <ng-container matColumnDef="barCode">
+                <th *matHeaderCellDef mat-header-cell> ბარკოდი #</th>
+                <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+              </ng-container>
+
+              <ng-container class="text-center" matColumnDef="action">
+                <th *matHeaderCellDef mat-header-cell> მოქმედება</th>
+                <td *matCellDef="let element" class="action-link" mat-cell>
+                  <div>
+                    <a (click)="removeFromInvoiceList(element.barCode)" class="m-r-10 cursor-pointer">
+                      <mat-icon>delete_outline</mat-icon>
+                    </a>
+                  </div>
+                </td>
+              </ng-container>
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+            </table>
+          </div>
+
+          <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
+                         showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

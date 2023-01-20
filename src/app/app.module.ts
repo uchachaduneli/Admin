@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {DatePipe} from '@angular/common';
 import {AppRoutes} from './app.routing';
 import {AppComponent} from './app.component';
@@ -18,9 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DemoMaterialModule} from './demo-material-module';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
-import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {SharedModule} from './shared/shared.module';
 import {SpinnerComponent} from './shared/spinner.component';
 
@@ -36,9 +34,6 @@ import {
 
 import {FeatherModule} from 'angular-feather';
 import {
-  Camera,
-  Heart,
-  Github,
   Activity,
   Airplay,
   AlertCircle,
@@ -55,8 +50,8 @@ import {
   ArrowDownCircle,
   ArrowDownLeft,
   ArrowDownRight,
-  ArrowLeftCircle,
   ArrowLeft,
+  ArrowLeftCircle,
   ArrowRight,
   ArrowRightCircle,
   ArrowUp,
@@ -65,42 +60,43 @@ import {
   ArrowUpRight,
   AtSign,
   Award,
-  BarChart2,
   BarChart,
-  BatteryCharging,
+  BarChart2,
   Battery,
-  BellOff,
+  BatteryCharging,
   Bell,
+  BellOff,
   Bluetooth,
   Bold,
-  BookOpen,
   Book,
   Bookmark,
+  BookOpen,
   Box,
   Briefcase,
   Calendar,
+  Camera,
   CameraOff,
   Cast,
+  Check,
   CheckCircle,
   CheckSquare,
-  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ChevronUp,
   ChevronsDown,
   ChevronsLeft,
   ChevronsRight,
   ChevronsUp,
+  ChevronUp,
   Chrome,
   Circle,
   Clipboard,
   Clock,
+  Cloud,
   CloudDrizzle,
   CloudLightning,
   CloudOff,
   CloudRain,
-  Cloud,
   CloudSnow,
   Code,
   Codepen,
@@ -126,23 +122,23 @@ import {
   Delete,
   Disc,
   DollarSign,
-  DownloadCloud,
   Download,
+  DownloadCloud,
   Droplet,
   Edit,
   Edit2,
   Edit3,
   ExternalLink,
-  EyeOff,
   Eye,
+  EyeOff,
   Facebook,
   FastForward,
   Feather,
   Figma,
+  File,
   FileMinus,
   FilePlus,
   FileText,
-  File,
   Film,
   Filter,
   Flag,
@@ -154,18 +150,19 @@ import {
   Gift,
   GitBranch,
   GitCommit,
+  Github,
+  Gitlab,
   GitMerge,
   GitPullRequest,
-  Gitlab,
   Globe,
   Grid,
   HardDrive,
   Hash,
   Headphones,
+  Heart,
   HelpCircle,
   Hexagon,
   Home,
-  MoreHorizontal,
   Image,
   Inbox,
   Info,
@@ -184,8 +181,8 @@ import {
   LogIn,
   LogOut,
   Mail,
-  MapPin,
   Map,
+  MapPin,
   Maximize,
   Maximize2,
   Meh,
@@ -196,11 +193,12 @@ import {
   MicOff,
   Minimize,
   Minimize2,
+  Minus,
   MinusCircle,
   MinusSquare,
-  Minus,
   Monitor,
   Moon,
+  MoreHorizontal,
   MoreVertical,
   MousePointer,
   Move,
@@ -210,15 +208,15 @@ import {
   Octagon,
   Package,
   Paperclip,
-  PauseCircle,
   Pause,
+  PauseCircle,
   PenTool,
   Percent,
+  Phone,
   PhoneCall,
   PhoneForwarded,
   PhoneIncoming,
   PhoneMissed,
-  Phone,
   PhoneOff,
   PhoneOutgoing,
   PieChart,
@@ -296,8 +294,8 @@ import {
   UserCheck,
   UserMinus,
   UserPlus,
-  UserX,
   Users,
+  UserX,
   Video,
   VideoOff,
   Voicemail,
@@ -309,10 +307,10 @@ import {
   Wifi,
   WifiOff,
   Wind,
+  X,
   XCircle,
   XOctagon,
   XSquare,
-  X,
   Youtube,
   Zap,
   ZapOff,
@@ -332,7 +330,10 @@ import {CityDialogContent, CityListComponent} from './city-list/city-list.compon
 import {ContactAddressComponent, ContactAddressDialogContent} from './contact-address/contact-address.component';
 import {JwtInterceptor} from './authentication/jwt.interceptor';
 import {ParcelStatusDialogContent, ParcelStatusListComponent} from './parcel-status-list/parcel-status-list.component';
-import {ParcelStatusReasonDC, ParcelStatusReasonsComponent} from './parcel-status-reasons/parcel-status-reasons.component';
+import {
+  ParcelStatusReasonDC,
+  ParcelStatusReasonsComponent
+} from './parcel-status-reasons/parcel-status-reasons.component';
 import {TariffDialogContent, TariffListComponent} from './tariff-list/tariff-list.component';
 import {TariffDetailsComponent} from './tariff-details/tariff-details.component';
 import {ParcelDC, ParcelListComponent} from './parcel-list/parcel-list.component';
@@ -344,15 +345,20 @@ import {FileUploadComponent} from './file-upload/file-upload.component';
 import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component';
 import {ExcelImportComponent, ExcelRowDialogContent} from './excel-import/excel-import.component';
 import {PrintComponent} from './print/print.component';
-import {DeliveryDetailsComponent, DeliveryDetailsDialogContent, ParcelEditDlgContent} from './delivery-details/delivery-details.component';
+import {
+  DeliveryDetailsComponent,
+  DeliveryDetailsDialogContent,
+  ParcelEditDlgContent
+} from './delivery-details/delivery-details.component';
 import {BagDialogContent, BagListComponent} from './bag-list/bag-list.component';
 import {MatSelectFilterModule} from 'mat-select-filter';
-import { StatusManagerComponent } from './status-manager/status-manager.component';
-import { WaybillListComponent } from './waybill-list/waybill-list.component';
+import {StatusManagerComponent} from './status-manager/status-manager.component';
+import {WaybillListComponent} from './waybill-list/waybill-list.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { InvoiceListComponent } from './invoice-list/invoice-list.component';
-import { InvoiceGeneraationComponent } from './invoice-generaation/invoice-generaation.component';
+import {InvoiceListComponent} from './invoice-list/invoice-list.component';
+import {InvoicePregenerationComponent} from './invoice-pregeneration/invoice-pregeneration.component';
+import {InvoiceGenerationComponent} from './invoice-generation/invoice-generation.component';
 
 
 // tslint:disable-next-line:typedef
@@ -708,7 +714,8 @@ const icons = {
     StatusManagerComponent,
     WaybillListComponent,
     InvoiceListComponent,
-    InvoiceGeneraationComponent
+    InvoicePregenerationComponent,
+    InvoiceGenerationComponent
   ],
   imports: [
     MatSelectFilterModule,

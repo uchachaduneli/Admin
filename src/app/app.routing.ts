@@ -26,8 +26,9 @@ import {DeliveryDetailsComponent} from './delivery-details/delivery-details.comp
 import {BagListComponent} from './bag-list/bag-list.component';
 import {StatusManagerComponent} from './status-manager/status-manager.component';
 import {WaybillListComponent} from './waybill-list/waybill-list.component';
-import {InvoiceGeneraationComponent} from './invoice-generaation/invoice-generaation.component';
+import {InvoicePregenerationComponent} from './invoice-pregeneration/invoice-pregeneration.component';
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
+import {InvoiceGenerationComponent} from "./invoice-generation/invoice-generation.component";
 
 export const AppRoutes: Routes = [
   {
@@ -71,8 +72,14 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'invoice-generation',
-        component: InvoiceGeneraationComponent,
+        path: 'invoice-pregeneration',
+        component: InvoicePregenerationComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'invoice-generation/:identNumber',
+        component: InvoiceGenerationComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
       },

@@ -38,7 +38,7 @@ const MENUITEMS = [
   {icon: 'file_upload', state: 'excel-import', name: 'გზ. იმპორტი', type: 'link'},
   {icon: 'done_all', state: 'status-manager', name: 'სტატუს მენეჯერი', type: 'link'},
   {icon: 'playlist_add_check', state: 'invoices', name: 'ინვოისები', type: 'link'},
-  {icon: 'playlist_add', state: 'invoice-generation', name: 'ინვოისის გენერ', type: 'link'},
+  {icon: 'playlist_add', state: 'invoice-pregeneration', name: 'ინვოისის გენერ', type: 'link'},
   {icon: 'business', state: 'waybills', name: 'RS', type: 'link'},
   {icon: 'directions_car', state: 'cars', name: 'ავტოპარკი', type: 'link'},
   {icon: 'people_outline', state: 'users', name: 'მომხმარებლები', type: 'link'},
