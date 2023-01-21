@@ -81,7 +81,8 @@
               </ng-container>
 
               <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-              <tr (dblclick)="openDialog('Add', row)" *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+              <tr (dblclick)="moveToGenetarion(row.identNumber)" *matRowDef="let row; columns: displayedColumns;"
+                  mat-row></tr>
             </table>
           </div>
 

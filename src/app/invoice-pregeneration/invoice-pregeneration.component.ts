@@ -9,6 +9,7 @@ import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {Parcel} from '../models/parcel';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-invoice-pregeneration',
@@ -32,7 +33,7 @@ export class InvoicePregenerationComponent implements AfterViewInit {
 
   constructor(public dialog: MatDialog,
               private utilService: UtilService,
-              private service: InvoiceService,
+              private service: InvoiceService, private router: Router,
               private notifyService: NotificationService) {
   }
 
@@ -102,5 +103,8 @@ export class InvoicePregenerationComponent implements AfterViewInit {
     });
   }
 
+  moveToGenetarion(identNumber: string): void {
+    this.router.navigate(['invoice-generation', identNumber]);
+  }
 }
 
