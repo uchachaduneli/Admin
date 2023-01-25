@@ -28,7 +28,7 @@ import {StatusManagerComponent} from './status-manager/status-manager.component'
 import {WaybillListComponent} from './waybill-list/waybill-list.component';
 import {InvoicePregenerationComponent} from './invoice-pregeneration/invoice-pregeneration.component';
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
-import {InvoiceGenerationComponent} from "./invoice-generation/invoice-generation.component";
+import {InvoiceGenerationComponent} from './invoice-generation/invoice-generation.component';
 
 export const AppRoutes: Routes = [
   {

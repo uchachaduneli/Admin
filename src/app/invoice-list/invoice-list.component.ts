@@ -10,6 +10,7 @@ import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {DatePipe} from '@angular/common';
+import {ContactService} from '../services/contact.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -19,6 +20,8 @@ import {DatePipe} from '@angular/common';
 export class InvoiceListComponent implements AfterViewInit {
 // @ts-ignore
   srchObj: InvoiceDTO = {};
+  // @ts-ignore
+  selectedObj: InvoiceDTO = {};
   data = new MatTableDataSource<InvoiceDTOBackendApi>();
   displayedColumns: string[] = ['id', 'name', 'identNumber', 'status', 'payStatus', 'payedAmount', 'operationDate', 'pdf', 'action'];
 
@@ -33,6 +36,7 @@ export class InvoiceListComponent implements AfterViewInit {
               private utilService: UtilService,
               private service: InvoiceService,
               private datePipe: DatePipe,
+              private contactService: ContactService,
               private notifyService: NotificationService) {
   }
 
@@ -60,6 +64,17 @@ export class InvoiceListComponent implements AfterViewInit {
       this.srchObj.operationDateTo = this.datePipe.transform(new Date(this.dateControl4.value), 'yyyy-MM-ddTHH:mm:ss');
     }
     console.log(this.srchObj);
+  }
+
+  getPayerEmailIfExists(identNumber: string): void {
+    this.contactService.getByIdentNum(identNumber).subscribe(cont => {
+      console.log('contact by this ident Num', cont);
+      if (!cont) {
+        this.notifyService.showInfo('გადამხდელზე ელ.ფოსტოს მოძიება ვერ მოხერხდა, ინვოისის გენერაციისთვის გთხოვთ მიუთითოთ ხელით', '');
+      } else {
+        this.selectedObj.emailToSent = cont.email;
+      }
+    });
   }
 
   getMainData(): void {

@@ -1,8 +1,15 @@
 <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+
     <mat-card>
       <mat-card-content>
-        <mat-card-title>ინვოისის შექმნა, გადამხდელი: {{payer?.name}}({{payer?.identNumber}})</mat-card-title>
+        <mat-card-title *ngIf="data && data.data.length>0">ინვოისის გენერაცია,
+          გადამხდელი: {{selectedObj?.name}}
+          #{{selectedObj?.identNumber}}</mat-card-title>
+        <mat-card-title *ngIf="!data || data.data.length==0">{{selectedObj?.name}}
+          #{{selectedObj?.identNumber}} -თვის ინვოისის დასაგენერირებლად გზავნილები ამოიწურა,
+          გთხოვთ მენიუდან აირჩიოთ სასურველი გვერდი
+        </mat-card-title>
         <div class="example-container m-t-20">
           <div *ngIf="isLoadingResults" class="example-loading-shade">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -10,21 +17,55 @@
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="barCode">
-                <th *matHeaderCellDef mat-header-cell> ბარკოდი #</th>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ბარკოდი #</th>
                 <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+              </ng-container>
+              <ng-container matColumnDef="totalPrice">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ფასი</th>
+                <td *matCellDef="let element" mat-cell> {{element.totalPrice}} </td>
+              </ng-container>
+              <ng-container matColumnDef="deliveryTime">
+                <th *matHeaderCellDef class="text-center" mat-header-cell>თარიღი</th>
+                <td *matCellDef="let element" mat-cell> {{element.deliveryTime | date :'dd/MM/yyyy'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="senderName">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> გამგზავნი</th>
+                <td *matCellDef="let element" mat-cell> {{element.senderName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="senderIdentNumber">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> გამგზ. საიდენტ #</th>
+                <td *matCellDef="let element" mat-cell> {{element.senderIdentNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="receiverName">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მიმღები</th>
+                <td *matCellDef="let element" mat-cell> {{element.receiverName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="receiverIdentNumber">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მიმღ. საიდენტ #</th>
+                <td *matCellDef="let element" mat-cell> {{element.receiverIdentNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="senderCity">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> გამგზ. ქალაქი</th>
+                <td *matCellDef="let element" mat-cell> {{element.senderCity?.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="receiverCity">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მიმღ. ქალაქი</th>
+                <td *matCellDef="let element" mat-cell> {{element.receiverCity?.name}} </td>
               </ng-container>
 
               <ng-container class="text-center" matColumnDef="action">
-                <th *matHeaderCellDef mat-header-cell> მოქმედება</th>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
                 <td *matCellDef="let element" class="action-link" mat-cell>
                   <div>
-                    <a (click)="removeFromInvoiceList(element.barCode)" class="m-r-10 cursor-pointer">
-                      <mat-icon>delete_outline</mat-icon>
+                    <a (click)="removeFromInvoiceList(element.barCode)"
+                       title="გზავნილის ამოკლება დასაგენერირებელი ინვოისიდან " class="m-r-10 cursor-pointer">
+                      <mat-icon>playlist_remove</mat-icon>
                     </a>
                   </div>
                 </td>
               </ng-container>
               <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr class="text-center" *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
             </table>
           </div>
 
@@ -32,7 +73,36 @@
                          showFirstLastButtons></mat-paginator>
         </div>
       </mat-card-content>
+      <mat-card-actions align="center">
+        <div class="align-items-center" fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.gt-md="25" *ngIf="data && data.data.length>0"></div>
+          <div fxFlex="100" fxFlex.gt-md="50" *ngIf="!data || data.data.length==0"></div>
+          <div fxFlex="100" fxFlex.gt-md="20" *ngIf="data && data.data.length>0">
+            <mat-form-field>
+              <input [ngxMatDatetimePicker]="picker1" [formControl]="dateControl1"
+                     matInput name="operationDate" placeholder="ოპერაციიის თარიღი" type="text">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker #picker1 [showSpinners]="true" [showSeconds]="false"
+                                       [touchUi]="false" [enableMeridian]="false">
+              </ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="5" *ngIf="data && data.data.length>0"></div>
+          <div fxFlex="100" fxFlex.gt-md="50">
+            <button (click)="generate()" bg-success color="warn" mat-button mat-flat-button
+                    *ngIf="data && data.data.length>0">
+              <mat-icon>save</mat-icon>
+              ინვოისის გენერირება
+            </button> &nbsp;&nbsp;
+            <button (click)="getPayersUnInvoicedParcelsList(selectedObj.identNumber)" mat-button mat-flat-button>
+              <mat-icon>refresh</mat-icon>
+              ამოშლილების დაბრუნება
+            </button>
+          </div>
+        </div>
+
+      </mat-card-actions>
+      <mat-card-content></mat-card-content>
     </mat-card>
   </div>
 </div>
-

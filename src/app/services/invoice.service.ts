@@ -3,10 +3,16 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {InvoiceDTO} from '../models/invoice-dto';
-import {ParcelBackendApi} from "./parcel.service";
+import {ParcelBackendApi} from './parcel.service';
+import {Parcel} from '../models/parcel';
 
 export interface InvoiceDTOBackendApi {
   items: InvoiceDTO[];
+  total_count: number;
+}
+
+export interface InvoiceParcelBackendApi {
+  items: Parcel[];
   total_count: number;
 }
 

@@ -4,6 +4,7 @@ export class InvoiceDTO {
   id!: number;
   name!: string;
   identNumber!: string;
+  emailToSent!: string;
   status!: string;
   payStatus!: string;
   payedAmount!: number;

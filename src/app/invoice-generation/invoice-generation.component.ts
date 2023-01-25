@@ -8,7 +8,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {ParcelBackendApi} from '../services/parcel.service';
+import {Parcel} from '../models/parcel';
+import {InvoiceDTO} from '../models/invoice-dto';
+import {FormControl} from '@angular/forms';
+import {DatePipe} from '@angular/common';
+import {ContactService} from '../services/contact.service';
 
 @Component({
   selector: 'app-invoice-generation',
@@ -16,22 +20,23 @@ import {ParcelBackendApi} from '../services/parcel.service';
   styleUrls: ['./invoice-generation.component.scss']
 })
 export class InvoiceGenerationComponent implements AfterViewInit {
-// @ts-ignore
+  // @ts-ignore
   srchObj: ParcelDTO = {};
   // @ts-ignore
-  payer: { name: string, identNumber: string };
-  data = new MatTableDataSource<ParcelBackendApi>();
-  displayedColumns: string[] = ['barCode', 'action'];
+  selectedObj: InvoiceDTO = {};
+  public dateControl1 = new FormControl();
+  data = new MatTableDataSource<Parcel>();
+  displayedColumns: string[] = ['barCode', 'totalPrice', 'deliveryTime', 'senderName',
+    'senderIdentNumber', 'receiverName', 'receiverIdentNumber', 'senderCity', 'receiverCity', 'action'];
   resultsLength = 0;
   isLoadingResults = true;
+
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
 
-  constructor(private service: InvoiceService,
+  constructor(private service: InvoiceService, private datePipe: DatePipe,
               private notifyService: NotificationService,
-              private changeDetectorRef: ChangeDetectorRef,
               private route: ActivatedRoute, private router: Router,
               private utilService: UtilService) {
-
   }
 
   ngAfterViewInit(): void {
@@ -52,8 +57,7 @@ export class InvoiceGenerationComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getPayersUnInvoicedParcelsList(this.paginator.pageSize,
-            this.paginator.pageIndex, identNumber);
+          return this.service.getPayersUnInvoicedParcelsList(this.paginator.pageSize, this.paginator.pageIndex, identNumber);
         }),
         map(data => {
           this.isLoadingResults = false;
@@ -68,23 +72,42 @@ export class InvoiceGenerationComponent implements AfterViewInit {
         })
       ).subscribe(data => {
       console.log(data);
-      console.log(this.data);
-      this.data = new MatTableDataSource<ParcelBackendApi>(data);
-      console.log(this.data);
+      this.data = new MatTableDataSource<Parcel>(data);
       if (data && data.length > 0) {
         // @ts-ignore
-        this.payer = {name: data[0].payerName, identNumber};
+        this.selectedObj = {name: data[0].payerName, identNumber};
       }
-      this.changeDetectorRef.detectChanges();
     });
   }
 
   removeFromInvoiceList(barCode: string): void {
+    const tmpData = this.data.data;
+    console.log(tmpData);
     // @ts-ignore
-    // this.data.forEach((element, index) => {
-    //   if (element.barCode === barCode) {
-    //     // this.datasrc.splice(index, 1);
-    //   }
-    // });
+    tmpData.forEach((element, index) => {
+      if (element.barCode === barCode) {
+        tmpData.splice(index, 1);
+        console.log('after remove', tmpData);
+        this.data = new MatTableDataSource<Parcel>(tmpData);
+      }
+    });
+  }
+
+  generate(): void {
+    if (this.dateControl1.value) {
+      // @ts-ignore
+      this.selectedObj.operationDate = this.datePipe.transform(new Date(this.dateControl1.value), 'yyyy-MM-ddTHH:mm:ss');
+    } else {
+      this.notifyService.showError('ოპერაციის თარიღის მითითება სავალდებულოა', 'ინვოისის გენერაცია');
+      return;
+    }
+    this.selectedObj.parcels = this.data.data;
+    this.service.create(this.selectedObj).subscribe(() => {
+      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ინვოისის გენერაცია');
+      window.location.reload();
+    }, error => {
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ინვოისის გენერაცია');
+      console.log(error);
+    });
   }
 }

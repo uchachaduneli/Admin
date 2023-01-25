@@ -125,7 +125,8 @@
 
               <ng-container matColumnDef="pdf">
                 <th *matHeaderCellDef mat-header-cell> PDF</th>
-                <td *matCellDef="let element" mat-cell><a href="{{element.pdf}}" target="_blank">{{element.pdf}}</a>
+                <td *matCellDef="let element" mat-cell><a href="{{element.pdf}}" target="_blank">
+                  {{ (element.pdf && element.pdf.length > 24) ? (element.pdf.split('\\'))[element.pdf.split('\\').length - 1] : (element.pdf) }}</a>
                 </td>
               </ng-container>
 
