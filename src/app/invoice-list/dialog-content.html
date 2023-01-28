@@ -1,0 +1,119 @@
+<h2 class="font-medium" mat-dialog-title>
+  <strong>{{action === 'Details' ? 'დეტალები' : ''}}</strong></h2>
+<mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
+  <!--  Details Dialog Content -->
+  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="15">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.id" matInput name="id" placeholder="#"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="30">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.name" matInput name="name" placeholder="დასახელება"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="30">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.identNumber" matInput name="identNumber" placeholder="საიდენტ #"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.emailToSent" matInput name="emailToSent" placeholder="ელ. ფოსტა"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.status" matInput name="status" placeholder="სტატუსი"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.payStatus" matInput name="payStatus" placeholder="გადახდის სტატუსი"
+                   readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.payedAmount+' / '+selectedObject.amount" matInput name="amount"
+                   placeholder="გადახდილი თანხა / სულ გადასახდელი" readonly type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input matInput name="createdTime" placeholder="ოპერაციის თარიღი" readonly
+                   type="text" value="{{selectedObject.operationDate | date: 'dd/MM/yyyy'}}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="50">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input matInput name="createdTime" placeholder="ჩანაწერის დრო" readonly
+                   type="text" value="{{selectedObject.createdTime | date: 'dd/MM/yyyy HH:mm'}}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="80">
+        <div class="m-r-15 m-l-15">
+          ამანათები
+          <hr/>
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th>საიდენტ #</th>
+              <th>წონა</th>
+              <th>ფასი</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of selectedObject.parcels;">
+              <td>
+                {{p.barCode}}
+              </td>
+              <td>
+                {{p.weight}}
+              </td>
+              <td>
+                {{p.totalPrice}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div align="end">
+      <button (click)="closeDialog()" mat-button>დახურვა</button>
+    </div>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <p>დაადასტურეთ წაშლა <b>საიდენტ #{{selectedObject.id}}  {{selectedObject.name}}</b> ?</p>
+  <div align="end" class="pt-3" mat-dialog-actions>
+    <button (click)="doAction()" color="warn" mat-button mat-flat-button>წაშლა</button>
+    <button (click)="closeDialog()" mat-button>გაუქმება</button>
+  </div>
+</ng-template>

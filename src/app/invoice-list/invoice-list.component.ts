@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {InvoiceDTO} from '../models/invoice-dto';
 import {InvoiceDTOBackendApi, InvoiceService} from '../services/invoice.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {UtilService} from '../services/util.service';
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
@@ -24,7 +24,8 @@ export class InvoiceListComponent implements AfterViewInit {
   selectedObj: InvoiceDTO = {};
   data = new MatTableDataSource<InvoiceDTOBackendApi>();
   displayedColumns: string[] = ['id', 'name', 'identNumber', 'status', 'payStatus', 'payedAmount', 'operationDate', 'pdf', 'action'];
-
+  invoiceStatuses!: string[];
+  invoicePaymentStatuses!: string[];
   resultsLength = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
@@ -44,6 +45,7 @@ export class InvoiceListComponent implements AfterViewInit {
     this.isLoadingResults = false;
     this.resultsLength = 0;
     this.getMainData();
+    this.loadStatusFilters();
   }
 
   clearFilters(): void {
@@ -74,6 +76,19 @@ export class InvoiceListComponent implements AfterViewInit {
       } else {
         this.selectedObj.emailToSent = cont.email;
       }
+    });
+  }
+
+  loadStatusFilters(): void {
+    this.service.getInvoiceStatuses().subscribe(res => {
+      console.log(res);
+      // @ts-ignore
+      this.invoiceStatuses = res;
+    });
+    this.service.getInvoicePaymentStatuses().subscribe(res => {
+      console.log(res);
+      // @ts-ignore
+      this.invoicePaymentStatuses = res;
     });
   }
 
@@ -132,23 +147,52 @@ export class InvoiceListComponent implements AfterViewInit {
   }
 
   openDialog(action: string, obj: any): void {
-    // obj.action = action;
-    // const dialogRef = this.dialog.open(CityDialogContent, {
-    //   data: obj,
-    // });
-    // // @ts-ignore
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (!!result) {
-    //     if (result.event === 'Add') {
-    //       console.log(result);
-    //       this.save(result.data);
-    //     } else if (result.event === 'Update') {
-    //       this.update(result.data);
-    //     } else if (result.event === 'Delete') {
-    //       this.delete(result.data);
-    //     }
-    //   }
-    // });
+    obj.action = action;
+    const dialogRef = this.dialog.open(InvoiceDialogContent, {
+      data: obj,
+    });
+    // @ts-ignore
+    dialogRef.afterClosed().subscribe(result => {
+      if (!!result) {
+        if (result.event === 'Delete') {
+          this.delete(result.data);
+        }
+      }
+    });
+  }
+
+}
+
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'dialog-content',
+  templateUrl: 'dialog-content.html',
+})
+
+// tslint:disable-next-line:component-class-suffix
+export class InvoiceDialogContent implements OnInit {
+  action: string;
+  selectedObject: any;
+
+
+  constructor(public dialogRef: MatDialogRef<InvoiceDialogContent>, private service: InvoiceService,
+              // @Optional() is used to prevent error if no data is passed
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: InvoiceDTO) {
+    this.selectedObject = {...data};
+    this.action = this.selectedObject.action;
+    console.log(data);
+  }
+
+  doAction(): void {
+    this.dialogRef.close({event: this.action, data: this.selectedObject});
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({event: 'Cancel'});
+  }
+
+  ngOnInit(): void {
   }
 
 }

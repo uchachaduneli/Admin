@@ -56,4 +56,12 @@ export class InvoiceService {
   getById(id: number): Observable<InvoiceDTO> {
     return this.httpClient.get<InvoiceDTO>(`${this.BaseUrl}/${id}`);
   }
+
+  getInvoiceStatuses(): Observable<string> {
+    return this.httpClient.get<string>(`${this.BaseUrl}/statuses`);
+  }
+
+  getInvoicePaymentStatuses(): Observable<string> {
+    return this.httpClient.get<string>(`${this.BaseUrl}/paymentStatuses`);
+  }
 }

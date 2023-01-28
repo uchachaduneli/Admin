@@ -13,9 +13,9 @@
             <div class="align-items-center" fxLayout="row wrap">
 
               <div fxFlex="100" fxFlex.gt-md="15">
-                  <a class="m-r-10 cursor-pointer" color="primary" href="invoice-generation" mat-raised-button>
-                    <mat-icon>plus_one</mat-icon>
-                    დამატება</a>
+                <a class="m-r-10 cursor-pointer" color="primary" href="invoice-generation" mat-raised-button>
+                  <mat-icon>plus_one</mat-icon>
+                  დამატება</a>
               </div>
 
               <div fxFlex="100" fxFlex.gt-md="10">
@@ -26,7 +26,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="15">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი"
@@ -34,7 +34,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="15">
+              <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <input [(ngModel)]="srchObj.identNumber" matInput name="identNumber" placeholder="საიდენტ #"
@@ -42,7 +42,29 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div fxFlex="100" fxFlex.gt-md="30">
+              <div fxFlex="100" fxFlex.gt-md="35">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="srchObj.status" (selectionChange)="getMainData()"
+                                  aria-placeholder="სტატუსი" placeholder="სტატუსი">
+                        <mat-option *ngFor="let c of invoiceStatuses" [value]="c"> {{c}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="srchObj.payStatus" (selectionChange)="getMainData()"
+                                  aria-placeholder="გადახ სტატუსი" placeholder="გადახ სტატუსი">
+                        <mat-option *ngFor="let c of invoicePaymentStatuses" [value]="c"> {{c}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="50">
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
@@ -73,15 +95,15 @@
 
               <div fxFlex="100" fxFlex.gt-md="15">
                 <div fxFlex="100" fxFlex.gt-md="50">
-                    <button (click)="getMainData()" color="primary" mat-raised-button>
-                      <mat-icon>search</mat-icon>
-                    </button>
+                  <button (click)="getMainData()" color="primary" mat-raised-button>
+                    <mat-icon>search</mat-icon>
+                  </button>
                 </div>
                 <div fxFlex="100" fxFlex.gt-md="50">
-                    <button (click)="clearFilters()" color="accent" mat-raised-button>
-                      <mat-icon>close_outline</mat-icon>
-                    </button>
-                  </div>
+                  <button (click)="clearFilters()" color="accent" mat-raised-button>
+                    <mat-icon>close_outline</mat-icon>
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -89,44 +111,46 @@
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="id">
-                <th *matHeaderCellDef mat-header-cell> #</th>
-                <td *matCellDef="let element" mat-cell> {{element.id}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.id}} </td>
               </ng-container>
 
               <ng-container matColumnDef="name">
-                <th *matHeaderCellDef mat-header-cell> სახელი</th>
-                <td *matCellDef="let element" mat-cell> {{element.name}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> სახელი</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="identNumber">
-                <th *matHeaderCellDef mat-header-cell>საიდენტ #</th>
-                <td *matCellDef="let element" mat-cell> {{element.identNumber}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>საიდენტ #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.identNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="status">
-                <th *matHeaderCellDef mat-header-cell>სტატუსი</th>
-                <td *matCellDef="let element" mat-cell> {{element.status}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>სტატუსი</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.status}} </td>
               </ng-container>
 
               <ng-container matColumnDef="payStatus">
-                <th *matHeaderCellDef mat-header-cell>გადახდ. სტატუსი</th>
-                <td *matCellDef="let element" mat-cell> {{element.payStatus}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>გადახდ. სტატუსი</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.payStatus}} </td>
               </ng-container>
 
               <ng-container matColumnDef="payedAmount">
-                <th *matHeaderCellDef mat-header-cell>თანხა</th>
-                <td *matCellDef="let element" mat-cell> {{element.payedAmount}}/{{element.amount}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>თანხა</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.payedAmount}}
+                  /{{element.amount}} </td>
               </ng-container>
 
               <ng-container matColumnDef="operationDate">
-                <th *matHeaderCellDef mat-header-cell>ოპერაციის დრო</th>
-                <td *matCellDef="let element" mat-cell> {{element.operationDate | date :'dd/MM/yyyy HH:mm'}} </td>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>ოპერაციის დრო</th>
+                <td *matCellDef="let element" class="text-center"
+                    mat-cell> {{element.operationDate | date :'dd/MM/yyyy HH:mm'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="pdf">
-                <th *matHeaderCellDef mat-header-cell> PDF</th>
-                <td *matCellDef="let element" mat-cell><a href="{{element.pdf}}" target="_blank">
-                  {{ (element.pdf && element.pdf.length > 24) ? (element.pdf.split('\\'))[element.pdf.split('\\').length - 1] : (element.pdf) }}</a>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> PDF</th>
+                <td *matCellDef="let element" class="text-center" mat-cell><a href="{{element.pdf}}" target="_blank">
+                  {{ (element.pdf && element.pdf.length > 24) ? (element.pdf.split('/'))[element.pdf.split('/').length - 1] : (element.pdf) }}</a>
                 </td>
               </ng-container>
 
@@ -144,7 +168,7 @@
                 </td>
               </ng-container>
 
-              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr *matHeaderRowDef="displayedColumns" class="text-center" mat-header-row></tr>
               <tr (dblclick)="openDialog('Details', row)" *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
             </table>
           </div>

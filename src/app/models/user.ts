@@ -18,6 +18,7 @@ export class User {
   route!: Route;
   warehouse!: Warehouse;
   role!: Role[];
+  srchRoleName!: string[];
   status!: UserStatus;
   updatedTime!: string;
   createdTime!: string;

@@ -21,8 +21,8 @@
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <mat-select [(ngModel)]="srchObj.role" aria-placeholder="დაშვების დონე"
-                                name="srchrole" placeholder="დაშვების დონე">
+                    <mat-select [(ngModel)]="srchObj.srchRoleName" aria-placeholder="დაშვების დონე"
+                                (ngModelChange)="getMainData()" name="srchrole" placeholder="დაშვების დონე">
                       <mat-option *ngFor="let z of roles" [value]="z.name">{{z.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -32,22 +32,23 @@
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <input [(ngModel)]="srchObj.name" matInput name="srchname" placeholder="სახელი" type="text">
+                    <input [(ngModel)]="srchObj.name" (keydown.enter)="getMainData()"
+                           matInput name="srchname" placeholder="სახელი" type="text">
                   </mat-form-field>
                 </div>
               </div>
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <input [(ngModel)]="srchObj.lastName" matInput name="srchlastName" placeholder="გვარი"
-                           type="text">
+                    <input [(ngModel)]="srchObj.lastName" matInput (keydown.enter)="getMainData()"
+                           name="srchlastName" placeholder="გვარი" type="text">
                   </mat-form-field>
                 </div>
               </div>
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <input [(ngModel)]="srchObj.personalNumber" matInput minlength="9"
+                    <input [(ngModel)]="srchObj.personalNumber" matInput minlength="9" (keydown.enter)="getMainData()"
                            name="srchpersonalNumber" placeholder="საიდენტიფიკაციო #" type="text">
                   </mat-form-field>
                 </div>
@@ -55,8 +56,8 @@
               <div fxFlex="100" fxFlex.gt-md="15">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
-                    <input [(ngModel)]="srchObj.phone" matInput name="srchphone" placeholder="ტელეფონი"
-                           type="text">
+                    <input [(ngModel)]="srchObj.phone" matInput name="srchphone" (keydown.enter)="getMainData()"
+                           placeholder="ტელეფონი" type="text">
                   </mat-form-field>
                 </div>
               </div>
@@ -64,7 +65,8 @@
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select (selectionChange)="onCitySelect($event.value)" [(ngModel)]="srchObj.city.id"
-                                aria-placeholder="ქალაქი" name="srchcity" placeholder="ქალაქი">
+                                (ngModelChange)="getMainData()" aria-placeholder="ქალაქი" name="srchcity"
+                                placeholder="ქალაქი">
                       <mat-select-filter (filteredReturn)="filteredSenderCitiesList =$event" [array]="cities"
                                          [displayMember]="'name'"
                                          [placeholder]="'ძებნა'"></mat-select-filter>
@@ -77,7 +79,7 @@
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="srchObj.warehouse.id" aria-placeholder="ფილიალი"
-                                name="srchwarehouse" placeholder="ფილიალი">
+                                (ngModelChange)="getMainData()" name="srchwarehouse" placeholder="ფილიალი">
                       <mat-option *ngIf="warehouseList?.length < 1">მიუთითეთ ქალაქი</mat-option>
                       <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
                     </mat-select>
@@ -88,7 +90,7 @@
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
                     <mat-select [(ngModel)]="srchObj.route.id" aria-placeholder="მარშრუტი" name="srchroute"
-                                placeholder="მარშრუტი">
+                                (ngModelChange)="getMainData()" placeholder="მარშრუტი">
                       <mat-option *ngIf="routes?.length < 1">მიუთითეთ ქალაქი</mat-option>
                       <mat-option *ngFor="let r of routes" [value]="r.id">{{r.name}}</mat-option>
                     </mat-select>

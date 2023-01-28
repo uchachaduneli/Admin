@@ -24,7 +24,7 @@ import {Warehouse} from '../models/warehouse';
 })
 export class UserListComponent implements AfterViewInit {
   // @ts-ignore
-  srchObj: User = {city: {}, warehouse: {}, route: {}};
+  srchObj: User = {city: {}, warehouse: {}, route: {}, srchRoleName: []};
   cities: City [] = [];
   routes: Route [] = [];
   roles: Role [] = [];
@@ -85,7 +85,7 @@ export class UserListComponent implements AfterViewInit {
 
   clearFilters(): void {
     // @ts-ignore
-    this.srchObj = {city: {}, warehouse: {}, route: {}};
+    this.srchObj = {city: {}, warehouse: {}, route: {}, srchRoleName: []};
     this.getMainData();
   }
 

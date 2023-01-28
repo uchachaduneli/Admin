@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
 import {ParcelDTO} from '../models/parcel-dto';
 import {MatTableDataSource} from '@angular/material/table';
 import {InvoiceService} from '../services/invoice.service';
@@ -12,7 +12,6 @@ import {Parcel} from '../models/parcel';
 import {InvoiceDTO} from '../models/invoice-dto';
 import {FormControl} from '@angular/forms';
 import {DatePipe} from '@angular/common';
-import {ContactService} from '../services/contact.service';
 
 @Component({
   selector: 'app-invoice-generation',
