@@ -22,6 +22,9 @@ import {ParcelStatus} from '../models/parcel-status';
 import {ParcelStatusReason} from '../models/parcel-status-reason';
 import {ParcelStatusService} from '../services/parcel-status.service';
 import {DeliveryDetailParcelDTO} from '../models/delivery-detail-parcel-dto';
+import {FormControl} from '@angular/forms';
+import {DatePipe} from '@angular/common';
+import {CityService} from '../services/city.service';
 
 @Component({
   selector: 'app-delivery-details',
@@ -34,6 +37,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   data = new MatTableDataSource<DeliveryDetailBackendApi>();
   displayedColumns: string[] = ['detailBarCode', 'user', 'createdTime', 'action'];
   resultsLength = 0;
+  srchCityId = 0;
   isLoadingResults = true;
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
   usersList: User [] = [];
@@ -43,13 +47,19 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   warehouseList: Warehouse [] = [];
   parcelBarCode!: string;
   currentDate = new Date();
+  public dateControl3 = new FormControl();
+  public dateControl4 = new FormControl();
+  public filteredSenderCitiesList: City[] = [];
+  cities: City [] = [];
 
   constructor(private service: DeliveryDetailsService,
               private notifyService: NotificationService,
               private tokenStorageService: TokenStorageService,
               private utilService: UtilService,
+              private datePipe: DatePipe,
               private userService: UserService,
               private parcelService: ParcelService,
+              private cityService: CityService,
               private warehouseService: WarehouseService,
               private routeService: RouteService,
               public dialog: MatDialog) {
@@ -75,6 +85,31 @@ export class DeliveryDetailsComponent implements AfterViewInit {
       })
     ).subscribe(data => {
       this.selectedObject.detailBarCode = data as string;
+    });
+  }
+
+  clearFilters(): void {
+    // @ts-ignore
+    this.srchObj = {city: {}, warehouse: {}, route: {}, srchRoleName: []};
+    this.getMainData();
+    this.srchCityId = 0;
+  }
+
+  onCitySelect(): void {
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.routeService.getByCityId(this.srchCityId);
+      }),
+      map(data => {
+        // @ts-ignore
+        return data;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.routes = data;
     });
   }
 
@@ -126,6 +161,25 @@ export class DeliveryDetailsComponent implements AfterViewInit {
       this.loadUsers();
       this.getMainData();
     }
+
+    merge().pipe(
+      startWith({}),
+      switchMap(() => {
+        return this.cityService.getList(1000, 0, '');
+      }),
+      map(data => {
+        // @ts-ignore
+        this.cities = data.items;
+        // @ts-ignore
+        return data.items;
+      }),
+      catchError(() => {
+        return observableOf([]);
+      })
+    ).subscribe(data => {
+      this.cities = data;
+      this.filteredSenderCitiesList = this.cities.slice();
+    });
   }
 
   onUserSelect(user: any): void {
@@ -207,6 +261,18 @@ export class DeliveryDetailsComponent implements AfterViewInit {
     });
   }
 
+  prepareDatesForSearch(): void {
+    if (this.dateControl3.value) {
+      // @ts-ignore
+      this.srchObj.strCreatedTime = this.datePipe.transform(new Date(this.dateControl3.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    if (this.dateControl4.value) {
+      // @ts-ignore
+      this.srchObj.strCreatedTimeTo = this.datePipe.transform(new Date(this.dateControl4.value), 'yyyy-MM-ddTHH:mm:ss');
+    }
+    console.log(this.srchObj);
+  }
+
   deleteImportedRow(obj: DeliveryDetail): void {
     this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
@@ -278,13 +344,14 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   }
 
   getMainData(): void {
+    this.prepareDatesForSearch();
     merge(this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
           // @ts-ignore
-          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, '');
+          return this.service.getList(this.paginator.pageSize, this.paginator.pageIndex, this.utilService.encode(this.srchObj));
         }),
         map(data => {
           // Flip flag to show that loading has finished.

@@ -7,6 +7,7 @@ export class InvoiceDTO {
   emailToSent!: string;
   status!: string;
   payStatus!: string;
+  newAmount!: number;
   payedAmount!: number;
   amount!: number; // calculated during select
   parcelsCount!: number; // parcels count - calculated during select

@@ -76,7 +76,7 @@ export class InvoicePregenerationComponent implements AfterViewInit {
   save(obj: InvoiceDTO): void {
     this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       console.log(error.error);
       this.notifyService.showError(error.error ? error.error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
@@ -86,7 +86,7 @@ export class InvoicePregenerationComponent implements AfterViewInit {
   update(obj: InvoiceDTO): void {
     this.service.update(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
@@ -96,7 +96,7 @@ export class InvoicePregenerationComponent implements AfterViewInit {
   delete(obj: InvoiceDTO): void {
     this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);

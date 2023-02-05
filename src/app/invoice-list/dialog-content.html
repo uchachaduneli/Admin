@@ -1,8 +1,60 @@
 <h2 class="font-medium" mat-dialog-title>
-  <strong>{{action === 'Details' ? 'დეტალები' : ''}}</strong></h2>
+  <strong>{{action === 'Details' ? 'დეტალები' : action === 'Email' ? '  ინვოისის გაგზავნა  ' : action === 'PayAmount' ? 'თანხის შეტანა' : ''}}</strong>
+</h2>
 <mat-dialog-content *ngIf="action != 'Delete'; else elseTemplate" class="pb-3">
+  <!--  Email Dialog Content -->
+  <form #EmailForm="ngForm" *ngIf="action === 'Email'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.emailToSent" matInput name="emailToSent" placeholder="ელ. ფოსტა"
+                   required type="text">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div align="end">
+      <button (click)="doAction()" [disabled]="!EmailForm.valid" color="warn" mat-button mat-flat-button>
+        <mat-icon>email</mat-icon>
+        გაგზავნა
+      </button>
+      <button (click)="closeDialog()" mat-button>გაუქმება</button>
+    </div>
+  </form>
+  <!--  Email Dialog Content -->
+  <form #PayAmountForm="ngForm" *ngIf="action === 'PayAmount'">
+    <div class="align-items-center" fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input value="{{selectedObject.payedAmount}} / {{selectedObject.amount}}" readonly matInput name="amount"
+                   placeholder="გადახდილი / სრული გადასახდელი" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="100">
+        <div class="m-r-15 m-l-15">
+          <mat-form-field>
+            <input [(ngModel)]="selectedObject.newAmount" matInput name="newAmount" placeholder="ახალი შენატანი"
+                   (keyup)="calculatePayedAmount()" type="number">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div align="end">
+      <button (click)="doAction()" [disabled]="!PayAmountForm.valid" color="warn" mat-button mat-flat-button>
+        <mat-icon>attach_money</mat-icon>
+        გადახდა
+      </button>
+      <button (click)="closeDialog()" mat-button>გაუქმება</button>
+    </div>
+  </form>
+
   <!--  Details Dialog Content -->
-  <form #detailsForm="ngForm" *ngIf="action == 'Details'">
+  <form #detailsForm="ngForm" *ngIf="action === 'Details'">
     <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="15">
         <div class="m-r-15 m-l-15">

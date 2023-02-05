@@ -502,7 +502,7 @@
               </ng-container>
               <ng-container matColumnDef="status">
                 <th *matHeaderCellDef mat-header-cell> სტატუსი</th>
-                <td *matCellDef="let element" mat-cell> {{element.status.status.code}} </td>
+                <td *matCellDef="let element" mat-cell> {{element.status?.status?.code}} </td>
               </ng-container>
 
               <!--              <ng-container matColumnDef="createdTime">-->

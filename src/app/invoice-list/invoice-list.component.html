@@ -46,7 +46,7 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="srchObj.status" (selectionChange)="getMainData()"
+                      <mat-select [(ngModel)]="srchObj.status" (selectionChange)="getMainData()" name="status"
                                   aria-placeholder="სტატუსი" placeholder="სტატუსი">
                         <mat-option *ngFor="let c of invoiceStatuses" [value]="c"> {{c}}</mat-option>
                       </mat-select>
@@ -56,7 +56,7 @@
                 <div fxFlex="100" fxFlex.gt-md="50">
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="srchObj.payStatus" (selectionChange)="getMainData()"
+                      <mat-select [(ngModel)]="srchObj.payStatus" (selectionChange)="getMainData()" name="paystatus"
                                   aria-placeholder="გადახ სტატუსი" placeholder="გადახ სტატუსი">
                         <mat-option *ngFor="let c of invoicePaymentStatuses" [value]="c"> {{c}}</mat-option>
                       </mat-select>
@@ -70,7 +70,7 @@
                     <mat-form-field>
                       <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
                              matInput (keydown.enter)="getMainData()" name="createdTime"
-                             placeholder="შექმნის დრო -დან" type="text">
+                             placeholder="ოპერაციის დრო -დან" type="text">
                       <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                       <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
                                                [touchUi]="false" [enableMeridian]="false">
@@ -136,9 +136,9 @@
               </ng-container>
 
               <ng-container matColumnDef="payedAmount">
-                <th *matHeaderCellDef class="text-center" mat-header-cell>თანხა</th>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>თანხა გადახ./დან</th>
                 <td *matCellDef="let element" class="text-center" mat-cell> {{element.payedAmount}}
-                  /{{element.amount}} </td>
+                  / {{element.amount}} </td>
               </ng-container>
 
               <ng-container matColumnDef="operationDate">
@@ -149,8 +149,7 @@
 
               <ng-container matColumnDef="pdf">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> PDF</th>
-                <td *matCellDef="let element" class="text-center" mat-cell><a href="{{element.pdf}}" target="_blank">
-                  {{ (element.pdf && element.pdf.length > 24) ? (element.pdf.split('/'))[element.pdf.split('/').length - 1] : (element.pdf) }}</a>
+                <td *matCellDef="let element" class="text-center" mat-cell><a href="{{element.pdf}}" target="_blank">invoice.pdf</a>
                 </td>
               </ng-container>
 
@@ -161,7 +160,16 @@
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
                     </a>
-                    <a (click)="openDialog('Delete',element)" class="m-r-10 cursor-pointer">
+                    <a *ngIf="element.status != 'SENT'" (click)="openDialog('Email',element)"
+                       class="m-r-10 cursor-pointer">
+                      <mat-icon>email</mat-icon>
+                    </a>
+                    <a *ngIf="element.payStatus != 'PAYED'" (click)="openDialog('PayAmount',element)"
+                       class="m-r-10 cursor-pointer">
+                      <mat-icon>attach_money</mat-icon>
+                    </a>
+                    <a *ngIf="element.status != 'SENT'" (click)="openDialog('Delete',element)"
+                       class="m-r-10 cursor-pointer">
                       <mat-icon>delete_outline</mat-icon>
                     </a>
                   </div>

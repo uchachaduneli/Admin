@@ -64,4 +64,14 @@ export class InvoiceService {
   getInvoicePaymentStatuses(): Observable<string> {
     return this.httpClient.get<string>(`${this.BaseUrl}/paymentStatuses`);
   }
+
+  // tslint:disable-next-line:ban-types
+  pay(obj: InvoiceDTO): Observable<Object> {
+    return this.httpClient.put(`${this.BaseUrl}/pay`, obj);
+  }
+
+  // tslint:disable-next-line:ban-types
+  sendEmail(obj: InvoiceDTO): Observable<Object> {
+    return this.httpClient.post(`${this.BaseUrl}/email`, obj);
+  }
 }

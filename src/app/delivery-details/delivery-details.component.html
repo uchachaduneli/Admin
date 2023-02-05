@@ -12,7 +12,7 @@
         მარშრუტი: {{selectedObject.route?.name}}
       </td>
       <td>
-        <img src="assets/images/logo.png" style="width: 200px;">
+        <img src="./assets/images/logo.png" style="width: 200px;">
       </td>
     </tr>
   </table>
@@ -120,7 +120,7 @@
                   </mat-form-field>
                 </div>
               </div>
-<!--              <div fxFlex="100" fxFlex.gt-md="40"></div>-->
+              <!--              <div fxFlex="100" fxFlex.gt-md="40"></div>-->
               <div fxFlex="100" fxFlex.gt-md="20">
                 <div class="m-r-15 m-l-15">
                   <mat-form-field>
@@ -159,8 +159,96 @@
           <br><br>
           <mat-divider></mat-divider>
           <br><br>
-
           <mat-card-title>დაბეჭდილი ჩაბარების დეტალები</mat-card-title>
+          <form #filterForm="ngForm" autocomplete="off">
+            <div class="align-items-center" fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.detailBarCode" matInput name="srchBarcode"
+                           (keydown.enter)="getMainData()"
+                           placeholder="საიდენტ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.parcelBarCode" matInput name="srchParcelBarcode"
+                           (keydown.enter)="getMainData()"
+                           placeholder="ამანათის საიდენტ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select (selectionChange)="onCitySelect()" aria-placeholder="ქალაქი" name="srchcity"
+                                [(ngModel)]="srchCityId" placeholder="ქალაქი">
+                      <mat-select-filter (filteredReturn)="filteredSenderCitiesList =$event" [array]="cities"
+                                         [displayMember]="'name'"
+                                         [placeholder]="'ძებნა'"></mat-select-filter>
+                      <mat-option *ngFor="let c of filteredSenderCitiesList" [value]="c.id">{{c.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.routeId" aria-placeholder="მარშრუტი" name="srchroute"
+                                (ngModelChange)="getMainData()" placeholder="მარშრუტი">
+                      <mat-option *ngIf="routes?.length < 1">მიუთითეთ ქალაქი</mat-option>
+                      <mat-option *ngFor="let r of routes" [value]="r.id">{{r.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="30">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
+                             matInput (keydown.enter)="getMainData()" name="createdTime"
+                             placeholder="ოპერაციის დრო -დან" type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker4" [formControl]="dateControl4"
+                             matInput (keydown.enter)="getMainData()" name="createdTimeTo" placeholder="-მდე"
+                             type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker4 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <button (click)="getMainData()" color="primary" mat-raised-button>
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <button (click)="clearFilters()" color="accent" mat-raised-button>
+                    <mat-icon>close_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="detailBarCode">

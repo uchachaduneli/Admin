@@ -23,7 +23,7 @@ export class InvoiceGenerationComponent implements AfterViewInit {
   srchObj: ParcelDTO = {};
   // @ts-ignore
   selectedObj: InvoiceDTO = {};
-  public dateControl1 = new FormControl();
+  public dateControl1 = new FormControl(new Date());
   data = new MatTableDataSource<Parcel>();
   displayedColumns: string[] = ['barCode', 'totalPrice', 'deliveryTime', 'senderName',
     'senderIdentNumber', 'receiverName', 'receiverIdentNumber', 'senderCity', 'receiverCity', 'action'];
