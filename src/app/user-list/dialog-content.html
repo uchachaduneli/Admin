@@ -7,7 +7,8 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedRoles" aria-placeholder="დაშვების დონე" id="role" multiple name="role"
+            <mat-select [(ngModel)]="selectedRoles" aria-placeholder="დაშვების დონე" id="rolesMultiSelect" multiple
+                        name="rolesMultiSelect"
                         placeholder="დაშვების დონე" required>
               <mat-option *ngFor="let z of roles" [value]="z.name">{{z.name}}</mat-option>
             </mat-select>
@@ -90,7 +91,7 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.warehouse.id" aria-placeholder="ფილიალი"
+            <mat-select [(ngModel)]="warehouseId" aria-placeholder="ფილიალი"
                         name="warehouse" placeholder="ფილიალი">
               <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
             </mat-select>
@@ -100,7 +101,7 @@
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
           <mat-form-field>
-            <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი" id="route" name="route"
+            <mat-select [(ngModel)]="routeId" aria-placeholder="მარშრუტი" id="route" name="route"
                         placeholder="მარშრუტი">
               <mat-option *ngFor="let r of routes" [value]="r.id">{{r.name}}</mat-option>
             </mat-select>
@@ -198,7 +199,7 @@
         <div fxFlex="100" fxFlex.gt-md="100">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
-              <mat-select [(ngModel)]="selectedObject.warehouse.id" aria-placeholder="ფილიალი" disabled
+              <mat-select [(ngModel)]="warehouseId" aria-placeholder="ფილიალი" disabled
                           name="warehouse" placeholder="ფილიალი">
                 <mat-option *ngFor="let z of warehouseList" [value]="z.id">{{z.name}}</mat-option>
               </mat-select>
@@ -208,7 +209,7 @@
         <div fxFlex="100" fxFlex.gt-md="50">
           <div class="m-r-15 m-l-15">
             <mat-form-field>
-              <mat-select [(ngModel)]="selectedObject.route.id" aria-placeholder="მარშრუტი" disabled name="route"
+              <mat-select [(ngModel)]="routeId" aria-placeholder="მარშრუტი" disabled name="route"
                           placeholder="მარშრუტი">
                 <mat-option *ngFor="let r of routes" [value]="r.id">{{r.name}}</mat-option>
               </mat-select>

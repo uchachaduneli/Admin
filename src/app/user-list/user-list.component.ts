@@ -150,21 +150,23 @@ export class UserListComponent implements AfterViewInit {
   }
 
   save(obj: User): void {
+    console.log(obj);
     this.service.create(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის დამატება');
       this.getMainData();
     }, error => {
-      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
+      this.notifyService.showError(error.error && typeof error.error === 'string' && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
       console.log(error);
     });
   }
 
   update(obj: User): void {
+    console.log(obj);
     this.service.update(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ჩანაწერის განახლება');
       this.getMainData();
     }, error => {
-      this.notifyService.showError(!!error.error && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
+      this.notifyService.showError(error.error && typeof error.error === 'string' && error.error.includes('მითითებული') ? error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
       console.log(error);
     });
   }
@@ -206,12 +208,14 @@ export class UserListComponent implements AfterViewInit {
 // tslint:disable-next-line:component-class-suffix
 export class UserDialogContent implements OnInit {
   action: string;
-  selectedObject: any;
+  selectedObject: any; // { warehouse: {}, route: {}, role: Role []};
   roles: Role [] = [];
   cities: City [] = [];
   routes: Route [] = [];
   selectedRoles: string [] = [];
   warehouseList: Warehouse [] = [];
+  routeId!: number;
+  warehouseId!: number;
 
   constructor(public dialogRef: MatDialogRef<UserDialogContent>,
               private roleSrvice: RoleService,
@@ -239,11 +243,12 @@ export class UserDialogContent implements OnInit {
     } else {
       this.onCitySelect(this.selectedObject.city.id);
     }
-    if (!this.selectedObject.route) {
-      this.selectedObject.route = {};
+
+    if (this.selectedObject.route) {
+      this.routeId = this.selectedObject.route.id;
     }
-    if (!this.selectedObject.warehouse) {
-      this.selectedObject.warehouse = {};
+    if (this.selectedObject.warehouse) {
+      this.warehouseId = this.selectedObject.warehouse.id;
     }
   }
 
@@ -258,11 +263,20 @@ export class UserDialogContent implements OnInit {
       if (r === 'CUSTOMER') {
         isCustomerAddition = true;
       }
-      this.selectedObject.role.push({name: r});
+      // this.selectedObject.role.push({name: r});
     });
+    this.selectedObject.role = this.selectedRoles;
     if (isCustomerAddition) {
+      // @ts-ignore
       this.selectedObject.route = null;
+      // @ts-ignore
       this.selectedObject.warehouse = null;
+    }
+    if (this.warehouseId && this.warehouseId > 0) {
+      this.selectedObject.warehouse = {id: this.warehouseId};
+    }
+    if (this.routeId && this.routeId > 0) {
+      this.selectedObject.route = {id: this.routeId};
     }
     this.dialogRef.close({event: this.action, data: this.selectedObject});
   }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {Files} from '../models/files';
@@ -30,6 +30,10 @@ export class FileUploadService {
       responseType: 'json'
     });
     return this.http.request(req);
+  }
+
+  getFileByName(fileName: string): Observable<HttpResponse<Blob>> {
+    return this.http.get<Blob>(`${this.baseUrl}/getFile?fileName=${fileName}`, {observe: 'response', responseType: 'blob' as 'json'});
   }
 
   getFiles(parcelId?: number): Observable<Files[]> {

@@ -26,7 +26,8 @@
 <div *ngIf="currentFile" class="progress my-3">
   <div [ngStyle]="{ width: progress + '%' }"
        aria-valuemax="100" aria-valuemin="0"
-       attr.aria-valuenow="{{ progress }}" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar">
+       attr.aria-valuenow="{{ progress }}" class="progress-bar progress-bar-info progress-bar-striped"
+       role="progressbar">
     {{ progress }}%
   </div>
 </div>
@@ -54,7 +55,7 @@
   </tr>
   <tr *ngFor="let v of fileList;" class="topBottomBorder">
     <td> {{v.id}}</td>
-    <td><a href="{{v.url}}" target="_blank">{{v.name}}</a></td>
+    <td (click)="downloadFile(v.name)">{{v.name}}</td>
     <td>{{v.author?.name}}&nbsp;{{v.author?.lastName}}</td>
     <td>{{v.author?.warehouse?.abbreviature}}</td>
     <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>

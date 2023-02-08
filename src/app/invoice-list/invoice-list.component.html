@@ -149,7 +149,8 @@
 
               <ng-container matColumnDef="pdf">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> PDF</th>
-                <td *matCellDef="let element" class="text-center" mat-cell><a href="{{element.pdf}}" target="_blank">invoice.pdf</a>
+                <td *matCellDef="let element" class="text-center" mat-cell (click)="downloadFile(element.pdf)">
+                  invoice.pdf
                 </td>
               </ng-container>
 

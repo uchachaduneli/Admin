@@ -3,7 +3,7 @@ import {merge, Observable, of as observableOf} from 'rxjs';
 import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Files} from '../models/files';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {catchError, map, startWith, switchMap, take} from 'rxjs/operators';
 import {NotificationService} from '../services/notification.service';
 import {ConfirmDialogComponent, ConfirmDialogModel} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -101,6 +101,18 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 
       this.selectedFiles = undefined;
     }
+  }
+
+  downloadFile(fileName: string): void {
+    this.uploadService.getFileByName(fileName).pipe(take(1))
+      .subscribe((resp) => {
+        const downloadLink = document.createElement('a');
+        // @ts-ignore
+        downloadLink.href = URL.createObjectURL(new Blob([resp.body], {type: resp.body.type}));
+        // @ts-ignore
+        downloadLink.download = fileName;
+        downloadLink.click();
+      });
   }
 
   confirmFileDeletion(fileName: string): void {

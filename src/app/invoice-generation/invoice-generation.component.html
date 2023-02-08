@@ -4,28 +4,113 @@
     <mat-card>
       <mat-card-content>
         <mat-card-title *ngIf="data && data.data.length>0">ინვოისის გენერაცია,
-          გადამხდელი: {{selectedObj?.name}}
-          #{{selectedObj?.identNumber}}</mat-card-title>
-        <mat-card-title *ngIf="!data || data.data.length==0">{{selectedObj?.name}}
-          #{{selectedObj?.identNumber}} -თვის ინვოისის დასაგენერირებლად გზავნილები ამოიწურა,
-          გთხოვთ მენიუდან აირჩიოთ სასურველი გვერდი
+          გადამხდელი: {{payerName}}
+          #{{payerIdentNumber}}</mat-card-title>
+        <mat-card-title *ngIf="!data || data.data.length==0">{{payerName}}
+          #{{payerIdentNumber}} -თვის ინვოისის დასაგენერირებლად გზავნილები არ მოიძებნა,
+          გთხოვთ შეცვალოთ ფილტრი ან მენიუდან აირჩიოთ სასურველი გვერდი
         </mat-card-title>
         <div class="example-container m-t-20">
           <div *ngIf="isLoadingResults" class="example-loading-shade">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
+
+          <form #filterForm="ngForm" autocomplete="off">
+            <div class="align-items-center" fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select (selectionChange)="onStatusSelect($event.value)"
+                                [(ngModel)]="srchObj.statusId"
+                                aria-placeholder="სტატუსი" id="parcelStatus"
+                                name="parcelStatus" placeholder="სტატუსი">
+                      <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'" [array]="statuses"
+                                         (filteredReturn)="filteredStatuses =$event"></mat-select-filter>
+                      <mat-option *ngFor="let c of filteredStatuses" [value]="c.id">{{c.name}}({{c.code}})
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.statusReasonId" required aria-placeholder="ქვე სტატუსი"
+                                (selectionChange)="getMainData()" name="subStatus" placeholder="ქვე სტატუსი">
+                      <mat-select-filter [placeholder]="'ძებნა'" [displayMember]="'code'"
+                                         [array]="statusReasons"
+                                         (filteredReturn)="filteredStatusReasons =$event"></mat-select-filter>
+                      <mat-option *ngFor="let z of filteredStatusReasons"
+                                  [value]="z.id">{{z.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="40">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
+                             matInput (keydown.enter)="getMainData()" name="createdTime"
+                             placeholder="რეგისტრ. დრო -დან" type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker4" [formControl]="dateControl4"
+                             matInput (keydown.enter)="getMainData()" name="createdTimeTo" placeholder="-მდე"
+                             type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker4 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="getMainData()" style="height: 32px; margin-top: 3px;"
+                            color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="clearFilters()" style="height: 32px; margin-top: 3px;"
+                            color="accent" mat-raised-button>
+                      <mat-icon>close_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="barCode">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> ბარკოდი #</th>
                 <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
               <ng-container matColumnDef="totalPrice">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> ფასი</th>
                 <td *matCellDef="let element" mat-cell> {{element.totalPrice}} </td>
+                <td [attr.colspan]="displayedColumns.length" mat-footer-cell *matFooterCellDef>
+                  ჯამი: {{totalPriceSum}}</td>
               </ng-container>
               <ng-container matColumnDef="deliveryTime">
-                <th *matHeaderCellDef class="text-center" mat-header-cell>თარიღი</th>
+                <th *matHeaderCellDef class="text-center" mat-header-cell>ჩაბ. თარიღი</th>
                 <td *matCellDef="let element" mat-cell> {{element.deliveryTime | date :'dd/MM/yyyy'}} </td>
               </ng-container>
               <ng-container matColumnDef="senderName">
@@ -66,6 +151,7 @@
               </ng-container>
               <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
               <tr class="text-center" *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+              <tr mat-footer-row *matFooterRowDef="['barCode','totalPrice']"></tr>
             </table>
           </div>
 
@@ -94,7 +180,7 @@
               <mat-icon>save</mat-icon>
               ინვოისის გენერირება
             </button> &nbsp;&nbsp;
-            <button (click)="getPayersUnInvoicedParcelsList(selectedObj.identNumber)" mat-button mat-flat-button>
+            <button (click)="getPayersUnInvoicedParcelsList()" mat-button mat-flat-button>
               <mat-icon>refresh</mat-icon>
               ამოშლილების დაბრუნება
             </button>

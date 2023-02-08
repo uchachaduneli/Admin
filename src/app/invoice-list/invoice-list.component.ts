@@ -7,11 +7,12 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {UtilService} from '../services/util.service';
 import {NotificationService} from '../services/notification.service';
 import {merge, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {catchError, map, startWith, switchMap, take} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {ContactService} from '../services/contact.service';
 import {ParcelDC} from '../parcel-list/parcel-list.component';
+import {FileUploadService} from '../services/file-upload.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -38,6 +39,7 @@ export class InvoiceListComponent implements AfterViewInit {
               private utilService: UtilService,
               private service: InvoiceService,
               private datePipe: DatePipe,
+              private uploadService: FileUploadService,
               private notifyService: NotificationService) {
   }
 
@@ -46,6 +48,18 @@ export class InvoiceListComponent implements AfterViewInit {
     this.resultsLength = 0;
     this.getMainData();
     this.loadStatusFilters();
+  }
+
+  downloadFile(fileName: string): void {
+    this.uploadService.getFileByName('Invoices/' + fileName).pipe(take(1))
+      .subscribe((resp) => {
+        const downloadLink = document.createElement('a');
+        // @ts-ignore
+        downloadLink.href = URL.createObjectURL(new Blob([resp.body], {type: resp.body.type}));
+        // @ts-ignore
+        downloadLink.download = fileName;
+        downloadLink.click();
+      });
   }
 
   clearFilters(): void {
