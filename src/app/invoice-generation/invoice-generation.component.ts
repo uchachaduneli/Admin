@@ -106,12 +106,12 @@ export class InvoiceGenerationComponent implements AfterViewInit {
   }
 
   getPayersUnInvoicedParcelsList(): void {
-    merge(this.paginator.page)
+    merge()
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.service.getPayersUnInvoicedParcelsList(this.paginator.pageSize, this.paginator.pageIndex,
+          return this.service.getPayersUnInvoicedParcelsList(10000, 0,
             this.utilService.encode(this.srchObj));
         }),
         map(data => {
@@ -130,6 +130,7 @@ export class InvoiceGenerationComponent implements AfterViewInit {
       ).subscribe(data => {
       console.log(data);
       this.data = new MatTableDataSource<Parcel>(data);
+      this.data.paginator = this.paginator;
       if (data && data.length > 0) {
         // @ts-ignore
         this.payerName = data[0].payerName;
@@ -146,12 +147,14 @@ export class InvoiceGenerationComponent implements AfterViewInit {
         tmpData.splice(index, 1);
         console.log('after remove', tmpData);
         this.data = new MatTableDataSource<Parcel>(tmpData);
+        this.data.paginator = this.paginator;
       }
     });
     this.totalPriceSum = tmpData.reduce((tmpSum, parcel) => tmpSum += parcel.totalPrice, 0.0);
   }
 
   generate(): void {
+    this.isLoadingResults = true;
     if (this.dateControl1.value) {
       // @ts-ignore
       this.selectedObj.operationDate = this.datePipe.transform(new Date(this.dateControl1.value), 'yyyy-MM-ddTHH:mm:ss');
@@ -161,13 +164,17 @@ export class InvoiceGenerationComponent implements AfterViewInit {
     }
     this.selectedObj.identNumber = this.payerIdentNumber;
     this.selectedObj.name = this.payerName;
-    this.selectedObj.parcels = this.data.data;
+    // @ts-ignore
+    this.selectedObj.parcels = this.data.data.map(o => ({id: o.id}));
     this.service.create(this.selectedObj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', 'ინვოისის გენერაცია');
-      window.location.reload();
+      this.getMainData();
+      this.isLoadingResults = false;
     }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ინვოისის გენერაცია');
+      this.notifyService.showError(error && error.error && error.error.message
+      && error.error.message.includes('Price For Parcel') ? error.error.message : 'ოპერაცია არ სრულდება', 'ოპერაცია არ სრულდება');
       console.log(error);
+      this.isLoadingResults = false;
     });
   }
 

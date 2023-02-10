@@ -97,16 +97,18 @@
 
 
           <div class="example-table-container responsive-table">
-            <table [dataSource]="data" class="example-table striped" mat-table>
+            <table #table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="barCode">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> ბარკოდი #</th>
                 <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
-                <td mat-footer-cell *matFooterCellDef></td>
+                <td mat-footer-cell class="text-center" style="font-weight: bold" *matFooterCellDef>
+                  რაოდენობა: {{data.data?.length}}</td>
               </ng-container>
               <ng-container matColumnDef="totalPrice">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> ფასი</th>
                 <td *matCellDef="let element" mat-cell> {{element.totalPrice}} </td>
-                <td [attr.colspan]="displayedColumns.length" mat-footer-cell *matFooterCellDef>
+                <td [attr.colspan]="displayedColumns.length" style="font-weight: bold" mat-footer-cell
+                    *matFooterCellDef>
                   ჯამი: {{totalPriceSum}}</td>
               </ng-container>
               <ng-container matColumnDef="deliveryTime">
@@ -155,7 +157,7 @@
             </table>
           </div>
 
-          <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
+          <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 50]" [pageSize]="10"
                          showFirstLastButtons></mat-paginator>
         </div>
       </mat-card-content>

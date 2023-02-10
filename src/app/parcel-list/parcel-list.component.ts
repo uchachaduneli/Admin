@@ -26,6 +26,7 @@ import {Route} from '../models/route';
 import {UserService} from '../services/user.service';
 import {FormControl} from '@angular/forms';
 import {DatePipe} from '@angular/common';
+import {ParcelStatuses} from '../models/parcel-statuses.enum';
 
 @Component({
   selector: 'app-parcel-list',
@@ -333,6 +334,30 @@ export class ParcelListComponent implements AfterViewInit, OnInit {
         }
       }
     });
+  }
+
+  detectColorByStatus(statusId: number): string {
+    let style = 'background:';
+    switch (statusId) {
+      case ParcelStatuses.PP:
+        style += '#7e77a7;';
+        break;
+      case ParcelStatuses.RG:
+        style += '#f0e68c;';
+        break;
+      case ParcelStatuses.SE:
+        style += '#d3d3d3;';
+        break;
+      case ParcelStatuses.RP:
+        style += '#ff8000;';
+        break;
+      case ParcelStatuses.PU:
+        style += 'cyan;';
+        break;
+      default:
+        break;
+    }
+    return style;
   }
 }
 

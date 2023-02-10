@@ -157,19 +157,22 @@
               <ng-container matColumnDef="action">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> მოქმედება</th>
                 <td *matCellDef="let element" class="action-link text-center" mat-cell>
-                  <div *ngIf="element.deleted != 1">
+                  <div>
                     <a (click)="openDialog('Details',element)" class="m-r-10 cursor-pointer">
                       <mat-icon>content_paste</mat-icon>
                     </a>
-                    <a *ngIf="element.status != 'SENT'" (click)="openDialog('Email',element)"
+                    <a *ngIf="element.status != 'REMOVED' && element.status != 'SENT'"
+                       (click)="openDialog('Email',element)"
                        class="m-r-10 cursor-pointer">
                       <mat-icon>email</mat-icon>
                     </a>
-                    <a *ngIf="element.payStatus != 'PAYED'" (click)="openDialog('PayAmount',element)"
+                    <a *ngIf="element.status != 'REMOVED' && element.payStatus != 'PAYED'"
+                       (click)="openDialog('PayAmount',element)"
                        class="m-r-10 cursor-pointer">
                       <mat-icon>attach_money</mat-icon>
                     </a>
-                    <a *ngIf="element.status != 'SENT'" (click)="openDialog('Delete',element)"
+                    <a *ngIf="element.status != 'REMOVED' && element.status != 'SENT'"
+                       (click)="openDialog('Delete',element)"
                        class="m-r-10 cursor-pointer">
                       <mat-icon>delete_outline</mat-icon>
                     </a>

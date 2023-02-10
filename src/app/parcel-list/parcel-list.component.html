@@ -22,6 +22,20 @@
                 </mat-form-field>
               </div>
             </div>
+            <div fxFlex="100" fxFlex.gt-md="55">
+              <div class="align-items-center text-center" style="font-size: 10px" fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-md="20" style="background:#7e77a7;">.</div>
+                <div fxFlex="100" fxFlex.gt-md="20" style="background:#f0e68c;">.</div>
+                <div fxFlex="100" fxFlex.gt-md="20" style="background:#d3d3d3;">.</div>
+                <div fxFlex="100" fxFlex.gt-md="20" style="background: #ff8000;">.</div>
+                <div fxFlex="100" fxFlex.gt-md="20" style="background:cyan;">.</div>
+                <div fxFlex="100" fxFlex.gt-md="20">მოთხოვნა გზავნილზე PP</div>
+                <div fxFlex="100" fxFlex.gt-md="20">რეგისტრირებულია RG</div>
+                <div fxFlex="100" fxFlex.gt-md="20">მზადაა ასაღებად SE</div>
+                <div fxFlex="100" fxFlex.gt-md="20">კურიერი ითხოვს კავშირს RP</div>
+                <div fxFlex="100" fxFlex.gt-md="20">აღებულია PU</div>
+              </div>
+            </div>
           </div>
           <form #filterForm="ngForm" autocomplete="off" style="font-size: 10px">
             <div class="align-items-center" fxLayout="row wrap">
@@ -428,9 +442,9 @@
                       </div>
                       <div fxFlex="100" fxFlex.gt-md="25">
                         <div class="m-r-15 m-l-15">
-                          <mat-slide-toggle (change)="passChangeEnableDisable($event)"
-                                            [checked]="srchObj.prePrinted">Pre Printed
-                          </mat-slide-toggle>
+                          <!--                          <mat-slide-toggle (change)="passChangeEnableDisable($event)"-->
+                          <!--                                            [checked]="srchObj.prePrinted">Pre Printed-->
+                          <!--                          </mat-slide-toggle>-->
                         </div>
                       </div>
                       <div fxFlex="100" fxFlex.gt-md="25">
@@ -469,40 +483,41 @@
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
               <ng-container matColumnDef="barCode">
-                <th *matHeaderCellDef mat-header-cell> #</th>
-                <td *matCellDef="let element" mat-cell> {{element.barCode}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> #</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.barCode}} </td>
               </ng-container>
               <ng-container matColumnDef="senderName">
-                <th *matHeaderCellDef mat-header-cell> გამგზავნი</th>
-                <td *matCellDef="let element" mat-cell> {{element.senderName}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> გამგზავნი</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.senderName}} </td>
               </ng-container>
               <ng-container matColumnDef="senderCity">
-                <th *matHeaderCellDef mat-header-cell> გამ. ქალ.</th>
-                <td *matCellDef="let element" mat-cell> {{element.senderCity?.name}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> გამ. ქალ.</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.senderCity?.name}} </td>
               </ng-container>
               <ng-container matColumnDef="receiverName">
-                <th *matHeaderCellDef mat-header-cell> მიმღები</th>
-                <td *matCellDef="let element" mat-cell> {{element.receiverName}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> მიმღები</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.receiverName}} </td>
               </ng-container>
               <ng-container matColumnDef="receiverCity">
-                <th *matHeaderCellDef mat-header-cell> მიმ. ქალ.</th>
-                <td *matCellDef="let element" mat-cell> {{element.receiverCity?.name}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> მიმ. ქალ.</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.receiverCity?.name}} </td>
               </ng-container>
               <!--              <ng-container matColumnDef="payerName">-->
               <!--                <th *matHeaderCellDef mat-header-cell> გადამხდელი</th>-->
               <!--                <td *matCellDef="let element" mat-cell> {{element.payerName}} </td>-->
               <!--              </ng-container>-->
               <ng-container matColumnDef="weight">
-                <th *matHeaderCellDef mat-header-cell> წონა</th>
-                <td *matCellDef="let element" mat-cell> {{element.weight}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> წონა</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.weight}} </td>
               </ng-container>
               <ng-container matColumnDef="totalPrice">
-                <th *matHeaderCellDef mat-header-cell> ფასი</th>
-                <td *matCellDef="let element" mat-cell> {{element.totalPrice}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> ფასი</th>
+                <td *matCellDef="let element" mat-cell class="text-center"> {{element.totalPrice}} </td>
               </ng-container>
               <ng-container matColumnDef="status">
-                <th *matHeaderCellDef mat-header-cell> სტატუსი</th>
-                <td *matCellDef="let element" mat-cell> {{element.status?.status?.code}} </td>
+                <th *matHeaderCellDef mat-header-cell class="text-center"> სტატუსი</th>
+                <td *matCellDef="let element" mat-cell class="text-center"
+                    style="{{element.status? detectColorByStatus(element.status?.status.id):''}}"> {{element.status?.status?.code}} </td>
               </ng-container>
 
               <!--              <ng-container matColumnDef="createdTime">-->

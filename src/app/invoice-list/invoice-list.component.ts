@@ -11,7 +11,6 @@ import {catchError, map, startWith, switchMap, take} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {ContactService} from '../services/contact.service';
-import {ParcelDC} from '../parcel-list/parcel-list.component';
 import {FileUploadService} from '../services/file-upload.service';
 
 @Component({
@@ -118,33 +117,15 @@ export class InvoiceListComponent implements AfterViewInit {
       ).subscribe(data => this.data = data);
   }
 
-  save(obj: InvoiceDTO): void {
-    this.service.create(obj).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
-    }, error => {
-      console.log(error.error);
-      this.notifyService.showError(error.error ? error.error.error : 'ოპერაცია არ სრულდება', 'ჩანაწერის დამატება');
-    });
-  }
-
-  update(obj: InvoiceDTO): void {
-    this.service.update(obj).subscribe(() => {
-      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
-    }, error => {
-      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის განახლება');
-      console.log(error);
-    });
-  }
-
   delete(obj: InvoiceDTO): void {
+    this.isLoadingResults = true;
     this.service.delete(obj.id).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
-      window.location.reload();
+      this.getMainData();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
+      this.isLoadingResults = false;
     });
   }
 
@@ -159,20 +140,25 @@ export class InvoiceListComponent implements AfterViewInit {
   }
 
   sendInvoice(obj: InvoiceDTO): void {
+    this.isLoadingResults = true;
     this.service.sendEmail(obj).subscribe(() => {
       this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
       this.getMainData();
     }, error => {
       this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
       console.log(error);
+      this.isLoadingResults = false;
     });
   }
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(InvoiceDialogContent, {
-      data: obj,
-    });
+    let dialogRef;
+    if (action === 'Email') {
+      dialogRef = this.dialog.open(InvoiceDialogContent, {data: obj, width: '50%'});
+    } else {
+      dialogRef = this.dialog.open(InvoiceDialogContent, {data: obj});
+    }
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
