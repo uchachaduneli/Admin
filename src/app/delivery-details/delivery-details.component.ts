@@ -285,6 +285,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
 
   printDetails(selected: DeliveryDetail): void {
     this.selectedObject = selected;
+    console.log(selected);
     setTimeout(() => {
       // @ts-ignore
       const divElements = document.getElementById('printDelDetailsDivId').innerHTML;
@@ -307,35 +308,38 @@ export class DeliveryDetailsComponent implements AfterViewInit {
       height: 20px;
     }
     #detailsPrintDataTable tr td:first-child {
-      border-right: 1px dotted black;
+      border-right: 1px dashed gray;
+      max-width: 200px;
+      min-width: 100px;
+      word-wrap: break-word;
     }
     #detailsPrintDataTable tr td:last-child {
-      border-left: 1px dotted black;
+      border-left: 1px dashed gray;
     }
     #detailsPrintDataTable tr td:nth-child(2) {
-      border-left: 1px dotted black;
-      border-right: 1px dotted black;
+      border-left: 1px dashed gray;
+      border-right: 1px dashed gray;
     }
     #detailsPrintDataTable tr td:nth-child(3) {
-      border-left: 1px dotted black;
-      border-right: 1px dotted black;
+      border-left: 1px dashed gray;
+      border-right: 1px dashed gray;
     }
     #detailsPrintDataTable tr td:nth-child(4) {
-      border-left: 1px dotted black;
-      border-right: 1px dotted black;
+      border-left: 1px dashed gray;
+      border-right: 1px dashed gray;
     }
     #detailsPrintDataTable tr td:nth-child(5) {
-      border-left: 1px dotted black;
-      border-right: 1px dotted black;
+      border-left: 1px dashed gray;
+      border-right: 1px dashed gray;
     }
     #detailsPrintDataTable tr td:nth-child(6) {
-      border-left: 1px dotted black;
+      border-left: 1px dashed gray;
     }
     #detailsPrintDataTable tr:nth-child(even) td {
-      border-top: 1px dotted black !important;
+      border-top: 1px dashed gray !important;
     }
     #detailsPrintDataTable tr:nth-child(odd) td {
-      border-bottom: 1px dotted black !important;
+      border-bottom: 1px dashed gray !important;
     }
 </style></head><body onload="window.print();window.close()">${divElements}</body></html>`);
       // @ts-ignore

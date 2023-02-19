@@ -21,17 +21,13 @@
       <th>მიმღები</th>
       <th>ტრეკინგ #</th>
       <th>რაოდ.</th>
-      <th>გამგზ.</th>
-      <th>წონა</th>
       <th>კოდი</th>
       <th>ხელმომწერი<br>/მინდობილი პირი<br>/თანამდებობა</th>
     </tr>
     <tr>
-      <th>ქალაქი/ტელეფონი</th>
-      <th>მისამართი</th>
-      <th>დასტ<br>ური</th>
-      <th>პროდ</th>
-      <th>აღ. თარიღი</th>
+      <th>მიმღების მისამართი</th>
+      <th>ტელეფონი</th>
+      <th>წონა</th>
       <th>დრო</th>
       <th>სახ. გვარი - პ.ნ.</th>
     </tr>
@@ -40,17 +36,13 @@
         <td>{{p.receiverName}}</td>
         <td>{{p.barCode}}</td>
         <td>{{p.count}}</td>
-        <td> sender Warehouse?</td>
-        <td> {{p.weight}}</td>
         <td></td>
         <td></td>
       </tr>
       <tr>
-        <td>{{p.receiverCity?.name}} {{p.receiverPhone}}</td>
         <td>{{p.receiverAddress}}</td>
-        <td>{{p.deliveredConfirmation === 1 ? 'კი' : 'არა'}}</td>
-        <td>{{p.packageType === 1 ? 'ამანათი' : p.packageType === 2 ? 'პაკეტი' : ''}}</td>
-        <td> pickup Date?</td>
+        <td>{{p.receiverPhone}}</td>
+        <td>{{p.weight}}</td>
         <td></td>
         <td></td>
       </tr>

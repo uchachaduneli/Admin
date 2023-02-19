@@ -29,7 +29,7 @@
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.gt-md="10" fxLayoutGap="5px" style="margin: auto;">
-            <button (click)="searchContact()" bg-success color="warn" mat-button mat-flat-button> ძებნა
+            <button (click)="searchContact()" bg-success color="primary" mat-button mat-flat-button> ძებნა
               <mat-icon>search</mat-icon>
             </button>
           </div>
@@ -70,10 +70,12 @@
         </div>
 
         <mat-form-field>
-          <input [formControl]="contactAddressControl" [matAutocomplete]="contactAddressAuto" aria-label="მისამართი" matInput
+          <input [formControl]="contactAddressControl" [matAutocomplete]="contactAddressAuto" aria-label="მისამართი"
+                 matInput
                  name="contactAddress" placeholder="მისამართი" required type="text">
           <mat-autocomplete #contactAddressAuto="matAutocomplete">
-            <mat-option (onSelectionChange)="onAddressSelect(option)" *ngFor="let option of contactAddressFilteredOptions | async"
+            <mat-option (onSelectionChange)="onAddressSelect(option)"
+                        *ngFor="let option of contactAddressFilteredOptions | async"
                         [value]="option">
               {{option}}
             </mat-option>
@@ -83,7 +85,8 @@
         <div class="align-items-center" fxLayout="row wrap">
           <div fxFlex="100" fxFlex.gt-md="48">
             <mat-form-field>
-              <input [formControl]="contactPersonControl" [matAutocomplete]="contactPersonAuto" aria-label="საკონტაქტო პირი" matInput
+              <input [formControl]="contactPersonControl" [matAutocomplete]="contactPersonAuto"
+                     aria-label="საკონტაქტო პირი" matInput
                      name="contactPerson" placeholder="საკონტაქტო პირი" required type="text">
               <mat-autocomplete #contactPersonAuto="matAutocomplete">
                 <mat-option *ngFor="let option of contactPersonFilteredOptions | async" [value]="option">
@@ -95,7 +98,8 @@
           <div fxFlex="100" fxFlex.gt-md="4"></div>
           <div fxFlex="100" fxFlex.gt-md="48">
             <mat-form-field>
-              <input [formControl]="contactPhoneControl" [matAutocomplete]="contactPhoneAuto" aria-label="ტელეფონი" matInput
+              <input [formControl]="contactPhoneControl" [matAutocomplete]="contactPhoneAuto" aria-label="ტელეფონი"
+                     matInput
                      name="contactPhone" placeholder="ტელეფონი" required type="text">
               <mat-autocomplete #contactPhoneAuto="matAutocomplete">
                 <mat-option *ngFor="let option of contactPhoneFilteredOptions | async" [value]="option">
@@ -135,7 +139,8 @@
           <div *ngIf="currentFile" class="progress my-3">
             <div [ngStyle]="{ width: progress + '%' }"
                  aria-valuemax="100" aria-valuemin="0"
-                 attr.aria-valuenow="{{ progress }}" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar">
+                 attr.aria-valuenow="{{ progress }}" class="progress-bar progress-bar-info progress-bar-striped"
+                 role="progressbar">
               ატვირთულია {{ progress }}% - მიმდინარეობს დამუშავება
             </div>
           </div>
@@ -144,24 +149,32 @@
       <br><br>
       <div class="align-items-center" fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-md="15">
-          <button (click)="moveToMainTable(false, false)" [disabled]="resultsLength === 0" bg-primary color="warn" mat-button
+          <button (click)="moveToMainTable(false, false)" [disabled]="resultsLength === 0" bg-primary color="warn"
+                  mat-button
                   mat-flat-button> გადატანა
             <mat-icon>playlist_add_check</mat-icon>
           </button>
         </div>
         <div fxFlex="100" fxFlex.gt-md="30">
-          <button (click)="moveToMainTable(false, true)" [disabled]="resultsLength === 0" bg-primary color="warn" mat-button
+          <button (click)="moveToMainTable(false, true)" [disabled]="resultsLength === 0" bg-primary color="warn"
+                  mat-button
                   mat-flat-button> გადატანა & კურიერთან გაგზავნა
             <mat-icon>directions_bike</mat-icon>
           </button>
         </div>
         <div fxFlex="100" fxFlex.gt-md="15">
-          <button (click)="moveToMainTable(true, false)" [disabled]="resultsLength === 0" bg-primary color="primary" mat-button
+          <button (click)="moveToMainTable(true, false)" [disabled]="resultsLength === 0" bg-primary color="primary"
+                  mat-button
                   mat-flat-button> გადატანა & ბეჭდვა
             <mat-icon>local_printshop</mat-icon>
           </button>
         </div>
-        <div fxFlex="100" fxFlex.gt-md="25"></div>
+        <div fxFlex="100" class="text-right" fxFlex.gt-md="25">
+          <button (click)="showDeleteConfirm()" bg-primary color="warn"
+                  mat-button mat-flat-button> შეიმპორტებულების წაშლა
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
       </div>
       <br>
       <mat-header-row></mat-header-row>

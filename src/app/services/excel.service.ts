@@ -26,6 +26,10 @@ export class ExcelService {
     return this.httpClient.delete(`${this.BaseUrl}/${id}`);
   }
 
+  deleteAll(): Observable<Object> {
+    return this.httpClient.delete(`${this.BaseUrl}/all`);
+  }
+
   upload(file: File, senderId: any, routeId: any,
          authorId: any, cityId: any,
          address: any, contactPerson: any, contactPhone: any, serviceId: any): Observable<HttpEvent<any>> {

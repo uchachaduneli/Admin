@@ -205,6 +205,29 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
     });
   }
 
+  showDeleteConfirm(): void {
+    const dialogData = new ConfirmDialogModel('დაადასტურეთ ოპერაცია', '');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.deleteAll();
+      }
+    });
+  }
+
+  deleteAll(): void {
+    this.service.deleteAll().subscribe(() => {
+      this.notifyService.showSuccess('ოპერაცია დასრულდა წარმატებით', '');
+      this.getImportedDataFromDb();
+    }, error => {
+      this.notifyService.showError('ოპერაცია არ სრულდება', 'ჩანაწერის წაშლა');
+      console.log(error);
+    });
+  }
+
   ngOnInit(): void {
     this.currentUser = this.tokenStorageService.getUser();
     merge()
@@ -280,6 +303,7 @@ export class ExcelImportComponent implements OnInit, AfterViewInit {
               this.notifyService.showError('ფაილის იმპორტი ვერ მოხერხდა!', '');
             }
             this.currentFile = undefined;
+            this.isLoadingResults = false;
           });
       }
       // this.clear();

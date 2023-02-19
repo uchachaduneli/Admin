@@ -3,7 +3,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {InvoiceDTO} from '../models/invoice-dto';
-import {ParcelBackendApi} from './parcel.service';
 import {Parcel} from '../models/parcel';
 
 export interface InvoiceDTOBackendApi {
@@ -34,8 +33,8 @@ export class InvoiceService {
     return this.httpClient.get<InvoiceDTOBackendApi[]>(`${this.BaseUrl}/notYetGenerated?rowCount=${rowcount}&page=${page}&${srchParams}`);
   }
 
-  getPayersUnInvoicedParcelsList(rowcount: number, page: number, identNumber: string): Observable<ParcelBackendApi[]> {
-    return this.httpClient.get<ParcelBackendApi[]>(`${this.BaseUrl}/payerUnInvoicedParcels?identNumber=${identNumber}&rowCount=${rowcount}&page=${page}`);
+  getPayersUnInvoicedParcelsList(rowcount: number, page: number, identNumber: string): Observable<InvoiceParcelBackendApi[]> {
+    return this.httpClient.get<InvoiceParcelBackendApi[]>(`${this.BaseUrl}/payerUnInvoicedParcels?identNumber=${identNumber}&rowCount=${rowcount}&page=${page}`);
   }
 
   // tslint:disable-next-line:ban-types
