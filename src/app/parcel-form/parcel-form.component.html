@@ -344,7 +344,7 @@
                     <div class="m-r-15 m-l-15">
                       <mat-form-field>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input (keyup.enter)="searchContact(1)" [(ngModel)]="payerContactDto.contact.name"
+                        <input (keyup.enter)="searchContact(3)" [(ngModel)]="payerContactDto.contact.name"
                                class="search-input"
                                id="payerContactNameSrch" matInput
                                name="payerContactNameSrch" placeholder="კომპანიის სახელი"
@@ -354,14 +354,14 @@
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
                     <mat-form-field>
-                      <input (keyup.enter)="searchContact(1)" [(ngModel)]="payerContactDto.contact.identNumber"
+                      <input (keyup.enter)="searchContact(3)" [(ngModel)]="payerContactDto.contact.identNumber"
                              class="search-input"
                              matInput name="payerIdentNumber"
                              placeholder=" საიდენტიფიკაციო #" type="number">
                     </mat-form-field>
                   </div>
                   <div fxFlex="100" fxFlex.gt-md="20">
-                    <button (click)="searchContact(1)"
+                    <button (click)="searchContact(3)"
                             [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber"
                             align="start" bg-success color="accent"
                             mat-button
@@ -384,7 +384,7 @@
                       <mat-select (selectionChange)="onContactSelect($event.value, 3)"
                                   [(ngModel)]="payerContactDto.contact.id"
                                   [disabled]="!this.payerContactDto.contact.name && !this.payerContactDto.contact.identNumber"
-                                  aria-placeholder="მოძებნილი კომპანია"
+                                  aria-placeholder="მოძებნილი კომპანია" #searchedPayerContactsSelect
                                   name="payerContact" placeholder="მოძებნილი კომპანია"
                                   required>
                         <mat-option *ngFor="let c of searchedPayerContacts" [value]="c.id">{{c.name}}

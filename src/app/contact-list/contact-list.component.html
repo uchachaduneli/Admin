@@ -9,16 +9,109 @@
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
 
-          <div class="button-row m-b-15 m-t-15">
-            <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
-              <mat-icon>plus_one</mat-icon>
-              დამატება
-            </button>
-          </div>
+          <form #filterForm="ngForm" autocomplete="off">
+            <div class="align-items-center" fxLayout="row wrap">
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <button (click)="openDialog('Add',{})" color="primary" mat-raised-button>
+                    <mat-icon>plus_one</mat-icon>
+                    დამატება
+                  </button>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input (keydown.enter)="getMainData()" [(ngModel)]="srchObj.name"
+                           matInput name="srchname" placeholder="სახელი" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input (keydown.enter)="getMainData()" [(ngModel)]="srchObj.identNumber"
+                           matInput name="identNumber" placeholder="საიდენტ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input (keydown.enter)="getMainData()" [(ngModel)]="srchObj.email"
+                           matInput name="email" placeholder="ელ. ფოსტა" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.type" aria-placeholder="ტიპი"
+                                (selectionChange)="getMainData()" name="type" placeholder="ტიპი" required>
+                      <mat-option [value]="1">ფიზიკური</mat-option>
+                      <mat-option [value]="2">იურიდიული</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.deReGe" aria-placeholder="დღგ"
+                                (selectionChange)="getMainData()" name="deReGe" placeholder="დღგ" required>
+                      <mat-option [value]="1">კი</mat-option>
+                      <mat-option [value]="2">არა</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.hasContract" aria-placeholder="კონტრაქტი"
+                                (selectionChange)="getMainData()" name="hasContract" placeholder="კონტრაქტი" required>
+                      <mat-option [value]="2">კი</mat-option>
+                      <mat-option [value]="1">არა</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.status" aria-placeholder="სტატუსი"
+                                (selectionChange)="getMainData()" name="status" placeholder="სტატუსი" required>
+                      <mat-option [value]="1">აქტიური</mat-option>
+                      <mat-option [value]="2">პასიური</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="getMainData()" color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="clearFilters()" color="accent" mat-raised-button>
+                      <mat-icon>close_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
 
           <a (click)="downloadExcel()" class="m-r-10 cursor-pointer" style="float: right; height: 70px;"
              title="Export To Excel">
-            <img src="./assets/images/excel.png" style="height: 30px;">
+            <img src="Portal/assets/images/excel.png" style="height: 30px;">
           </a>
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>

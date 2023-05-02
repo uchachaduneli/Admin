@@ -45,4 +45,8 @@ export class ContactAddressService {
   getByContactId(id: number): Observable<ContactAddress> {
     return this.httpClient.get<ContactAddress>(`${this.BaseUrl}/contact/${id}`);
   }
+
+  getContactPayAddresses(id: number): Observable<ContactAddress> {
+    return this.httpClient.get<ContactAddress>(`${this.BaseUrl}/contactPayAddresses/${id}`);
+  }
 }

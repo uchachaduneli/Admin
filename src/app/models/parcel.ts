@@ -63,4 +63,10 @@ export class Parcel {
   author!: User;
   addedFromGlobal!: boolean;
   invoiced!: boolean; // parcel has been added to invoice
+  deliveredToPers!: string;
+  deliveredToPersIdent!: string;
+  deliveredToPersRelativeLevel!: string;
+  deliveredToPersNote!: string;
+  deliveredToPersSignature!: string;
+  deliveredParcelimage!: string;
 }

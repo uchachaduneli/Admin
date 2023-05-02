@@ -52,6 +52,8 @@ export class ParcelFormComponent implements AfterViewInit {
   @ViewChild('searchedSenderContactsSelect') searchedSenderContactsSelect: any;
   // @ts-ignore
   @ViewChild('searchedReceiverContactsSelect') searchedReceiverContactsSelect: any;
+  // @ts-ignore
+  @ViewChild('searchedPayerContactsSelect') searchedPayerContactsSelect: any;
   searchedSenderContacts!: Contact[];
   searchedReceiverContacts!: Contact[];
   searchedPayerContacts!: Contact[];
@@ -266,6 +268,7 @@ export class ParcelFormComponent implements AfterViewInit {
         this.selectedObject.payerIdentNumber = this.senderContactDto.contact.identNumber;
         this.selectedObject.payerAddress = this.senderAddressCtrl.value;
         this.selectedObject.payerContactPerson = this.senderContactPersonCtrl.value;
+        this.selectedObject.payerPhone = this.senderContactDto.contactAddress.contactPersonPhone;
         // @ts-ignore
         this.selectedObject.payerCity = {id: this.senderContactDto.contactAddress.city.id};
       } else if (this.selectedObject.payerSide === 2) {// when receiver pays
@@ -274,6 +277,7 @@ export class ParcelFormComponent implements AfterViewInit {
         this.selectedObject.payerIdentNumber = this.receiverContactDto.contact.identNumber;
         this.selectedObject.payerAddress = this.receiverAddressCtrl.value;
         this.selectedObject.payerContactPerson = this.receiverContactPersonCtrl.value;
+        this.selectedObject.payerPhone = this.receiverContactDto.contactAddress.contactPersonPhone;
         // @ts-ignore
         this.selectedObject.payerCity = {id: this.receiverContactDto.contactAddress.city.id};
       } else if (this.selectedObject.payerSide === 3) { // when third person pays
@@ -398,9 +402,58 @@ export class ParcelFormComponent implements AfterViewInit {
   }
 
   onContactSelect(selectedSenderContactId: number, senderReceiverPayer: number): void {// 1 Sender   2 Reseiver   3 Payer
-    // if(senderReceiverPayer == 1){
-    //   this.senderContactDto
-    // }
+    merge()
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.contactAddressService.getContactPayAddresses(selectedSenderContactId);
+        }),
+        // tslint:disable-next-line:no-shadowed-variable
+        map(data => {
+          // @ts-ignore
+          return data;
+        }), catchError(e => {
+          console.log(e);
+          return observableOf([]);
+        })
+      ).subscribe(res => {
+      const data = res as ContactAddress[];
+      console.log(' contact main address ', data);
+      if (data && data.length > 0) {
+        if (senderReceiverPayer === 1) {
+          this.senderContactDto.contactAddress.city.id = data[0]?.city.id;
+          this.senderContactDto.contactAddress.street = data[0].street;
+          this.senderContactDto.contactAddress.contactPerson = data[0].contactPerson;
+          this.senderContactDto.contactAddress.contactPersonPhone = data[0].contactPersonPhone;
+        } else if (senderReceiverPayer === 2) {
+          this.receiverContactDto.contactAddress.city.id = data[0]?.city.id;
+          this.receiverContactDto.contactAddress.street = data[0].street;
+          this.receiverContactDto.contactAddress.contactPerson = data[0].contactPerson;
+          this.receiverContactDto.contactAddress.contactPersonPhone = data[0].contactPersonPhone;
+        } else if (senderReceiverPayer === 3) {
+          this.payerContactDto.contactAddress.city.id = data[0]?.city.id;
+          this.payerContactDto.contactAddress.street = data[0].street;
+          this.payerContactDto.contactAddress.contactPerson = data[0].contactPerson + ' ' + data[0].contactPersonPhone;
+        }
+      } else {
+        this.notifyService.showInfo('აღნიშნული კომპანიაზე ძირითადი მისამართი არ იძებნება', '');
+        if (senderReceiverPayer === 1) {
+          this.senderContactDto.contactAddress.city.id = 0;
+          this.senderContactDto.contactAddress.street = '';
+          this.senderContactDto.contactAddress.contactPerson = '';
+          this.senderContactDto.contactAddress.contactPersonPhone = '';
+        } else if (senderReceiverPayer === 2) {
+          this.receiverContactDto.contactAddress.city.id = 0;
+          this.receiverContactDto.contactAddress.street = '';
+          this.receiverContactDto.contactAddress.contactPerson = '';
+          this.receiverContactDto.contactAddress.contactPersonPhone = '';
+        } else if (senderReceiverPayer === 3) {
+          this.payerContactDto.contactAddress.city.id = 0;
+          this.payerContactDto.contactAddress.street = '';
+          this.payerContactDto.contactAddress.contactPerson = '';
+        }
+      }
+    });
   }
 
   calculateTotalPrice(): void {
@@ -677,10 +730,12 @@ export class ParcelFormComponent implements AfterViewInit {
               this.payerContactDto.contact = data.items[0];
             } else {
               this.payerContactDto.contact.id = 0;
+              // @ts-ignore
+              this.searchedPayerContacts = data.items;
             }
           }
           // @ts-ignore
-          return data.items;
+          return data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -696,6 +751,10 @@ export class ParcelFormComponent implements AfterViewInit {
         // this.searchedReceiverContacts = data;
         setTimeout(() => {
           this.searchedReceiverContactsSelect.open();
+        }, 1000);
+      } else if (senderReceiverPayer === 3) {
+        setTimeout(() => {
+          this.searchedPayerContactsSelect.open();
         }, 1000);
       }
       this.isLoadingResults = false;

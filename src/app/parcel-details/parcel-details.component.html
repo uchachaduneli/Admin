@@ -55,6 +55,22 @@
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
+              <mat-card>
+                <mat-card-content>
+                  <mat-card-title>გადახდის ადგილი</mat-card-title>
+                  <br>
+                  <mat-form-field>
+                    <input matInput name="paymentPlace" placeholder="საწყობი" readonly
+                           type="text"
+                           value="_">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="paymentAddress" placeholder="მისამართი" readonly
+                           type="text"
+                           value="_">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
             </td>
           </tr>
 
@@ -118,20 +134,27 @@
             <td>
               <mat-card>
                 <mat-card-content>
-                  <mat-card-title>გადახდის ადგილი</mat-card-title>
+                  <mat-card-title>ჩაიბარა</mat-card-title>
                   <br>
                   <mat-form-field>
-                    <input matInput name="paymentPlace" placeholder="საწყობი" readonly
-                           type="text"
-                           value="_">
+                    <input matInput name="deliveredToPers" placeholder="სახელი, გვარი " readonly
+                           type="text" value="{{selectedObject.deliveredToPers}}">
                   </mat-form-field>
                   <mat-form-field>
-                    <input matInput name="paymentAddress" placeholder="მისამართი" readonly
-                           type="text"
-                           value="_">
+                    <input matInput name="deliveredToPersIdent" placeholder="საიდენტ. #" readonly
+                           type="text" value="{{selectedObject.deliveredToPersIdent}}">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="deliveredToPersRelativeLevel" placeholder="ნათესაური კავშ." readonly
+                           type="text" value="{{selectedObject.deliveredToPersRelativeLevel}}">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="deliveredToPersNote" placeholder="ჩაბარ. შენიშვნა" readonly
+                           type="text" value="{{selectedObject.deliveredToPersNote}}">
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>
+
             </td>
           </tr>
         </table>
@@ -310,6 +333,7 @@
                 <th>განმარტება</th>
                 <th>ავტორი</th>
                 <th>თარიღი</th>
+                <th>შექმნის დრო</th>
               </tr>
               </thead>
               <tbody>
@@ -320,6 +344,7 @@
                 <td style="padding-left: 5px; padding-right: 5px;word-break:break-all;width: 20%;"> {{v.reason}}</td>
                 <td> {{v.operUSer?.name}}&nbsp;{{v.operUSer?.lastName}}</td>
                 <td>{{v.statusDateTime | date :'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{v.createdTime | date :'dd/MM/yyyy HH:mm'}}</td>
               </tr>
               </tbody>
             </table>
@@ -365,7 +390,7 @@
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field >
+              <mat-form-field>
                 <mat-select [(ngModel)]="selectedCCList" multiple name="cc" placeholder="CC">
                   <mat-option *ngFor="let z of warehouseList" [value]="z">{{z.name}} ({{z.city.name}})</mat-option>
                 </mat-select>

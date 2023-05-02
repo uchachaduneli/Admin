@@ -38,6 +38,11 @@ export class ContactListComponent implements AfterViewInit {
               private addressService: ContactAddressService, private notifyService: NotificationService) {
   }
 
+  clearFilters(): void {
+    this.srchObj = {} as Contact;
+    this.getMainData();
+  }
+
   downloadExcel(): void {
     window.open(this.service.getExcel(this.generateQueryParams()), '_blank');
   }

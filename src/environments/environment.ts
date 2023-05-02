@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  // apiUrl: 'https://api.exline.ge/DeliveryWs'
   apiUrl: 'http://localhost:8080'
 };
 

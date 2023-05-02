@@ -6,8 +6,149 @@
           <div *ngIf="isLoadingResults" class="example-loading-shade">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           </div>
+
+          <form #filterForm="ngForm" autocomplete="off">
+            <div class="align-items-center" fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.waybillNumber" (keydown.enter)="getMainData()"
+                           matInput name="waybillNumber" placeholder="ზედნადების #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.buyerName" (keydown.enter)="getMainData()"
+                           matInput name="buyerName" placeholder="მყიდველი" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.buyerTin" (keydown.enter)="getMainData()"
+                           matInput name="buyerTin" placeholder="მყიდ. საიდენტ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.carNumber" matInput (keydown.enter)="getMainData()"
+                           name="carNumber" placeholder="ავტომობ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.driverName" matInput (keydown.enter)="getMainData()"
+                           name="driverName" placeholder="მძღოლი" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="15">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.driverTin" matInput (keydown.enter)="getMainData()"
+                           name="driverTin" placeholder="მძღ. საიდენტ. #" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.startAddress" matInput name="startAddress"
+                           (keydown.enter)="getMainData()"
+                           placeholder="ტრ. დაწყ. მისამ." type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.endAddress" matInput name="endAddress" (keydown.enter)="getMainData()"
+                           placeholder="ტრ. დასრ. მისამ." type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <input [(ngModel)]="srchObj.waybillComment" matInput name="waybillComment"
+                           (keydown.enter)="getMainData()"
+                           placeholder="შენიშვნა" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div class="m-r-15 m-l-15">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="srchObj.syncStatus" aria-placeholder="სინქრონიზაციის სტატუსი"
+                                name="syncStatus"
+                                (ngModelChange)="getMainData()" placeholder="სინქრონიზაციის სტატუსი">
+                      <mat-option *ngFor="let r of syncStatsArr" [value]="r">{{r}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxFlex="100" fxFlex.gt-md="20">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker3" [formControl]="dateControl3"
+                             matInput (keydown.enter)="getMainData()" name="createdTime"
+                             placeholder="რეგ. დრო -დან" type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker3 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input [ngxMatDatetimePicker]="picker4" [formControl]="dateControl4"
+                             matInput (keydown.enter)="getMainData()" name="createdTimeTo" placeholder="-მდე"
+                             type="text">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <ngx-mat-datetime-picker #picker4 [showSpinners]="true" [showSeconds]="false"
+                                               [touchUi]="false" [enableMeridian]="false">
+                      </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-md="10">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="getMainData()" color="primary" mat-raised-button>
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="50">
+                  <div class="m-r-15 m-l-15">
+                    <button (click)="clearFilters()" color="accent" mat-raised-button>
+                      <mat-icon>close_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
           <div class="example-table-container responsive-table">
             <table [dataSource]="data" class="example-table striped" mat-table>
+              <ng-container matColumnDef="waybillNumber">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ზედნადების #</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.waybillNumber}} </td>
+              </ng-container>
               <ng-container matColumnDef="rsCreateDate">
                 <th *matHeaderCellDef mat-header-cell> თარიღი</th>
                 <td *matCellDef="let element" mat-cell> {{element.rsCreateDate | date :'dd.MM.yyyy'}} </td>
@@ -32,22 +173,19 @@
                 <th *matHeaderCellDef class="text-center" mat-header-cell> მძღ. პირ. #</th>
                 <td *matCellDef="let element" class="text-center" mat-cell> {{element.driverTin}} </td>
               </ng-container>
-              <ng-container matColumnDef="endAddress">
-                <th *matHeaderCellDef class="text-center" mat-header-cell> ტრ. დასრ. მისამ.</th>
-                <td *matCellDef="let element" class="text-center" mat-cell> {{element.endAddress}} </td>
-              </ng-container>
               <ng-container matColumnDef="startAddress">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> ტრ. დაწყ. მისამ.</th>
                 <td *matCellDef="let element" class="text-center" mat-cell> {{element.startAddress}} </td>
               </ng-container>
+              <ng-container matColumnDef="endAddress">
+                <th *matHeaderCellDef class="text-center" mat-header-cell> ტრ. დასრ. მისამ.</th>
+                <td *matCellDef="let element" class="text-center" mat-cell> {{element.endAddress}} </td>
+              </ng-container>
               <ng-container matColumnDef="waybillComment">
-                <th *matHeaderCellDef class="text-center" mat-header-cell> კომენტარი</th>
+                <th *matHeaderCellDef class="text-center" mat-header-cell> შენიშვნა</th>
                 <td *matCellDef="let element" class="text-center" mat-cell> {{element.waybillComment}} </td>
               </ng-container>
-              <ng-container matColumnDef="waybillNumber">
-                <th *matHeaderCellDef class="text-center" mat-header-cell> ზედნადების #</th>
-                <td *matCellDef="let element" class="text-center" mat-cell> {{element.waybillNumber}} </td>
-              </ng-container>
+
               <ng-container matColumnDef="syncStatus">
                 <th *matHeaderCellDef class="text-center" mat-header-cell> სინქრ. სტატუსი</th>
                 <td *matCellDef="let element" class="text-center"
