@@ -51,6 +51,7 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   public dateControl4 = new FormControl();
   public filteredSenderCitiesList: City[] = [];
   cities: City [] = [];
+  courierOrReception = false;
 
   constructor(private service: DeliveryDetailsService,
               private notifyService: NotificationService,
@@ -86,6 +87,10 @@ export class DeliveryDetailsComponent implements AfterViewInit {
     ).subscribe(data => {
       this.selectedObject.detailBarCode = data as string;
     });
+  }
+
+  courierOrReceptionHandler(event: any): void {
+    this.courierOrReception = event.checked;
   }
 
   clearFilters(): void {
@@ -141,6 +146,11 @@ export class DeliveryDetailsComponent implements AfterViewInit {
   }
 
   saveDeliveryDetail(): void {
+    if (!this.courierOrReception && (!this.selectedObject.carNumber || this.selectedObject.carNumber.length < 7)) {
+      this.notifyService.showError('კურიერის შემთხვევაში ავტომობილის ნომრის მითითება სავალდებულოა !', '');
+      return;
+    }
+    this.selectedObject.courierOrReception = this.courierOrReception ? 2 : 1; // false=courier true=reception
     console.log(this.selectedObject);
     this.service.create(this.selectedObject).subscribe(() => {
       this.notifyService.showSuccess('ჩაბარების დეტალები შენახულია', 'ჩანაწერის დამატება');

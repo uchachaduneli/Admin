@@ -5,6 +5,8 @@ import {Route} from './route';
 
 export class DeliveryDetail {
   id!: number;
+  courierOrReception!: number; // 1 courier 2 reception
+  carNumber!: string;
   detailBarCode!: string;
   parcelBarCode!: string;
   route!: Route;

@@ -73,8 +73,22 @@
                   <div class="m-r-15 m-l-15">
                     <mat-form-field>
                       <input id="currentDate" matInput name="currentDate" placeholder="თარიღი" readonly
-                             type="text"
-                             value="{{currentDate | date: 'dd-MM-yyyy'}}">
+                             type="text" value="{{currentDate | date: 'dd-MM-yyyy'}}">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="20">
+                  <div class="m-r-15 m-l-15">
+                    <mat-slide-toggle (change)="courierOrReceptionHandler($event)"
+                                      [checked]="courierOrReception">კურიერი/რესეფშენი
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="20" *ngIf="!courierOrReception">
+                  <div class="m-r-15 m-l-15">
+                    <mat-form-field>
+                      <input id="carNumber" matInput name="carNumber" placeholder="მანქანის N" type="text"
+                             [(ngModel)]="selectedObject.carNumber">
                     </mat-form-field>
                   </div>
                 </div>
