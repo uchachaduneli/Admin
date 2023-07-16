@@ -96,7 +96,7 @@ export class ParcelStatusReasonsComponent implements AfterViewInit {
 
   openDialog(action: string, obj: any): void {
     obj.action = action;
-    const dialogRef = this.dialog.open(ParcelStatusReasonDC, {data: obj, maxWidth: '50%'});
+    const dialogRef = this.dialog.open(ParcelStatusReasonDC, {data: obj, minWidth: '20%', maxWidth: '50%'});
     // @ts-ignore
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
@@ -129,6 +129,10 @@ export class ParcelStatusReasonDC {
               @Optional() @Inject(MAT_DIALOG_DATA) public data: ParcelStatusReason) {
     this.selectedObject = {...data};
     this.action = this.selectedObject.action;
+  }
+
+  showInMobileSliderHandler(event: any): void {
+    this.selectedObject.showInMobail = event.checked;
   }
 
   doAction(): void {

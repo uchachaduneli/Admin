@@ -6,11 +6,10 @@
     <div class="align-items-center" fxLayout="row wrap">
       <div fxFlex="100" fxFlex.gt-md="100">
         <div class="m-r-15 m-l-15">
-          <mat-form-field>
-            <input [(ngModel)]="selectedObject.name" id="name" matInput name="name" placeholder="დასახელება"
-                   required
-                   type="text">
-          </mat-form-field>
+          <mat-slide-toggle (change)="showInMobileSliderHandler($event)"
+                            [checked]="selectedObject.showInMobail">მობილურ აპლიკაციაში გამოჩენა
+          </mat-slide-toggle>
+          <br><br>
         </div>
       </div>
     </div>
@@ -32,6 +31,12 @@
                      readonly
                      type="text">
             </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="80">
+          <div class="m-r-15 m-l-15">
+            <mat-slide-toggle disabled [checked]="selectedObject.showInMobail">მობილურ აპლიკაციაში გამოჩენა
+            </mat-slide-toggle>
           </div>
         </div>
       </div>

@@ -6,4 +6,5 @@ export class ParcelStatusReason {
   status!: ParcelStatus;
   updatedTime!: string;
   createdTime!: string;
+  showInMobail!: boolean;
 }
