@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://api.exline.ge/DeliveryWs'
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'https://api.bestline.ge/DeliveryWs'
+  // apiUrl: 'http://localhost:8080'
 };
 
 /*
